@@ -4,9 +4,8 @@ const path = require("path");
 const AutoLoad = require("fastify-autoload");
 
 module.exports = async function (fastify, opts) {
-  // Place here your custom code!
-
-  // Do not touch the following lines
+  fastify.register(require("fastify-multipart"));
+  fastify.register(require("fastify-sensible"));
 
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
@@ -22,6 +21,4 @@ module.exports = async function (fastify, opts) {
     dir: path.join(__dirname, "routes"),
     options: Object.assign({}, opts),
   });
-
-  fastify.register(require("fastify-sensible"));
 };
