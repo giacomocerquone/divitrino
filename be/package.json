@@ -9,16 +9,18 @@
   "scripts": {
     "test": "tap test/**/*.test.js",
     "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "dev": "fastify start -w -l info -P app.js",
+    "tt-demo": "node demo/testOcr.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fastify": "^3.0.0",
-    "fastify-plugin": "^2.0.0",
     "fastify-autoload": "^3.0.2",
     "fastify-cli": "^2.2.0",
+    "fastify-plugin": "^2.0.0",
+    "fastify-sensible": "^3.0.1",
     "tesseract.js": "^2.1.1",
     "tesseract.js-core": "^2.2.0"
   },

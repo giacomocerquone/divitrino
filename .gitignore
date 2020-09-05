@@ -60,3 +60,4 @@ profile*
 # generated code
 */**/*.js
 dist
+.DS_Store
