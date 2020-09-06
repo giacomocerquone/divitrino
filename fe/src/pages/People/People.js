@@ -1,15 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const Settings = () => {
+const People = () => {
   return (
     <View style={styles.container}>
-      <Text>Settings</Text>
+      <Text>People</Text>
     </View>
   );
 };
 
-export default Settings;
+export default People;
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff'},

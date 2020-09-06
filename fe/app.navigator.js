@@ -1,10 +1,9 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import Settings from 'pages/Settings';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import HomeNav from './src/pages/HomeNav';
+import HomeNav from 'pages/Home/HomeNav';
+import PeopleNav from 'pages/People/PeopleNav';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,19 +22,27 @@ const AppNavigator = () => {
           name="HomeTab"
           component={HomeNav}
           options={{
-            tabBarLabel: 'Acquisti',
+            tabBarLabel: 'Spese',
             tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <MaterialCommunityIcons
+                name="format-list-bulleted-type"
+                color={color}
+                size={26}
+              />
             ),
           }}
         />
         <Tab.Screen
-          name="SettingsTab"
-          component={Settings}
+          name="PeopleTab"
+          component={PeopleNav}
           options={{
-            tabBarLabel: 'Impostazioni',
+            tabBarLabel: 'Persone',
             tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="account" color={color} size={26} />
+              <MaterialCommunityIcons
+                name="account-group"
+                color={color}
+                size={26}
+              />
             ),
           }}
         />
