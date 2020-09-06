@@ -1,45 +1,40 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import Text from 'components/atoms/Text';
 import Button from 'components/atoms/Button';
-
-const people = ['Giacomo', 'Danica', 'Raffaele'];
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {getPeople} from 'store/app.reducer';
 
 const People = () => {
   const {navigate} = useNavigation();
+  const people = useSelector(getPeople);
   return (
-    <View style={styles.container}>
+    <>
       {people.map((g, i) => (
-        <>
-          <View key={i} style={{marginLeft: 20}}>
-            <View style={[styles.row, styles.groupItem]}>
-              <Text text={g} />
-            </View>
-          </View>
-        </>
+        <View key={i} style={styles.groupItem}>
+          <Text text={g} />
+        </View>
       ))}
       <Button
         label="aggiungi persona"
         onPress={() => navigate('AddPerson')}
         style={styles.addBtn}
       />
-    </View>
+    </>
   );
 };
 
 export default People;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: '#fff', paddingHorizontal: 30},
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   groupItem: {
     borderBottomWidth: 1,
     borderBottomColor: '#f1f1f1',
     paddingVertical: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 20,
   },
   addBtn: {
     marginTop: 20,

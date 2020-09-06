@@ -22,7 +22,7 @@ const AppNavigator = () => {
           name="HomeTab"
           component={HomeNav}
           options={{
-            tabBarLabel: 'Spese',
+            tabBarLabel: 'Movimenti',
             tabBarIcon: ({color}) => (
               <MaterialCommunityIcons
                 name="format-list-bulleted-type"

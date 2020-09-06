@@ -1,26 +1,25 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
-import Box from 'components/atoms/Box';
+import {StyleSheet, ScrollView} from 'react-native';
 import Text from 'components/atoms/Text';
 import Button from 'components/atoms/Button';
 import {useNavigation} from '@react-navigation/native';
+import PayeeReport from 'components/organism/PayeeReport';
 
 const People = () => {
   const {navigate} = useNavigation();
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       <Text size={50} style={styles.title}>
         Bilancio
       </Text>
-      <Box>
-        <View style={styles.row}>
-          <Text>
-            <Text weight="bold" text="Giacomo" />
-            <Text text=" riceve" />
-          </Text>
-          <Text text="€ 40" />
-        </View>
-      </Box>
+      <Text text="+ deve ricevere" />
+      <Text text="- deve dare" />
+      <PayeeReport />
+      <Button
+        label="pareggia conti"
+        onPress={() => null}
+        style={styles.settleAmounts}
+      />
       <Button
         label="gestisci gruppo"
         onPress={() => navigate('People')}
@@ -33,22 +32,14 @@ const People = () => {
 export default People;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: '#fff', paddingHorizontal: 30},
   title: {
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  groupsTitle: {marginTop: 30},
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  groupItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#fff',
-    paddingVertical: 15,
+    marginVertical: 30,
   },
   handleBtn: {
+    marginTop: 10,
+  },
+  settleAmounts: {
     marginTop: 20,
+    backgroundColor: '#00C978',
   },
 });

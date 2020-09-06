@@ -1,7 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from 'pages/Home/Home';
 import AddReceipt from 'pages/Home/AddReceipt';
 import AddPurchase from 'pages/Home/AddPurchase';
@@ -16,21 +14,8 @@ const HomeNav = () => {
         name="Home"
         component={Home}
         options={{
+          headerShown: false,
           headerTitle: '',
-          headerRight: () => (
-            <TouchableOpacity onPress={() => null} style={styles.headerBtn}>
-              <MaterialCommunityIcons
-                name="camera-outline"
-                color="#212A42"
-                size={26}
-              />
-            </TouchableOpacity>
-          ),
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => null} style={styles.headerBtn}>
-              <MaterialCommunityIcons name="plus" color="#212A42" size={26} />
-            </TouchableOpacity>
-          ),
         }}
       />
       <Stack.Screen name="AddReceipt" component={AddReceipt} />
@@ -40,5 +25,3 @@ const HomeNav = () => {
 };
 
 export default HomeNav;
-
-const styles = StyleSheet.create({headerBtn: {marginHorizontal: 20}});

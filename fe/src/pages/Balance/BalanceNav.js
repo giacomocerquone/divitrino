@@ -1,9 +1,8 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Balance from 'pages/Balance/Balance.js';
-import People from 'pages/Balance/People';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Balance from './Balance.js';
+import People from './People';
+import AddPerson from './AddPerson';
 
 const Stack = createStackNavigator();
 
@@ -11,6 +10,7 @@ const BalanceNav = () => {
   return (
     <Stack.Navigator
       screenOptions={{
+        cardStyle: {backgroundColor: '#fff', paddingHorizontal: 30},
         headerStyle: {shadowColor: 'transparent', elevation: 0},
         headerBackTitle: 'Indietro',
       }}>
@@ -18,12 +18,8 @@ const BalanceNav = () => {
         name="Balance"
         component={Balance}
         options={{
+          headerShown: false,
           headerTitle: '',
-          headerRight: () => (
-            <TouchableOpacity onPress={() => null} style={styles.headerBtn}>
-              <MaterialCommunityIcons name="plus" color="#212A42" size={26} />
-            </TouchableOpacity>
-          ),
         }}
       />
       <Stack.Screen
@@ -31,10 +27,13 @@ const BalanceNav = () => {
         component={People}
         options={{headerTitle: 'Persone'}}
       />
+      <Stack.Screen
+        name="AddPerson"
+        component={AddPerson}
+        options={{headerTitle: 'Aggiungi persona'}}
+      />
     </Stack.Navigator>
   );
 };
 
 export default BalanceNav;
-
-const styles = StyleSheet.create({headerBtn: {marginHorizontal: 20}});
