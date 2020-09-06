@@ -3,7 +3,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import HomeNav from 'pages/Home/HomeNav';
-import PeopleNav from 'pages/People/PeopleNav';
+import BalanceNav from 'pages/Balance/BalanceNav';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -33,10 +33,10 @@ const AppNavigator = () => {
           }}
         />
         <Tab.Screen
-          name="PeopleTab"
-          component={PeopleNav}
+          name="BalanceTab"
+          component={BalanceNav}
           options={{
-            tabBarLabel: 'Persone',
+            tabBarLabel: 'Bilancio',
             tabBarIcon: ({color}) => (
               <MaterialCommunityIcons
                 name="account-group"

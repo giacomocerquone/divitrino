@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text as T} from 'react-native';
 
-export default function GenericText({
+export default function Text({
   text = '',
   tKey,
   style,
@@ -16,7 +16,7 @@ export default function GenericText({
   children,
 }) {
   return (
-    <Text
+    <T
       allowFontScaling={false}
       onPress={onPress}
       style={[
@@ -37,6 +37,6 @@ export default function GenericText({
       ]}>
       {text && (uppercase ? text.toUpperCase() : text)}
       {children}
-    </Text>
+    </T>
   );
 }

@@ -18,7 +18,7 @@ const HomeNav = () => {
         options={{
           headerTitle: '',
           headerRight: () => (
-            <TouchableOpacity onPress={() => null} style={styles.cameraBtn}>
+            <TouchableOpacity onPress={() => null} style={styles.headerBtn}>
               <MaterialCommunityIcons
                 name="camera-outline"
                 color="#212A42"
@@ -27,7 +27,7 @@ const HomeNav = () => {
             </TouchableOpacity>
           ),
           headerLeft: () => (
-            <TouchableOpacity onPress={() => null} style={styles.cameraBtn}>
+            <TouchableOpacity onPress={() => null} style={styles.headerBtn}>
               <MaterialCommunityIcons name="plus" color="#212A42" size={26} />
             </TouchableOpacity>
           ),
@@ -41,4 +41,4 @@ const HomeNav = () => {
 
 export default HomeNav;
 
-const styles = StyleSheet.create({cameraBtn: {marginHorizontal: 20}});
+const styles = StyleSheet.create({headerBtn: {marginHorizontal: 20}});
