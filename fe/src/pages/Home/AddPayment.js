@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const AddReceipt = () => {
+const AddPayment = () => {
   return (
     <View>
-      <Text>AddReceipt</Text>
+      <Text>AddPayment</Text>
     </View>
   );
 };
 
-export default AddReceipt;
+export default AddPayment;
 
 const styles = StyleSheet.create({});

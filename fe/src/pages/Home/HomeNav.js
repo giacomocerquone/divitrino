@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from 'pages/Home/Home';
-import AddReceipt from 'pages/Home/AddReceipt';
+import AddPayment from 'pages/Home/AddPayment';
 import AddPurchase from 'pages/Home/AddPurchase';
 
 const Stack = createStackNavigator();
@@ -9,7 +9,11 @@ const Stack = createStackNavigator();
 const HomeNav = () => {
   return (
     <Stack.Navigator
-      screenOptions={{headerStyle: {shadowColor: 'transparent', elevation: 0}}}>
+      screenOptions={{
+        cardStyle: {backgroundColor: '#fff', paddingHorizontal: 30},
+        headerStyle: {shadowColor: 'transparent', elevation: 0},
+        headerBackTitle: 'Indietro',
+      }}>
       <Stack.Screen
         name="Home"
         component={Home}
@@ -18,8 +22,16 @@ const HomeNav = () => {
           headerTitle: '',
         }}
       />
-      <Stack.Screen name="AddReceipt" component={AddReceipt} />
-      <Stack.Screen name="AddPurchase" component={AddPurchase} />
+      <Stack.Screen
+        name="AddPayment"
+        component={AddPayment}
+        options={{headerTitle: 'Aggiungi pagamento'}}
+      />
+      <Stack.Screen
+        name="AddPurchase"
+        component={AddPurchase}
+        options={{headerTitle: 'Aggiungi acquisti'}}
+      />
     </Stack.Navigator>
   );
 };
