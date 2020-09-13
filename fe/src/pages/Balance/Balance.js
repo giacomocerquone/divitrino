@@ -7,11 +7,9 @@ import PayeeReport from 'components/organism/PayeeReport';
 import {useSelector} from 'react-redux';
 import {getPeople} from 'store/app.reducer';
 
-const People = () => {
+const Balance = () => {
   const {navigate} = useNavigation();
   const people = useSelector(getPeople);
-
-  console.log(people);
 
   return (
     <ScrollView>
@@ -21,7 +19,7 @@ const People = () => {
       <Text text="+ deve ricevere" />
       <Text text="- deve dare" />
       {people.map((p) => (
-        <PayeeReport key={p.id} person={p} />
+        <PayeeReport key={p.id} p={p} />
       ))}
       <Button
         label="pareggia conti"
@@ -37,7 +35,7 @@ const People = () => {
   );
 };
 
-export default People;
+export default Balance;
 
 const styles = StyleSheet.create({
   title: {

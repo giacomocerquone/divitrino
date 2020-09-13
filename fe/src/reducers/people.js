@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSelector, createSlice} from '@reduxjs/toolkit';
 import {showMessage} from 'react-native-flash-message';
 
 const initialState = {
@@ -43,5 +43,7 @@ const peopleSlice = createSlice({
 export default peopleSlice;
 
 export const getPersonById = (state, id) => state.byId[id];
-export const getPeople = (state) =>
-  state.ids.map((id) => getPersonById(state, id));
+export const getPeople = createSelector(
+  [(state) => state, (state) => state.ids],
+  (state, ids) => ids.map((id) => getPersonById(state, id)),
+);

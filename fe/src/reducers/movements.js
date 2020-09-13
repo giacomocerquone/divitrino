@@ -20,18 +20,18 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  ids: [1, 56],
+  ids: [34, 56],
   byId: {
-    1: {
-      payer: 2,
-      payee: 1,
-      amount: 0.4,
+    34: {
+      payer: '0a66ff4b-3765-41b7-ae08-55a7f180b181',
+      payee: 'dca21677-8f15-4d19-b936-ee19944a9215',
+      amount: 0.7,
     },
     56: {
       id: 56,
       description: 'spesa conad',
-      payer: 1,
-      amount: 21.31,
+      payer: 'dca21677-8f15-4d19-b936-ee19944a9215',
+      amount: 1.4,
     },
   },
 };

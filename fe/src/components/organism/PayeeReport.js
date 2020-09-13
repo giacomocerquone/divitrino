@@ -13,7 +13,7 @@ const defPayers = [
 const PayeeReport = ({payers = defPayers, p}) => {
   const balance = useSelector((state) => getPersonBalance(state, p.id));
 
-  console.log(p);
+  console.log(balance, p.name);
 
   const payee = {
     name: p.name,

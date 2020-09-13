@@ -20,8 +20,11 @@ const initialState = {
     1: {
       movementId: 56,
       name: 'Patatine',
-      amount: 1.2,
-      debtors: [1, 2, 3],
+      amount: 1.4,
+      debtors: [
+        'dca21677-8f15-4d19-b936-ee19944a9215',
+        '0a66ff4b-3765-41b7-ae08-55a7f180b181',
+      ],
     },
   },
 };
@@ -37,15 +40,3 @@ export default purchasesSlice;
 export const getPurchaseById = (state, id) => state.byId[id];
 export const getPurchases = (state) =>
   state.ids.map((id) => getPurchaseById(state, id));
-export const getTotToReturnTo = (people, purchases, personId) =>
-  people
-    .filter((p) => p.id !== personId)
-    .map((fromPerson) => ({
-      debtor: fromPerson.id,
-      tot: purchases.reduce((acc, p) => {
-        if (p.payer !== personId || !p.debtors.includes(fromPerson.id)) {
-          return acc;
-        }
-        return acc + p.amount;
-      }, 0),
-    }));
