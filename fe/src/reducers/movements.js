@@ -1,20 +1,20 @@
 /*
-[
-  {
-    payer: 001,
-    payee: 002,
-    amount: 10.00
+{
+  ids: [1, 56],
+  byId: {
+    1: {
+      payer: 2,
+      payee: 1,
+      amount: 0.4,
+    },
+    56: {
+      id: 56,
+      description: 'spesa conad',
+      payer: 1,
+      amount: 21.31,
+    },
   },
-  {
-    payer: 001,
-    amount: 21.31,
-    items: [{
-      name: "Patatine",
-      amount: 1.20,
-      peopleInDebt: [001, 002, 003]
-    }]
-  }
-]
+}
 */
 
 import {createSlice} from '@reduxjs/toolkit';

@@ -2,14 +2,24 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Box from 'components/atoms/Box';
 import Text from 'components/atoms/Text';
+import {useSelector} from 'react-redux';
+import {getPersonBalance} from 'store/app.reducer';
 
 const defPayers = [
   {name: 'Danica', amount: '24,60'},
   {name: 'Raffale', amount: '16,40'},
 ];
-const defPayee = {name: 'Giacomo', amount: '40'};
 
-const PayeeReport = ({payee = defPayee, payers = defPayers}) => {
+const PayeeReport = ({payers = defPayers, p}) => {
+  const balance = useSelector((state) => getPersonBalance(state, p.id));
+
+  console.log(p);
+
+  const payee = {
+    name: p.name,
+    amount: 40,
+  };
+
   return (
     <Box style={styles.container}>
       <View style={styles.row}>

@@ -1,11 +1,15 @@
 /*
-  [{
-    purchaseId: 56,
-    name: 'Patatine',
-    amount: 1.2,
-    payer: 1,
-    peopleInDebt: [1, 2, 3],
-  }]
+ {
+  ids: [1],
+  byId: {
+    1: {
+      movementId: 56,
+      name: 'Patatine',
+      amount: 1.2,
+      debtors: [1, 2, 3],
+    },
+  },
+}
 */
 
 import {createSlice} from '@reduxjs/toolkit';
@@ -17,7 +21,7 @@ const initialState = {
       movementId: 56,
       name: 'Patatine',
       amount: 1.2,
-      peopleInDebt: [1, 2, 3],
+      debtors: [1, 2, 3],
     },
   },
 };
@@ -37,9 +41,9 @@ export const getTotToReturnTo = (people, purchases, personId) =>
   people
     .filter((p) => p.id !== personId)
     .map((fromPerson) => ({
-      personInDebt: fromPerson.id,
+      debtor: fromPerson.id,
       tot: purchases.reduce((acc, p) => {
-        if (p.payer !== personId || !p.peopleInDebt.includes(fromPerson.id)) {
+        if (p.payer !== personId || !p.debtors.includes(fromPerson.id)) {
           return acc;
         }
         return acc + p.amount;

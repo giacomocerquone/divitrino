@@ -30,8 +30,8 @@ export const getPeople = (state) => fromPeople.getPeople(state.people);
 // Purchases
 export const getPurchases = (state) =>
   fromPurchases.getPurchases(state.purchases);
-export const getTotToBeReturnedTo = (state, personId) =>
-  fromPurchases.getTotToBeReturnedTo(
+export const getTotToReturnTo = (state, personId) =>
+  fromPurchases.getTotToReturnTo(
     getPeople(state),
     getPurchases(state),
     personId,
@@ -40,8 +40,8 @@ export const getTotToBeReturnedTo = (state, personId) =>
 // Movements
 export const getMovements = (state) =>
   fromMovements.getMovements(state.movements);
-export const getTotAlreadyReturnedTo = (state, personId) =>
-  fromMovements.getTotAlreadyReturnedTo(
+export const getTotReturnedTo = (state, personId) =>
+  fromMovements.getTotReturnedTo(
     getPeople(state),
     getMovements(state),
     personId,
@@ -50,8 +50,10 @@ export const getTotAlreadyReturnedTo = (state, personId) =>
 // Extra
 
 export const getPersonBalance = (state, personId) => {
-  const toBeReturned = getTotToBeReturnedTo(state, personId);
-  const alreadyReturned = getTotAlreadyReturnedTo(state, personId);
+  const toBeReturned = getTotToReturnTo(state, personId);
+  const alreadyReturned = getTotReturnedTo(state, personId);
+
+  console.log(toBeReturned, alreadyReturned)
 
   return null;
 };
