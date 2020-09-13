@@ -14,11 +14,11 @@ const People = () => {
   const dispatch = useDispatch();
   return (
     <>
-      {people.map((g, i) => (
-        <View key={i} style={styles.person}>
-          <Text text={g} />
+      {people.map((p) => (
+        <View key={p.id} style={styles.person}>
+          <Text text={p.name} />
           <TouchableOpacity
-            onPress={() => dispatch(peopleSlice.actions.delPerson(g))}>
+            onPress={() => dispatch(peopleSlice.actions.delPerson(p.id))}>
             <MaterialCommunityIcons
               name="minus-circle-outline"
               color="#C1004B"

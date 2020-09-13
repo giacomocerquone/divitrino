@@ -6,6 +6,7 @@ import CustomInput from 'components/atoms/CustomInput';
 import Button from 'components/atoms/Button';
 import peopleSlice from 'reducers/people';
 import {useNavigation} from '@react-navigation/native';
+import {v4 as uuidv4} from 'uuid';
 
 const AddPerson = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const AddPerson = () => {
       <Button
         label="salva"
         onPress={() => {
-          dispatch(peopleSlice.actions.addPerson(name));
+          dispatch(peopleSlice.actions.addPerson({name, id: uuidv4()}));
           navigate('People');
         }}
       />

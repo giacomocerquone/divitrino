@@ -20,18 +20,20 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  list: [
-    {
+  ids: [1, 56],
+  byId: {
+    1: {
       payer: 2,
       payee: 1,
       amount: 0.4,
     },
-    {
-      name: 'spesa conad',
+    56: {
       id: 56,
+      description: 'spesa conad',
+      payer: 1,
       amount: 21.31,
     },
-  ],
+  },
 };
 
 const movementsSlice = createSlice({
@@ -42,16 +44,18 @@ const movementsSlice = createSlice({
 
 export default movementsSlice;
 
-export const getMovements = (state) => state.list;
-export const getTotAlreadyReturnedTo = (people, movements, personId) =>
+export const getMovementById = (state, id) => state.byId[id];
+export const getMovements = (state) =>
+  state.ids.map((id) => getMovementById(state, id));
+export const getTotReturnedTo = (people, movements, personId) =>
   people
-    .filter((p) => p !== personId)
-    .map((fromPersonId) => ({
-      payer: fromPersonId,
+    .filter((p) => p.id !== personId)
+    .map((fromPerson) => ({
+      payer: fromPerson.id,
       tot: movements.reduce((acc, p) => {
-        if (!p.payee || p.payee !== personId || p.payer !== fromPersonId) {
-          return acc;
+        if (p.payee === personId && p.payer === fromPerson.id) {
+          return acc + p.amount;
         }
-        return acc + p.amount;
+        return acc;
       }, 0),
     }));

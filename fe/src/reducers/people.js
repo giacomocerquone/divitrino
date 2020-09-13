@@ -2,7 +2,8 @@ import {createSlice} from '@reduxjs/toolkit';
 import {showMessage} from 'react-native-flash-message';
 
 const initialState = {
-  list: [],
+  ids: [],
+  byId: {},
 };
 
 const peopleSlice = createSlice({
@@ -10,7 +11,7 @@ const peopleSlice = createSlice({
   initialState,
   reducers: {
     addPerson: (state, {payload}) => {
-      if (state.list.includes(payload)) {
+      if (state.ids.includes(payload.id)) {
         showMessage({
           message: 'Nome esistente',
           description: 'Già esiste una persona con questo nome',
@@ -20,11 +21,20 @@ const peopleSlice = createSlice({
       }
       return {
         ...state,
-        list: [...state.list, payload],
+        ids: [...state.ids, payload.id],
+        byId: {
+          ...state.byId,
+          [payload.id]: payload,
+        },
       };
     },
     delPerson: (state, {payload}) => {
-      return {...state, list: state.list.filter((p) => p !== payload)};
+      const {[payload]: omit, ...byId} = state.byId;
+      return {
+        ...state,
+        ids: state.ids.filter((id) => id !== payload),
+        byId,
+      };
     },
   },
   extraReducers: {},
@@ -32,4 +42,6 @@ const peopleSlice = createSlice({
 
 export default peopleSlice;
 
-export const getPeople = (state) => state.list;
+export const getPersonById = (state, id) => state.byId[id];
+export const getPeople = (state) =>
+  state.ids.map((id) => getPersonById(state, id));

@@ -4,9 +4,13 @@ import Text from 'components/atoms/Text';
 import Button from 'components/atoms/Button';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {getMovements} from 'store/app.reducer';
+import MovementRow from 'components/organism/MovementRow';
 
 const Home = () => {
   const {navigate} = useNavigation();
+  const movements = useSelector(getMovements);
   return (
     <ScrollView>
       <Text size={50} style={styles.title}>
@@ -38,6 +42,9 @@ const Home = () => {
           }
         />
       </View>
+      {movements.map((m) => (
+        <MovementRow movement={m} />
+      ))}
     </ScrollView>
   );
 };

@@ -18,7 +18,7 @@ const persistConfig = {
   storage: AsyncStorage,
   version: 0,
   migrate: createMigrate(storeMigrations),
-  whitelist: ['people'],
+  whitelist: [],
 };
 const persistedReducer = persistReducer(persistConfig, appReducer);
 
