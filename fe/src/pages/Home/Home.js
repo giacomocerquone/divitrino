@@ -45,7 +45,7 @@ const Home = () => {
         />
       </View>
       {movements.map((m) => (
-        <MovementRow movement={m} />
+        <MovementRow key={m.id} movement={m} />
       ))}
     </ScrollView>
   );

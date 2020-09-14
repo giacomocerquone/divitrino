@@ -17,13 +17,14 @@
 }
 */
 
-import {createSlice} from '@reduxjs/toolkit';
+import {createSelector, createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   ids: [34, 56],
   byId: {
     34: {
-      payer: '0a66ff4b-3765-41b7-ae08-55a7f180b181',
+      id: 34,
+      payer: '0c009f33-1f95-464f-b18e-839d8b764d5d',
       payee: 'dca21677-8f15-4d19-b936-ee19944a9215',
       amount: 0.7,
     },
@@ -39,14 +40,28 @@ const initialState = {
 const movementsSlice = createSlice({
   name: 'movements',
   initialState,
-  reducers: {},
+  reducers: {
+    addMovement(state, {payload}) {
+      return {
+        ...state,
+        ids: [...state.ids, payload.id],
+        byId: {
+          ...state.byId,
+          [payload.id]: payload,
+        },
+      };
+    },
+  },
 });
 
 export default movementsSlice;
 
 export const getMovementById = (state, id) => state.byId[id];
-export const getMovements = (state) =>
-  state.ids.map((id) => getMovementById(state, id));
+export const getMovements = createSelector(
+  [(state) => state, (state) => state.ids],
+  (state, ids) => ids.map((id) => getMovementById(state, id)),
+);
+
 export const getTotReturnedTo = (people, movements, personId) =>
   people
     .filter((p) => p.id !== personId)

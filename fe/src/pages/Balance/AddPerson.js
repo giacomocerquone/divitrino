@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
-import Text from 'components/atoms/Text';
-import CustomInput from 'components/atoms/CustomInput';
 import Button from 'components/atoms/Button';
 import peopleSlice from 'reducers/people';
 import {useNavigation} from '@react-navigation/native';
 import {v4 as uuidv4} from 'uuid';
+import InputBox from 'components/organism/InputBox';
 
 const AddPerson = () => {
   const dispatch = useDispatch();
@@ -14,10 +13,13 @@ const AddPerson = () => {
   const [name, setName] = useState('');
   return (
     <>
-      <View style={styles.row}>
-        <Text text="Nome" style={styles.label} />
-        <CustomInput style={styles.input} onChangeText={setName} />
-      </View>
+      <InputBox
+        style={styles.input}
+        onChangeText={setName}
+        placeholder="Mario Rossi"
+        value={name}
+        label="Nome"
+      />
       <Button
         label="salva"
         onPress={() => {
@@ -32,16 +34,7 @@ const AddPerson = () => {
 export default AddPerson;
 
 const styles = StyleSheet.create({
-  label: {marginRight: 10},
-  row: {
-    marginVertical: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   input: {
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    flex: 1,
-    height: 50,
+    marginVertical: 30,
   },
 });

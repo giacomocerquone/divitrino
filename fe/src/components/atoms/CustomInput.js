@@ -2,7 +2,7 @@ import React, {useRef, useEffect} from 'react';
 import {TextInput, StyleSheet} from 'react-native';
 
 export default function CustomInput(props) {
-  const {onChangeText, name, style, placeholder} = props;
+  const {onChangeText, name, style, placeholder, value} = props;
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -22,8 +22,9 @@ export default function CustomInput(props) {
 
   return (
     <TextInput
+      value={value}
       ref={inputRef}
-      placeholderTextColor={'grey'}
+      placeholderTextColor="#99979E"
       placeholder={placeholder}
       {...props}
       style={[styles.input, style]}
@@ -38,8 +39,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 18,
     color: '#060D26',
-    borderRadius: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderColor: '#f1f1f1',
   },
 });
