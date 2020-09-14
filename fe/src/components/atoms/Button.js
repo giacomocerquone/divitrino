@@ -2,13 +2,15 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Text from 'components/atoms/Text';
 
-const Button = ({label, onPress, style, Icon}) => {
+const Button = ({label, onPress, style, Icon, ghost}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.btn, style]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.btn, ghost && styles.ghost, style]}>
       {Icon}
       <Text
         text={label}
-        color="#fff"
+        color={ghost ? '#1132D6' : '#fff'}
         uppercase
         weight="bold"
         size={16}
@@ -28,5 +30,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     flexDirection: 'row',
+  },
+  ghost: {
+    backgroundColor: '#fff',
+    borderColor: '#1132D6',
+    borderWidth: 1,
   },
 });

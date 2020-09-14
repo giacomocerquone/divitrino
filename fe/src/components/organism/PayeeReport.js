@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import Box from 'components/atoms/Box';
 import Text from 'components/atoms/Text';
 import {useSelector} from 'react-redux';
-import {getPersonBalance} from 'store/app.reducer';
+import {getPeople, getPersonBalance} from 'store/app.reducer';
 
 const defPayers = [
   {name: 'Danica', amount: '24,60'},
@@ -12,6 +12,7 @@ const defPayers = [
 
 const PayeeReport = ({payers = defPayers, p}) => {
   const balance = useSelector((state) => getPersonBalance(state, p.id));
+  const people = useSelector(getPeople);
 
   console.log(balance, p.name);
 
@@ -29,15 +30,18 @@ const PayeeReport = ({payers = defPayers, p}) => {
         </Text>
         <Text text={`€ ${payee.amount}`} />
       </View>
-      {payers.map((pr, i) => (
-        <View key={i} style={styles.row}>
-          <Text>
-            <Text text="da" />
-            <Text text={` ${pr.name}`} weight="bold" />
-          </Text>
-          <Text text={`€ ${pr.amount}`} />
-        </View>
-      ))}
+      {people.map(
+        (person, i) =>
+          person.id !== p.id && (
+            <View key={i} style={styles.row}>
+              <Text>
+                <Text text="da" />
+                <Text text={` ${person.name}`} weight="bold" />
+              </Text>
+              {/* <Text text={`€ ${pr.amount}`} /> */}
+            </View>
+          ),
+      )}
     </Box>
   );
 };

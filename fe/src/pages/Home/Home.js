@@ -18,25 +18,27 @@ const Home = () => {
       </Text>
       <View style={styles.row}>
         <Button
+          ghost
           onPress={() => navigate('AddPurchase')}
           label=" acquisti"
           style={[styles.addBtn, styles.leftBtn]}
           Icon={
             <MaterialCommunityIcons
               name="text-box-plus-outline"
-              color="#fff"
+              color="#1132D6"
               size={26}
             />
           }
         />
         <Button
+          ghost
           onPress={() => navigate('AddPayment')}
           label=" pagamento"
           style={[styles.addBtn, styles.rightBtn]}
           Icon={
             <MaterialCommunityIcons
               name="beaker-plus-outline"
-              color="#fff"
+              color="#1132D6"
               size={26}
             />
           }
