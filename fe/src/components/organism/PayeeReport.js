@@ -5,16 +5,13 @@ import Text from 'components/atoms/Text';
 import {useSelector} from 'react-redux';
 import {getPeople, getPersonBalance} from 'store/app.reducer';
 
-const defPayers = [
-  {name: 'Danica', amount: '24,60'},
-  {name: 'Raffale', amount: '16,40'},
-];
-
-const PayeeReport = ({payers = defPayers, p}) => {
-  const balance = useSelector((state) => getPersonBalance(state, p.id));
+const PayeeReport = ({p}) => {
+  const {alreadyReturned, toBeReturned} = useSelector((state) =>
+    getPersonBalance(state, p.id),
+  );
   const people = useSelector(getPeople);
 
-  console.log(balance, p.name);
+  console.log({alreadyReturned, toBeReturned}, p.name);
 
   const payee = {
     name: p.name,
@@ -38,7 +35,11 @@ const PayeeReport = ({payers = defPayers, p}) => {
                 <Text text="da" />
                 <Text text={` ${person.name}`} weight="bold" />
               </Text>
-              {/* <Text text={`€ ${pr.amount}`} /> */}
+              <Text
+                text={`€ ${toBeReturned[
+                  person.id
+                ].getAmount()} - ${alreadyReturned[person.id].getAmount()} `}
+              />
             </View>
           ),
       )}

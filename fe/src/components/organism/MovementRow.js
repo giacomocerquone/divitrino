@@ -16,7 +16,11 @@ const MovementRow = ({movement}) => {
             <Text weight="bold" text={payer.name} /> ha pagato{' '}
             <Text weight="bold" text={payee.name} />
           </Text>
-          <Text text={`€ ${movement.amount}`} weight="bold" size={22} />
+          <Text
+            text={`€ ${movement.amount.toFormat('0,0.00')}`}
+            weight="bold"
+            size={22}
+          />
         </>
       ) : (
         <>
@@ -25,7 +29,11 @@ const MovementRow = ({movement}) => {
             <Text text={`pagato da ${payer.name}`} weight="bold" size={14} />
           </View>
 
-          <Text text={`€ ${movement.amount}`} size={22} weight="bold" />
+          <Text
+            text={`€ ${movement.amount.toFormat('0,0.00')}`}
+            size={22}
+            weight="bold"
+          />
         </>
       )}
     </TouchableOpacity>

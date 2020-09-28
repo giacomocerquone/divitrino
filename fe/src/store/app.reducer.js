@@ -6,6 +6,7 @@ import storeMigrations from './store.migrations';
 import peopleSlice, * as fromPeople from 'reducers/people';
 import purchasesSlice, * as fromPurchases from 'reducers/purchases';
 import movementsSlice, * as fromMovements from 'reducers/movements';
+import Dinero from 'dinero.js';
 
 const appReducer = combineReducers({
   people: peopleSlice.reducer,
@@ -18,7 +19,7 @@ const persistConfig = {
   storage: AsyncStorage,
   version: 0,
   migrate: createMigrate(storeMigrations),
-  whitelist: ['people'],
+  whitelist: [],
 };
 const persistedReducer = persistReducer(persistConfig, appReducer);
 
@@ -50,19 +51,31 @@ export const getTotReturnedTo = (state, personId) =>
 export const getTotToReturnTo = (state, personId) => {
   const people = getPeople(state);
   const purchases = getPurchases(state);
+  const movements = getMovements(state);
 
-  return people
+  const obj = {};
+
+  people
     .filter((p) => p.id !== personId)
-    .map((fromPerson) => ({
-      debtor: fromPerson.id,
-      tot: purchases.reduce((acc, p) => {
+    .forEach((fromPerson) => {
+      const purchs = purchases.reduce((acc, p) => {
         const movement = getMovementById(state, p.movementId);
         if (movement.payer === personId && p.debtors.includes(fromPerson.id)) {
-          return acc + p.amount / p.debtors.length;
+          return acc.add(p.amount.divide(p.debtors.length));
         }
         return acc;
-      }, 0),
-    }));
+      }, Dinero());
+
+      const movs = movements.reduce((acc, m) => {
+        if (m.description === undefined && m.payer === personId) {
+          return acc.add(m.amount);
+        }
+        return acc;
+      }, Dinero());
+      obj[fromPerson.id] = purchs.add(movs);
+    });
+
+  return obj;
 };
 
 export const getPersonBalance = (state, personId) => {

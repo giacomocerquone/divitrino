@@ -5,7 +5,7 @@
     1: {
       movementId: 56,
       name: 'Patatine',
-      amount: 1.2,
+      amount: Dinero({amount: 120}),
       debtors: [1, 2, 3],
     },
   },
@@ -13,6 +13,8 @@
 */
 
 import {createSelector, createSlice} from '@reduxjs/toolkit';
+import Dinero from 'dinero.js';
+Dinero.defaultCurrency = 'EUR';
 
 const initialState = {
   ids: [1],
@@ -20,7 +22,7 @@ const initialState = {
     1: {
       movementId: 56,
       name: 'Patatine',
-      amount: 1.4,
+      amount: Dinero({amount: 140}),
       debtors: [
         'dca21677-8f15-4d19-b936-ee19944a9215',
         '0c009f33-1f95-464f-b18e-839d8b764d5d',

@@ -6,13 +6,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getPeople} from 'store/app.reducer';
 import InputBox from 'components/organism/InputBox';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import Button from 'components/atoms/Button';
 import movementsSlice from 'reducers/movements';
 import {useNavigation} from '@react-navigation/native';
+import Dinero from 'dinero.js';
 
 const payerPlaceholder = {label: 'Seleziona pagante'};
-const payeePlaceholder = {label: 'Seleziona pagato'};
+const payeePlaceholder = {label: 'Seleziona ricevente'};
 const doneText = 'Seleziona';
 const Icon = () => (
   <MaterialCommunityIcons
@@ -38,7 +40,9 @@ const AddPayment = () => {
         id: uuidv4(),
         payer,
         payee,
-        amount,
+        amount: Dinero({
+          amount: parseInt(amount.replace(',', '').replace('.', ''), 10),
+        }),
       }),
     );
     navigate('Home');

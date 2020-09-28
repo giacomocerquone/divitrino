@@ -2,8 +2,20 @@ import {createSelector, createSlice} from '@reduxjs/toolkit';
 import {showMessage} from 'react-native-flash-message';
 
 const initialState = {
-  ids: [],
-  byId: {},
+  ids: [
+    '0c009f33-1f95-464f-b18e-839d8b764d5d',
+    'dca21677-8f15-4d19-b936-ee19944a9215',
+  ],
+  byId: {
+    'dca21677-8f15-4d19-b936-ee19944a9215': {
+      id: 'dca21677-8f15-4d19-b936-ee19944a9215',
+      name: 'Giacomo',
+    },
+    '0c009f33-1f95-464f-b18e-839d8b764d5d': {
+      id: '0c009f33-1f95-464f-b18e-839d8b764d5d',
+      name: 'Danica',
+    },
+  },
 };
 
 const peopleSlice = createSlice({
