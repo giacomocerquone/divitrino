@@ -54,7 +54,7 @@ export const getTotToReturnTo = (state, from, to) => {
 
   const purchs = purchases.reduce((acc, p) => {
     const movement = getMovementById(state, p.movementId);
-    if (movement.payer === to && p.debtors.includes(from.id)) {
+    if (movement.payer === to.id && p.debtors.includes(from.id)) {
       return acc.add(p.amount.divide(p.debtors.length));
     }
     return acc;
