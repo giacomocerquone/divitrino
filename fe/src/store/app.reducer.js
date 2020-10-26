@@ -48,39 +48,53 @@ export const getTotReturnedTo = (state, personId) =>
 
 // Extra
 
-export const getTotToReturnTo = (state, personId) => {
-  const people = getPeople(state);
+export const getTotToReturnTo = (state, from, to) => {
   const purchases = getPurchases(state);
   const movements = getMovements(state);
 
+  const purchs = purchases.reduce((acc, p) => {
+    const movement = getMovementById(state, p.movementId);
+    if (movement.payer === to && p.debtors.includes(from.id)) {
+      return acc.add(p.amount.divide(p.debtors.length));
+    }
+    return acc;
+  }, Dinero());
+
+  const movs = movements.reduce((acc, m) => {
+    if (m.payer === to.id && m.payee === from.id) {
+      return acc.add(m.amount);
+    }
+    return acc;
+  }, Dinero());
+
+  return movs.add(purchs); // TODO check syntax
+};
+
+export const newFunc = (state) => {
   const obj = {};
+  const people = getPeople(state);
 
-  people
-    .filter((p) => p.id !== personId)
-    .forEach((fromPerson) => {
-      const purchs = purchases.reduce((acc, p) => {
-        const movement = getMovementById(state, p.movementId);
-        if (movement.payer === personId && p.debtors.includes(fromPerson.id)) {
-          return acc.add(p.amount.divide(p.debtors.length));
-        }
-        return acc;
-      }, Dinero());
+  people.forEach((from) => {
+    people
+      .filter((p) => from.id !== p.id)
+      .forEach((to) => {
+        const toReturn = getTotToReturnTo(state, from, to);
 
-      const movs = movements.reduce((acc, m) => {
-        if (m.description === undefined && m.payer === personId) {
-          return acc.add(m.amount);
-        }
-        return acc;
-      }, Dinero());
-      obj[fromPerson.id] = purchs.add(movs);
-    });
+        obj[`"from"${from.id}"to"${to.id}`] = toReturn;
+      });
+  });
+
+  console.log(obj);
 
   return obj;
 };
 
-export const getPersonBalance = (state, personId) => {
-  const toBeReturned = getTotToReturnTo(state, personId);
-  const alreadyReturned = getTotReturnedTo(state, personId);
-
-  return {toBeReturned, alreadyReturned};
-};
+// this fn returns
+// {
+//   "fromAtoB": [120, 100]
+//   "fromAtoC": 140,
+//   "fromBtoA": 100,
+//   "fromBtoC": 150,
+//   "fromCtoA": 80,
+//   "fromCtoB": 60
+// }

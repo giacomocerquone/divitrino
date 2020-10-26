@@ -63,20 +63,3 @@ export const getMovements = createSelector(
   [(state) => state, (state) => state.ids],
   (state, ids) => ids.map((id) => getMovementById(state, id)),
 );
-
-export const getTotReturnedTo = (people, movements, personId) => {
-  const obj = {};
-
-  people
-    .filter((p) => p.id !== personId)
-    .forEach((fromPerson) => {
-      obj[fromPerson.id] = movements.reduce((acc, p) => {
-        if (p.payee === personId && p.payer === fromPerson.id) {
-          return acc.add(p.amount);
-        }
-        return acc;
-      }, Dinero());
-    });
-
-  return obj;
-};

@@ -3,15 +3,11 @@ import {StyleSheet, View} from 'react-native';
 import Box from 'components/atoms/Box';
 import Text from 'components/atoms/Text';
 import {useSelector} from 'react-redux';
-import {getPeople, getPersonBalance} from 'store/app.reducer';
+import {getPeople, newFunc} from 'store/app.reducer';
 
 const PayeeReport = ({p}) => {
-  const {alreadyReturned, toBeReturned} = useSelector((state) =>
-    getPersonBalance(state, p.id),
-  );
   const people = useSelector(getPeople);
-
-  console.log({alreadyReturned, toBeReturned}, p.name);
+  const test = useSelector(newFunc);
 
   const payee = {
     name: p.name,
@@ -23,7 +19,7 @@ const PayeeReport = ({p}) => {
       <View style={styles.row}>
         <Text>
           <Text weight="bold" text={payee.name} />
-          <Text text=" riceve" />
+          <Text text=" deve dare" />
         </Text>
         <Text text={`€ ${payee.amount}`} />
       </View>
@@ -35,11 +31,35 @@ const PayeeReport = ({p}) => {
                 <Text text="da" />
                 <Text text={` ${person.name}`} weight="bold" />
               </Text>
-              <Text
+              {/* <Text
                 text={`€ ${toBeReturned[
                   person.id
                 ].getAmount()} - ${alreadyReturned[person.id].getAmount()} `}
-              />
+              /> */}
+            </View>
+          ),
+      )}
+
+      <View style={[styles.row, {marginTop: 10}]}>
+        <Text>
+          <Text weight="bold" text={payee.name} />
+          <Text text=" deve ricevere" />
+        </Text>
+        <Text text={`€ ${payee.amount}`} />
+      </View>
+      {people.map(
+        (person, i) =>
+          person.id !== p.id && (
+            <View key={i} style={styles.row}>
+              <Text>
+                <Text text="da" />
+                <Text text={` ${person.name}`} weight="bold" />
+              </Text>
+              {/* <Text
+                text={`€ ${toBeReturned[
+                  person.id
+                ].getAmount()} - ${alreadyReturned[person.id].getAmount()} `}
+              /> */}
             </View>
           ),
       )}
