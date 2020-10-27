@@ -5,7 +5,7 @@ import Button from 'components/atoms/Button';
 import peopleSlice from 'reducers/people';
 import {useNavigation} from '@react-navigation/native';
 import 'react-native-get-random-values';
-import {v4 as uuidv4} from 'uuid';
+import uuidv4 from 'utils/uuidv4';
 import InputBox from 'components/organism/InputBox';
 
 const AddPerson = () => {

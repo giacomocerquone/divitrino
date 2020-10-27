@@ -7,7 +7,7 @@ import {getPeople} from 'store/app.reducer';
 import InputBox from 'components/organism/InputBox';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import 'react-native-get-random-values';
-import {v4 as uuidv4} from 'uuid';
+import uuidv4 from 'utils/uuidv4';
 import Button from 'components/atoms/Button';
 import movementsSlice from 'reducers/movements';
 import {useNavigation} from '@react-navigation/native';
