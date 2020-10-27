@@ -75,12 +75,13 @@ export const newFunc = (state) => {
   const people = getPeople(state);
 
   people.forEach((from) => {
+    obj[from.id] = {};
     people
       .filter((p) => from.id !== p.id)
       .forEach((to) => {
         const toReturn = getTotToReturnTo(state, from, to);
 
-        obj[`"from"${from.id}"to"${to.id}`] = toReturn;
+        obj[from.id][to.id] = toReturn.getAmount();
       });
   });
 
@@ -93,9 +94,9 @@ export const newFunc = (state) => {
 
 // NEW
 // {
-//   "A": { B: 120, C: 140 },
-//   "B": {A: 100, C: 150}
-//   "C": { A: 80, B: 60 }
+//   A: { B: 120, C: 140 },
+//   B: { A: 100, C: 150 },
+//   C: { A: 80, B: 60 }
 // }
 
 // OLD
