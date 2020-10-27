@@ -21,14 +21,14 @@ const PayeeReport = ({p}) => {
           <Text weight="bold" text={payee.name} />
           <Text text=" deve dare" />
         </Text>
-        <Text text={`€ ${payee.amount}`} />
+        {/* <Text text={`€ ${payee.amount}`} /> */}
       </View>
       {people.map(
         (person, i) =>
           person.id !== p.id && (
             <View key={i} style={styles.row}>
               <Text>
-                <Text text="da" />
+                <Text text="a" />
                 <Text text={` ${person.name}`} weight="bold" />
               </Text>
               {/* <Text
@@ -45,7 +45,7 @@ const PayeeReport = ({p}) => {
           <Text weight="bold" text={payee.name} />
           <Text text=" deve ricevere" />
         </Text>
-        <Text text={`€ ${payee.amount}`} />
+        {/* <Text text={`€ ${payee.amount}`} /> */}
       </View>
       {people.map(
         (person, i) =>

@@ -90,8 +90,17 @@ export const newFunc = (state) => {
 };
 
 // this fn returns
+
+// NEW
 // {
-//   "fromAtoB": [120, 100]
+//   "A": { B: 120, C: 140 },
+//   "B": {A: 100, C: 150}
+//   "C": { A: 80, B: 60 }
+// }
+
+// OLD
+// {
+//   "fromAtoB": 120
 //   "fromAtoC": 140,
 //   "fromBtoA": 100,
 //   "fromBtoC": 150,
