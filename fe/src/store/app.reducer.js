@@ -81,7 +81,7 @@ export const newFunc = (state) => {
       .forEach((to) => {
         const toReturn = getTotToReturnTo(state, from, to);
 
-        obj[from.id][to.id] = toReturn.getAmount();
+        obj[from.id][to.id] = toReturn;
       });
   });
 
