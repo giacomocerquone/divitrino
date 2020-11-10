@@ -16,8 +16,6 @@ const Balance = () => {
       <Text size={50} style={styles.title}>
         Bilancio
       </Text>
-      <Text text="+ deve ricevere" />
-      <Text text="- deve dare" />
       {people.map((p) => (
         <PayeeReport key={p.id} p={p} />
       ))}
@@ -39,7 +37,7 @@ export default Balance;
 
 const styles = StyleSheet.create({
   title: {
-    marginVertical: 30,
+    marginTop: 30,
   },
   handleBtn: {
     marginTop: 10,
