@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+
 import Box from 'components/atoms/Box';
 import Text from 'components/atoms/Text';
 import {useSelector} from 'react-redux';
@@ -7,7 +8,7 @@ import {getPeople, newFunc} from 'store/app.reducer';
 
 const SingleReport = ({p, isPayer = false}) => {
   const people = useSelector(getPeople);
-  const newFuncObj = useSelector(newFunc);
+  const newFuncObj = useSelector((state) => newFunc(state, true));
 
   const result = people
     .map((person) => {
