@@ -70,7 +70,7 @@ export const getTotToReturnTo = (state, from, to) => {
   return movs.add(purchs); // TODO check syntax
 };
 
-export const newFunc = (state, normalize = false) => {
+export const getDebits = (state, normalize = false) => {
   const obj = {};
   const people = getPeople(state);
 
