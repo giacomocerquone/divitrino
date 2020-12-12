@@ -20,11 +20,12 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "redux-persist": "^6.0.0",
+    "styled-components": "^5.2.1",
     "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "ionic build --prod",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -44,7 +45,8 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.4"
+    "@capacitor/cli": "2.4.4",
+    "@ionic/cli": "^6.12.3"
   },
   "description": "An Ionic project"
 }
