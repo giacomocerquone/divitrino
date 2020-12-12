@@ -1,5 +1,12 @@
 import React from "react";
-import { IonButton, IonContent, IonIcon, IonList, IonPage } from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonFooter,
+  IonIcon,
+  IonList,
+  IonPage,
+} from "@ionic/react";
 import Title from "components/atoms/Title";
 import PageContainer from "components/atoms/PageContainer";
 import { add } from "ionicons/icons";
@@ -16,6 +23,12 @@ const Movements = () => {
       <IonContent fullscreen>
         <PageContainer>
           <Title>Movimenti</Title>
+
+          <IonList>
+            {movements.map((m) => (
+              <MovementRow key={m.id} movement={m} />
+            ))}
+          </IonList>
           <ButtonsWrapper>
             <IonButton>
               <IonIcon slot="start" icon={add} />
@@ -26,12 +39,6 @@ const Movements = () => {
               Pagamento
             </IonButton>
           </ButtonsWrapper>
-
-          <IonList>
-            {movements.map((m) => (
-              <MovementRow key={m.id} movement={m} />
-            ))}
-          </IonList>
         </PageContainer>
       </IonContent>
     </IonPage>
@@ -43,4 +50,9 @@ export default Movements;
 const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: auto;
+
+  & > ion-button {
+    flex: 1;
+  }
 `;
