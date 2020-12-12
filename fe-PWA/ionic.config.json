@@ -1,0 +1,7 @@
+{
+  "name": "fe-PWA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
