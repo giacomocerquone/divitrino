@@ -6,19 +6,27 @@ import {
   IonItemSliding,
   IonLabel,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React from "react";
 import { IonLabelContent } from "../MovementRow";
 
 export const ProdRow = ({
   onDelete,
+  onSingleAssignIntent,
   product,
   selectedRows,
   setSelectedRows,
 }) => {
-  const [swipeLeft, setSwipeLeft] = useState(false);
-
   return (
     <IonItemSliding>
+      <IonItemOptions side="start">
+        <IonItemOption
+          color="primary"
+          onClick={() => onSingleAssignIntent(product.id)}
+        >
+          assegna
+        </IonItemOption>
+      </IonItemOptions>
+
       <IonItem>
         <IonCheckbox
           slot="start"

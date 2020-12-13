@@ -3,14 +3,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
 
-const PeopleAlertSelection = ({ isOpen, close }) => {
+const AssignModal = ({ isOpen, onClose, onDone }) => {
   const people = useSelector(getPeople);
 
   return (
     <IonAlert
       mode="ios"
       isOpen={isOpen}
-      onDidDismiss={close}
+      onDidDismiss={onClose}
       header="Assegna"
       subHeader="Assegna i prodotti selezionati a delle persone"
       inputs={[
@@ -31,13 +31,11 @@ const PeopleAlertSelection = ({ isOpen, close }) => {
         },
         {
           text: "Fatto",
-          handler: (a) => {
-            console.log(a);
-          },
+          handler: onDone,
         },
       ]}
     />
   );
 };
 
-export default PeopleAlertSelection;
+export default AssignModal;

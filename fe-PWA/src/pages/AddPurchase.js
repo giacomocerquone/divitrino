@@ -17,15 +17,15 @@ import { cameraOutline, personAddOutline } from "ionicons/icons";
 import NewProdRow from "components/organism/AddPurchase/NewProdRow";
 import { ProdRow } from "components/organism/AddPurchase/ProdRow";
 import { ButtonsWrapper } from "./Movements";
-import PeopleAlertSelection from "components/organism/PeopleAlertSelection";
+import AssignModal from "components/organism/AssignModal";
 
 const { Camera } = Plugins;
 
 const AddPurchase = () => {
   const [prods, setProds] = useState([]);
   const [selectedRows, setSelectedRows] = useState({});
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
+  const [assignModalOpen, setAssignModalOpen] = useState(false);
+  const [assignWarningOpen, setAssignWarningOpen] = useState(false);
 
   const onTakePic = async () => {
     const image = await Camera.getPhoto({
@@ -42,16 +42,27 @@ const AddPurchase = () => {
     // imageElement.src = imageUrl;
   };
 
-  const openActionSheet = () => {
+  const onMultipleAssignIntent = () => {
     if (Object.keys(selectedRows).length) {
-      setSheetOpen(true);
+      setAssignModalOpen(true);
     } else {
-      setAlertOpen(true);
+      setAssignWarningOpen(true);
     }
+  };
+
+  const onSingleAssignIntent = (id) => {
+    setSelectedRows({ [id]: true });
+    setAssignModalOpen(true);
   };
 
   const onProdDelete = async (id) => {
     setProds((p) => p.filter((item) => item.id !== id));
+  };
+
+  const onAssign = (selectedPeople) => {
+    console.log("assigned", selectedPeople, selectedRows);
+    alert("assigned");
+    setSelectedRows({});
   };
 
   return (
@@ -63,7 +74,7 @@ const AddPurchase = () => {
           </IonButtons>
           <IonTitle>Aggiungi Spesa</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={openActionSheet}>
+            <IonButton onClick={onMultipleAssignIntent}>
               <IonIcon icon={personAddOutline} />
             </IonButton>
           </IonButtons>
@@ -79,6 +90,7 @@ const AddPurchase = () => {
                 key={p.id}
                 product={p}
                 onDelete={onProdDelete}
+                onSingleAssignIntent={onSingleAssignIntent}
               />
             ))}
 
@@ -99,14 +111,15 @@ const AddPurchase = () => {
             </IonButton>
           </ButtonsWrapper>
         </PageContainer>
-        <PeopleAlertSelection
-          isOpen={sheetOpen}
-          close={() => setSheetOpen(false)}
+        <AssignModal
+          isOpen={assignModalOpen}
+          onDone={onAssign}
+          onClose={() => setAssignModalOpen(false)}
         />
         <IonAlert
           mode="ios"
-          isOpen={alertOpen}
-          onDidDismiss={() => setAlertOpen(false)}
+          isOpen={assignWarningOpen}
+          onDidDismiss={() => setAssignWarningOpen(false)}
           header="Attenzione"
           message="Bisogna selezionare dei prodotti per assegnarli a delle persone."
         />
