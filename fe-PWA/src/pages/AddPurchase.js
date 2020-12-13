@@ -4,16 +4,24 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
+  IonList,
   IonPage,
 } from "@ionic/react";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
 import PageContainer from "components/atoms/PageContainer";
-import React from "react";
+import React, { useState } from "react";
 import { Plugins, CameraResultType } from "@capacitor/core";
+import { cameraOutline } from "ionicons/icons";
+import NewProdRow from "components/organism/AddPurchase/NewProdRow";
+import { ProdRow } from "components/organism/AddPurchase/ProdRow";
+import { ButtonsWrapper } from "./Movements";
 
 const { Camera } = Plugins;
 
 const AddPurchase = () => {
+  const [prods, setProds] = useState([]);
+
   const onTakePic = async () => {
     const image = await Camera.getPhoto({
       quality: 90,
@@ -29,6 +37,13 @@ const AddPurchase = () => {
     // imageElement.src = imageUrl;
   };
 
+  const onProdDelete = async (id) => {
+    console.log(id);
+    setProds((p) => p.filter((item) => item.id !== id));
+  };
+
+  console.log(prods);
+
   return (
     <IonPage>
       <IonHeader mode="ios">
@@ -41,14 +56,27 @@ const AddPurchase = () => {
       </IonHeader>
       <IonContent fullscreen>
         <PageContainer>
-          <IonButton
-            mode="ios"
-            onClick={onTakePic}
-            color="primary"
-            expand="block"
-          >
-            Fotografa scontrino
-          </IonButton>
+          <IonList>
+            {prods.map((p) => (
+              <ProdRow key={p.id} product={p} onDelete={onProdDelete} />
+            ))}
+
+            <NewProdRow setProds={setProds} />
+          </IonList>
+          <ButtonsWrapper>
+            <IonButton mode="ios" onClick={onTakePic} color="primary">
+              <IonIcon slot="start" icon={cameraOutline}></IonIcon>
+              scontrino
+            </IonButton>
+            <IonButton
+              mode="ios"
+              disabled={!prods.length}
+              onClick={() => null}
+              color="success"
+            >
+              Aggiungi spesa
+            </IonButton>
+          </ButtonsWrapper>
         </PageContainer>
       </IonContent>
     </IonPage>

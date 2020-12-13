@@ -40,7 +40,7 @@ const MovementRow = ({ movement }) => {
 
 export default MovementRow;
 
-const IonLabelContent = styled.div`
+export const IonLabelContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

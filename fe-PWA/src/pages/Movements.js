@@ -40,7 +40,7 @@ const Movements = () => {
 
 export default Movements;
 
-const ButtonsWrapper = styled.div`
+export const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: auto;
