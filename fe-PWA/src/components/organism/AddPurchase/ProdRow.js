@@ -8,7 +8,6 @@ import {
 } from "@ionic/react";
 import React, { useState } from "react";
 import { IonLabelContent } from "../MovementRow";
-import PeopleChips from "../PeopleChips";
 
 export const ProdRow = ({
   onDelete,
@@ -16,9 +15,7 @@ export const ProdRow = ({
   selectedRows,
   setSelectedRows,
 }) => {
-  const [doubleTapped, setDoubleTapped] = useState(false);
-
-  console.log(selectedRows);
+  const [swipeLeft, setSwipeLeft] = useState(false);
 
   return (
     <IonItemSliding>
@@ -42,7 +39,6 @@ export const ProdRow = ({
             </div>
             <p>€ {product.price}</p>
           </IonLabelContent>
-          {doubleTapped && <PeopleChips />}
         </IonLabel>
       </IonItem>
 

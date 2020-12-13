@@ -1,4 +1,5 @@
 import {
+  IonAlert,
   IonBackButton,
   IonButton,
   IonButtons,
@@ -12,16 +13,19 @@ import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
 import PageContainer from "components/atoms/PageContainer";
 import React, { useState } from "react";
 import { Plugins, CameraResultType } from "@capacitor/core";
-import { cameraOutline } from "ionicons/icons";
+import { cameraOutline, personAddOutline } from "ionicons/icons";
 import NewProdRow from "components/organism/AddPurchase/NewProdRow";
 import { ProdRow } from "components/organism/AddPurchase/ProdRow";
 import { ButtonsWrapper } from "./Movements";
+import PeopleAlertSelection from "components/organism/PeopleAlertSelection";
 
 const { Camera } = Plugins;
 
 const AddPurchase = () => {
   const [prods, setProds] = useState([]);
   const [selectedRows, setSelectedRows] = useState({});
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
 
   const onTakePic = async () => {
     const image = await Camera.getPhoto({
@@ -38,6 +42,14 @@ const AddPurchase = () => {
     // imageElement.src = imageUrl;
   };
 
+  const openActionSheet = () => {
+    if (Object.keys(selectedRows).length) {
+      setSheetOpen(true);
+    } else {
+      setAlertOpen(true);
+    }
+  };
+
   const onProdDelete = async (id) => {
     setProds((p) => p.filter((item) => item.id !== id));
   };
@@ -50,6 +62,11 @@ const AddPurchase = () => {
             <IonBackButton text="Indietro" default-href="/" />
           </IonButtons>
           <IonTitle>Aggiungi Spesa</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={openActionSheet}>
+              <IonIcon icon={personAddOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -82,6 +99,17 @@ const AddPurchase = () => {
             </IonButton>
           </ButtonsWrapper>
         </PageContainer>
+        <PeopleAlertSelection
+          isOpen={sheetOpen}
+          close={() => setSheetOpen(false)}
+        />
+        <IonAlert
+          mode="ios"
+          isOpen={alertOpen}
+          onDidDismiss={() => setAlertOpen(false)}
+          header="Attenzione"
+          message="Bisogna selezionare dei prodotti per assegnarli a delle persone."
+        />
       </IonContent>
     </IonPage>
   );
