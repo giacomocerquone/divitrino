@@ -1,12 +1,14 @@
 import { IonButton, IonIcon, IonInput, IonItem } from "@ionic/react";
 import { add } from "ionicons/icons";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 
 const NewProdRow = ({ setProds }) => {
   const [prodName, setProdName] = useState("");
   const [prodPrice, setProdPrice] = useState("");
+  const nameRef = useRef(null);
+  const priceRef = useRef(null);
 
   const onProdAdd = async () => {
     setProds((p) => [...p, { name: prodName, price: prodPrice, id: uuidv4() }]);
@@ -26,13 +28,24 @@ const NewProdRow = ({ setProds }) => {
         <IonIcon icon={add} />
       </IonButton>
       <IonInput
+        ref={nameRef}
+        onKeyPress={(e) => e.key === "Enter" && priceRef.current.setFocus()}
+        autocorrect
+        autocapitalize
         value={prodName}
         placeholder="Nome"
         onIonChange={(e) => setProdName(e.detail.value)}
         clearInput
       ></IonInput>
       <IonInput
-        style={{ flex: 0.3 }}
+        ref={priceRef}
+        style={{ flex: 0.4 }}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            onProdAdd();
+            nameRef.current.setFocus();
+          }
+        }}
         value={prodPrice}
         type="number"
         onIonChange={(e) => setProdPrice(e.detail.value)}
