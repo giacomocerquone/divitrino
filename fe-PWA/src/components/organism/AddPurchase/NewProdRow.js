@@ -2,6 +2,7 @@ import { IonButton, IonIcon, IonInput, IonItem } from "@ionic/react";
 import { add } from "ionicons/icons";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import styled from "styled-components";
 
 const NewProdRow = ({ setProds }) => {
   const [prodName, setProdName] = useState("");
@@ -14,7 +15,16 @@ const NewProdRow = ({ setProds }) => {
   };
 
   return (
-    <IonItem>
+    <CustomIonItem>
+      <IonButton
+        disabled={!prodName || !prodPrice}
+        style={{ marginInlineEnd: 20 }}
+        mode="ios"
+        slot="start"
+        onClick={onProdAdd}
+      >
+        <IonIcon icon={add} />
+      </IonButton>
       <IonInput
         value={prodName}
         placeholder="Nome"
@@ -22,16 +32,19 @@ const NewProdRow = ({ setProds }) => {
         clearInput
       ></IonInput>
       <IonInput
+        style={{ flex: 0.3 }}
         value={prodPrice}
+        type="number"
         onIonChange={(e) => setProdPrice(e.detail.value)}
-        placeholder="Prezzo"
+        placeholder="€"
         clearInput
       ></IonInput>
-      <IonButton mode="ios" slot="end" onClick={onProdAdd}>
-        <IonIcon icon={add} />
-      </IonButton>
-    </IonItem>
+    </CustomIonItem>
   );
 };
 
 export default NewProdRow;
+
+const CustomIonItem = styled(IonItem)`
+  --padding-start: 10px;
+`;

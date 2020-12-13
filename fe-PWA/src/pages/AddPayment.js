@@ -60,6 +60,7 @@ const AddPayment = ({ history }) => {
             <IonItem>
               <IonLabel position="floating">Importo</IonLabel>
               <IonInput
+                type="number"
                 value={amount}
                 onIonChange={(e) => setAmount(e.detail.value)}
                 placeholder="6.50"

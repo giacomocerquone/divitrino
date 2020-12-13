@@ -21,6 +21,7 @@ const { Camera } = Plugins;
 
 const AddPurchase = () => {
   const [prods, setProds] = useState([]);
+  const [selectedRows, setSelectedRows] = useState({});
 
   const onTakePic = async () => {
     const image = await Camera.getPhoto({
@@ -38,11 +39,8 @@ const AddPurchase = () => {
   };
 
   const onProdDelete = async (id) => {
-    console.log(id);
     setProds((p) => p.filter((item) => item.id !== id));
   };
-
-  console.log(prods);
 
   return (
     <IonPage>
@@ -58,7 +56,13 @@ const AddPurchase = () => {
         <PageContainer>
           <IonList>
             {prods.map((p) => (
-              <ProdRow key={p.id} product={p} onDelete={onProdDelete} />
+              <ProdRow
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                key={p.id}
+                product={p}
+                onDelete={onProdDelete}
+              />
             ))}
 
             <NewProdRow setProds={setProds} />

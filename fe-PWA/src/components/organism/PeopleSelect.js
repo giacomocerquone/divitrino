@@ -8,6 +8,7 @@ const PeopleSelect = ({ onIonChange, value }) => {
 
   return (
     <IonSelect
+      mode="md"
       onIonChange={onIonChange}
       interface="action-sheet"
       value={value}
