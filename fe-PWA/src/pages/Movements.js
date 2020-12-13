@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  IonButton,
-  IonContent,
-  IonFooter,
-  IonIcon,
-  IonList,
-  IonPage,
-} from "@ionic/react";
+import { IonButton, IonContent, IonIcon, IonList, IonPage } from "@ionic/react";
 import Title from "components/atoms/Title";
 import PageContainer from "components/atoms/PageContainer";
 import { add } from "ionicons/icons";
@@ -30,11 +23,11 @@ const Movements = () => {
             ))}
           </IonList>
           <ButtonsWrapper>
-            <IonButton>
+            <IonButton mode="ios" routerLink="/nuova-spesa">
               <IonIcon slot="start" icon={add} />
               Acquisti
             </IonButton>
-            <IonButton routerLink="/nuovo-pagamento">
+            <IonButton mode="ios" routerLink="/nuovo-pagamento">
               <IonIcon slot="start" icon={add} />
               Pagamento
             </IonButton>

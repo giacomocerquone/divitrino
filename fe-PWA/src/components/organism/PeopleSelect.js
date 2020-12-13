@@ -3,14 +3,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
 
-const PeopleSelect = ({ onChange }) => {
+const PeopleSelect = ({ onIonChange, value }) => {
   const people = useSelector(getPeople);
 
   return (
     <IonSelect
-      onChange={onChange}
+      onIonChange={onIonChange}
       interface="action-sheet"
-      value="brown"
+      value={value}
       okText="Seleziona"
       cancelText="Chiudi"
       placeholder="Scegli una persona"

@@ -27,17 +27,21 @@ const AddPayment = ({ history }) => {
   const dispatch = useDispatch();
 
   const onAdd = () => {
-    dispatch(
-      movementsSlice.actions.addMovement({
-        id: uuidv4(),
-        payer,
-        payee,
-        amount: Dinero({
-          amount: parseInt(amount.replace(",", "").replace(".", ""), 10),
-        }),
-      })
-    );
-    history.push("/");
+    if (!payer || !payee || !amount) {
+      // TODO warning
+    } else {
+      dispatch(
+        movementsSlice.actions.addMovement({
+          id: uuidv4(),
+          payer,
+          payee,
+          amount: Dinero({
+            amount: parseInt(amount.replace(",", "").replace(".", ""), 10),
+          }),
+        })
+      );
+      history.replace("/");
+    }
   };
 
   return (
@@ -57,25 +61,31 @@ const AddPayment = ({ history }) => {
               <IonLabel position="floating">Importo</IonLabel>
               <IonInput
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onIonChange={(e) => setAmount(e.detail.value)}
                 placeholder="6.50"
               ></IonInput>
             </IonItem>
 
             <IonItem>
               <IonLabel position="floating">Pagante</IonLabel>
-              <PeopleSelect onChange={(e) => setPayer(e.target.value)} />
+              <PeopleSelect
+                value={payer}
+                onIonChange={(e) => setPayer(e.detail.value)}
+              />
             </IonItem>
 
             <P>ha restituito denaro a</P>
 
             <IonItem>
               <IonLabel position="floating">Ricevente</IonLabel>
-              <PeopleSelect onChange={(e) => setPayee(e.target.value)} />
+              <PeopleSelect
+                value={payee}
+                onIonChange={(e) => setPayee(e.detail.value)}
+              />
             </IonItem>
           </IonList>
 
-          <IonButton onClick={onAdd} color="secondary" expand="block">
+          <IonButton mode="ios" onClick={onAdd} color="primary" expand="block">
             Aggiungi
           </IonButton>
         </PageContainer>

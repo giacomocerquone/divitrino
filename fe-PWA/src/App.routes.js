@@ -1,8 +1,5 @@
 import React from "react";
-import { Redirect, Route } from "react-router";
-import Balance from "pages/Balance";
-import Movements from "pages/Movements";
-import AddPayment from "pages/AddPayment";
+import { Route } from "react-router";
 import {
   IonIcon,
   IonLabel,
@@ -12,19 +9,27 @@ import {
   IonTabs,
 } from "@ionic/react";
 import { peopleCircleOutline, listOutline } from "ionicons/icons";
+import AddPurchase from "pages/AddPurchase";
+import Balance from "pages/Balance";
+import Movements from "pages/Movements";
+import AddPayment from "pages/AddPayment";
+import People from "pages/People";
+import AddPerson from "pages/AddPerson";
 
 const AppRoutes = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/movimenti" component={Movements} exact={true} />
-        <Route path="/bilancio" component={Balance} exact={true} />
-        <Route path="/nuovo-pagamento" component={AddPayment} exact={true} />
-        <Redirect exact from="/" to="/movimenti" />
+        <Route path="/" component={Movements} exact={true} />
+        <Route path="/bilancio" component={Balance} />
+        <Route path="/nuovo-pagamento" component={AddPayment} />
+        <Route path="/nuova-spesa" component={AddPurchase} />
+        <Route path="/persone" component={People} />
+        <Route path="/nuova-persona" component={AddPerson} />
       </IonRouterOutlet>
 
-      <IonTabBar slot="bottom">
-        <IonTabButton tab="movimenti" href="/movimenti">
+      <IonTabBar slot="bottom" mode="md">
+        <IonTabButton tab="movimenti" href="/">
           <IonIcon icon={listOutline} />
           <IonLabel>Movimenti</IonLabel>
         </IonTabButton>

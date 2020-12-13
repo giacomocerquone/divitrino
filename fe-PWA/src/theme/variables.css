@@ -10,6 +10,12 @@ http://ionicframework.com/docs/theming/ */
   font-family: "Roboto", sans-serif !important;
 }
 
+ion-button {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 :root {
   /** primary **/
   --ion-color-primary: #3880ff;
