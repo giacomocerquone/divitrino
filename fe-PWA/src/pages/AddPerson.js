@@ -1,15 +1,32 @@
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
   IonPage,
 } from "@ionic/react";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
 import PageContainer from "components/atoms/PageContainer";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import peopleSlice from "reducers/people";
+import { v4 as uuidv4 } from "uuid";
 
-const AddPerson = () => {
+const AddPerson = ({ history }) => {
+  const [name, setName] = useState("");
+  const [color, setColor] = useState("");
+  const dispatch = useDispatch();
+
+  const save = () => {
+    dispatch(peopleSlice.actions.addPerson({ name, id: uuidv4() }));
+    history.goBack();
+  };
+
   return (
     <IonPage>
       <IonHeader mode="ios">
@@ -21,7 +38,21 @@ const AddPerson = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <PageContainer></PageContainer>
+        <PageContainer>
+          <IonList>
+            <IonItem>
+              <IonLabel position="floating">Nome</IonLabel>
+              <IonInput
+                value={name}
+                onIonChange={(e) => setName(e.detail.value)}
+                placeholder="Mario Rossi"
+              ></IonInput>
+            </IonItem>
+          </IonList>
+          <IonButton mode="ios" onClick={save} color="primary" expand="block">
+            Salva
+          </IonButton>
+        </PageContainer>
       </IonContent>
     </IonPage>
   );
