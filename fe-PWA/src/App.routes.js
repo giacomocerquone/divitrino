@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router";
+import { Redirect, Route } from "react-router";
 import {
   IonIcon,
   IonLabel,
@@ -20,16 +20,21 @@ const AppRoutes = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/" component={Movements} exact={true} />
+        <Route path="/movimenti" component={Movements} exact={true} />
         <Route path="/bilancio" component={Balance} />
         <Route path="/nuovo-pagamento" component={AddPayment} />
         <Route path="/nuova-spesa" component={AddPurchase} />
         <Route path="/persone" component={People} />
         <Route path="/nuova-persona" component={AddPerson} />
+        <Route
+          path="/"
+          render={() => <Redirect to="/movimenti" />}
+          exact={true}
+        />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom" mode="md">
-        <IonTabButton tab="movimenti" href="/">
+        <IonTabButton tab="movimenti" href="/movimenti">
           <IonIcon icon={listOutline} />
           <IonLabel>Movimenti</IonLabel>
         </IonTabButton>

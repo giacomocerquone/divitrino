@@ -40,7 +40,7 @@ const AddPayment = ({ history }) => {
           }),
         })
       );
-      history.replace("/");
+      history.goBack();
     }
   };
 
