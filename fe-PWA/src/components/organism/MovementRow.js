@@ -3,6 +3,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { getPersonById } from "store/app.reducer";
 import styled from "styled-components";
+import movementIcon from "assets/movement.png";
+import purchaseIcon from "assets/purchase.png";
 
 const MovementRow = ({ movement }) => {
   const isPurchase = movement.payee;
@@ -11,9 +13,9 @@ const MovementRow = ({ movement }) => {
 
   return (
     <IonItem>
-      <IonAvatar slot="start">
-        <img src="https://via.placeholder.com/150" alt="cibo" />
-      </IonAvatar>
+      <CustomIonAvatar slot="start">
+        <img src={isPurchase ? purchaseIcon : movementIcon} alt="cibo" />
+      </CustomIonAvatar>
       <IonLabel>
         {isPurchase ? (
           <IonLabelContent>
@@ -48,4 +50,8 @@ export const IonLabelContent = styled.div`
 
 const Amount = styled.p`
   font-weight: bold;
+`;
+
+export const CustomIonAvatar = styled(IonAvatar)`
+  --border-radius: 0;
 `;

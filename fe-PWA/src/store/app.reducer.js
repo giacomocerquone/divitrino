@@ -4,13 +4,13 @@ import { combineReducers } from "@reduxjs/toolkit";
 
 import storeMigrations from "./store.migrations";
 import peopleSlice, * as fromPeople from "reducers/people";
-import purchasesSlice, * as fromPurchases from "reducers/purchases";
+import productsSlice, * as fromProducts from "reducers/products";
 import movementsSlice, * as fromMovements from "reducers/movements";
 import Dinero from "dinero.js";
 
 const appReducer = combineReducers({
   people: peopleSlice.reducer,
-  purchases: purchasesSlice.reducer,
+  products: productsSlice.reducer,
   movements: movementsSlice.reducer,
 });
 
@@ -30,9 +30,8 @@ export const getPeople = (state) => fromPeople.getPeople(state.people);
 export const getPersonById = (state, id) =>
   fromPeople.getPersonById(state.people, id);
 
-// Purchases
-export const getPurchases = (state) =>
-  fromPurchases.getPurchases(state.purchases);
+// Products
+export const getProducts = (state) => fromProducts.getProducts(state.products);
 
 // Movements
 export const getMovements = (state) =>
@@ -49,10 +48,10 @@ export const getMovementById = (state, id) =>
 // Extra
 
 export const getTotToReturnTo = (state, from, to) => {
-  const purchases = getPurchases(state);
+  const products = getProducts(state);
   const movements = getMovements(state);
 
-  const purchs = purchases.reduce((acc, p) => {
+  const purchs = products.reduce((acc, p) => {
     const movement = getMovementById(state, p.movementId);
     if (movement.payer === to.id && p.debtors.includes(from.id)) {
       return acc.add(p.amount.divide(p.debtors.length));

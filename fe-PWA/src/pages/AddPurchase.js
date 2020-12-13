@@ -18,14 +18,22 @@ import NewProdRow from "components/organism/AddPurchase/NewProdRow";
 import { ProdRow } from "components/organism/AddPurchase/ProdRow";
 import { ButtonsWrapper } from "./Movements";
 import AssignModal from "components/organism/AssignModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getPeople } from "store/app.reducer";
+import movementsSlice from "reducers/movements";
+import { v4 as uuidv4 } from "uuid";
+import Dinero from "dinero.js";
 
 const { Camera } = Plugins;
 
-const AddPurchase = () => {
+const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [assignWarningOpen, setAssignWarningOpen] = useState(false);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const people = useSelector(getPeople);
+  const dispatch = useDispatch();
 
   const onTakePic = async () => {
     const image = await Camera.getPhoto({
@@ -43,7 +51,10 @@ const AddPurchase = () => {
   };
 
   const onMultipleAssignIntent = () => {
-    if (Object.keys(selectedRows).length) {
+    if (
+      Object.keys(selectedRows).length &&
+      Object.keys(selectedRows).every((key) => selectedRows[key])
+    ) {
       setAssignModalOpen(true);
     } else {
       setAssignWarningOpen(true);
@@ -63,6 +74,20 @@ const AddPurchase = () => {
     console.log("assigned", selectedPeople, selectedRows);
     alert("assigned");
     setSelectedRows({});
+  };
+
+  const onAddMovement = (payer) => {
+    const movementId = uuidv4();
+    dispatch(
+      movementsSlice.actions.addMovement({
+        id: movementId,
+        payer,
+        // amount: Dinero({
+        //   amount: parseInt(amount.replace(",", "").replace(".", ""), 10),
+        // }),
+      })
+    );
+    history.goBack();
   };
 
   return (
@@ -104,7 +129,7 @@ const AddPurchase = () => {
             <IonButton
               mode="ios"
               disabled={!prods.length}
-              onClick={() => null}
+              onClick={() => setConfirmModalOpen(true)}
               color="success"
             >
               Aggiungi spesa
@@ -122,6 +147,32 @@ const AddPurchase = () => {
           onDidDismiss={() => setAssignWarningOpen(false)}
           header="Attenzione"
           message="Bisogna selezionare dei prodotti per assegnarli a delle persone."
+        />
+        <IonAlert
+          mode="ios"
+          isOpen={confirmModalOpen}
+          onDidDismiss={() => setConfirmModalOpen(false)}
+          header="Info"
+          message="Chi ha pagato?"
+          inputs={[
+            ...people.map((p) => ({
+              name: p.name,
+              label: p.name,
+              type: "radio",
+              value: p.id,
+            })),
+          ]}
+          buttons={[
+            {
+              text: "Annulla",
+              role: "cancel",
+              handler: () => null,
+            },
+            {
+              text: "Aggiungi",
+              handler: onAddMovement,
+            },
+          ]}
         />
       </IonContent>
     </IonPage>

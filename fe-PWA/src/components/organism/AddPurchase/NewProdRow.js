@@ -41,7 +41,7 @@ const NewProdRow = ({ setProds }) => {
         ref={priceRef}
         style={{ flex: 0.4 }}
         onKeyPress={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === "Enter" && prodName && prodPrice) {
             onProdAdd();
             nameRef.current.setFocus();
           }
