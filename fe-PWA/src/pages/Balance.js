@@ -20,7 +20,7 @@ const Balance = () => {
           <IonButton
             mode="ios"
             onClick={() => null}
-            color="primary"
+            color="success"
             expand="block"
           >
             Preggia i conti
