@@ -18,6 +18,7 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import PeopleSelect from "components/organism/PeopleSelect";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
+import convertToCents from "utils/convertToCents";
 
 const AddPayment = ({ history }) => {
   const [payer, setPayer] = useState(null);
@@ -34,7 +35,7 @@ const AddPayment = ({ history }) => {
           id: uuidv4(),
           payer,
           payee,
-          amount: parseFloat(amount.replace(",", "."), 10) * 100,
+          amount: convertToCents(amount),
         })
       );
       history.goBack();

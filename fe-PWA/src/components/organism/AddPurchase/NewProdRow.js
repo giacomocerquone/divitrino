@@ -3,6 +3,7 @@ import { add } from "ionicons/icons";
 import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
+import convertToCents from "utils/convertToCents";
 
 const NewProdRow = ({ setProds }) => {
   const [prodName, setProdName] = useState("");
@@ -11,11 +12,16 @@ const NewProdRow = ({ setProds }) => {
   const priceRef = useRef(null);
 
   const onProdAdd = async () => {
+    console.log({
+      name: prodName,
+      amount: convertToCents(prodPrice),
+      id: uuidv4(),
+    });
     setProds((p) => [
       ...p,
       {
         name: prodName,
-        amount: parseFloat(prodPrice.replace(",", "."), 10) * 100,
+        amount: convertToCents(prodPrice),
         id: uuidv4(),
       },
     ]);

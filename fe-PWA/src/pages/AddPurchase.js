@@ -84,17 +84,12 @@ const AddPurchase = ({ history }) => {
 
   const onAddMovement = (payer) => {
     try {
-      if (!prods.every((p) => p?.debtors?.length > 0)) {
-        alert("Tutti i prodotti devono essere assegnati ad almeno una persona");
-        return;
-      }
       const movementId = uuidv4();
       dispatch(
         movementsSlice.actions.addMovement({
           id: movementId,
           payer,
-          amount: 0,
-          // amount: parseFloat(amount.replace(",", "."), 10) * 100,
+          amount: prods.reduce((acc, p) => acc + p.amount, 0), // They're already stored as cents
         })
       );
 
@@ -139,7 +134,15 @@ const AddPurchase = ({ history }) => {
             <IonButton
               mode="ios"
               disabled={!prods.length}
-              onClick={() => setConfirmModalOpen(true)}
+              onClick={() => {
+                if (!prods.every((p) => p?.debtors?.length > 0)) {
+                  alert(
+                    "Tutti i prodotti devono essere assegnati ad almeno una persona"
+                  );
+                  return;
+                }
+                setConfirmModalOpen(true);
+              }}
               color="success"
             >
               Aggiungi spesa
