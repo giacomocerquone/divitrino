@@ -1,15 +1,21 @@
 import { IonAvatar, IonItem, IonLabel } from "@ionic/react";
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { getPersonById } from "store/app.reducer";
 import styled from "styled-components";
 import movementIcon from "assets/movement.png";
 import purchaseIcon from "assets/purchase.png";
+import Dinero from "dinero.js";
 
 const MovementRow = ({ movement }) => {
   const isPurchase = movement.payee;
   const payer = useSelector((state) => getPersonById(state, movement.payer));
   const payee = useSelector((state) => getPersonById(state, movement.payee));
+
+  const amount = useMemo(
+    () => Dinero({ amount: movement.amount, currency: "EUR" }),
+    [movement.amount]
+  );
 
   return (
     <IonItem>
@@ -23,7 +29,7 @@ const MovementRow = ({ movement }) => {
               <b>{payer.name}</b> ha pagato <b>{payee.name}</b>
             </p>
 
-            <Amount>{`€ ${movement.amount.toFormat("0,0.00")}`}</Amount>
+            <Amount>{amount.toFormat("$0,0.00")}</Amount>
           </IonLabelContent>
         ) : (
           <IonLabelContent>
@@ -32,7 +38,7 @@ const MovementRow = ({ movement }) => {
               <p>{`pagato da ${payer.name}`}</p>
             </div>
 
-            <Amount>{`€ ${movement.amount.toFormat("0,0.00")}`}</Amount>
+            <Amount>{amount.toFormat("$0,0.00")}</Amount>
           </IonLabelContent>
         )}
       </IonLabel>

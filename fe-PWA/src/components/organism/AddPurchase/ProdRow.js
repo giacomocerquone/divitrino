@@ -6,10 +6,11 @@ import {
   IonItemSliding,
   IonLabel,
 } from "@ionic/react";
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { getPeopleObj } from "store/app.reducer";
 import { IonLabelContent } from "../MovementRow";
+import Dinero from "dinero.js";
 
 export const ProdRow = ({
   onDelete,
@@ -22,6 +23,10 @@ export const ProdRow = ({
   const debtorsString = product?.debtors?.length
     ? product.debtors.map((d) => peopleObj[d].name).join(", ")
     : "";
+
+  const amount = useMemo(() => Dinero({ amount: product.amount }), [
+    product.amount,
+  ]);
 
   return (
     <IonItemSliding>
@@ -52,7 +57,7 @@ export const ProdRow = ({
               <h2>{product.name}</h2>
               {debtorsString && <h3>Di: {debtorsString}</h3>}
             </div>
-            <p>€ {product.price}</p>
+            <p>{amount.toFormat("$0,0.00")}</p>
           </IonLabelContent>
         </IonLabel>
       </IonItem>

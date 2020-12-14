@@ -55,14 +55,16 @@ export const getTotToReturnTo = (state, from, to) => {
   const purchs = products.reduce((acc, p) => {
     const movement = getMovementById(state, p.movementId);
     if (movement.payer === to.id && p.debtors.includes(from.id)) {
-      return acc.add(p.amount.divide(p.debtors.length));
+      const pAmount = Dinero({ amount: p.amount });
+      return acc.add(pAmount.divide(p.debtors.length));
     }
     return acc;
   }, Dinero());
 
   const movs = movements.reduce((acc, m) => {
     if (m.payer === to.id && m.payee === from.id) {
-      return acc.add(m.amount);
+      const mAmount = Dinero({ amount: m.amount });
+      return acc.add(mAmount);
     }
     return acc;
   }, Dinero());

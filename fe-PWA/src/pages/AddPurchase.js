@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
 import movementsSlice from "reducers/movements";
 import { v4 as uuidv4 } from "uuid";
-import Dinero from "dinero.js";
 import productsSlice from "reducers/products";
 import Header from "components/organism/AddPurchase/Header";
 
@@ -69,7 +68,6 @@ const AddPurchase = ({ history }) => {
   };
 
   const onAssign = (debtors) => {
-    console.log("assigned", debtors, selectedRows);
     const modProds = prods.map((p) => {
       if (selectedRows[p.id]) {
         return {
@@ -86,18 +84,27 @@ const AddPurchase = ({ history }) => {
 
   const onAddMovement = (payer) => {
     try {
+      if (!prods.every((p) => p?.debtors?.length > 0)) {
+        alert("Tutti i prodotti devono essere assegnati ad almeno una persona");
+        return;
+      }
       const movementId = uuidv4();
       dispatch(
         movementsSlice.actions.addMovement({
           id: movementId,
           payer,
-          // amount: Dinero({
-          //   amount: parseInt(amount.replace(",", "").replace(".", ""), 10),
-          // }),
+          amount: 0,
+          // amount: parseFloat(amount.replace(",", "."), 10) * 100,
         })
       );
 
-      dispatch(productsSlice.actions.addProducts([]));
+      const prodsToDispatch = prods.map((p) => {
+        return {
+          ...p,
+          movementId,
+        };
+      });
+      dispatch(productsSlice.actions.addProducts(prodsToDispatch));
 
       history.goBack();
     } catch (e) {

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { defineCustomElements } from "@ionic/pwa-elements/loader";
+import Dinero from "dinero.js";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -21,6 +22,7 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
 import "./theme/variables.css";
+Dinero.defaultCurrency = "EUR";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

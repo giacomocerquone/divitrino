@@ -15,7 +15,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import movementsSlice from "reducers/movements";
 import styled from "styled-components";
-import Dinero from "dinero.js";
 import { v4 as uuidv4 } from "uuid";
 import PeopleSelect from "components/organism/PeopleSelect";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
@@ -35,9 +34,7 @@ const AddPayment = ({ history }) => {
           id: uuidv4(),
           payer,
           payee,
-          amount: Dinero({
-            amount: parseInt(amount.replace(",", "").replace(".", ""), 10),
-          }),
+          amount: parseFloat(amount.replace(",", "."), 10) * 100,
         })
       );
       history.goBack();

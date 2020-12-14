@@ -11,7 +11,14 @@ const NewProdRow = ({ setProds }) => {
   const priceRef = useRef(null);
 
   const onProdAdd = async () => {
-    setProds((p) => [...p, { name: prodName, price: prodPrice, id: uuidv4() }]);
+    setProds((p) => [
+      ...p,
+      {
+        name: prodName,
+        amount: parseFloat(prodPrice.replace(",", "."), 10) * 100,
+        id: uuidv4(),
+      },
+    ]);
     setProdName();
     setProdPrice();
   };
