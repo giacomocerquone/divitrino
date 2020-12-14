@@ -1,5 +1,13 @@
 import React from "react";
-import { IonButton, IonContent, IonIcon, IonList, IonPage } from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonList,
+  IonPage,
+  IonToolbar,
+} from "@ionic/react";
 import Title from "components/atoms/Title";
 import PageContainer from "components/atoms/PageContainer";
 import { add } from "ionicons/icons";
@@ -13,15 +21,9 @@ const Movements = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <PageContainer>
+      <IonHeader>
+        <IonToolbar style={{ padding: "0 20px 10px 20px" }}>
           <Title>Movimenti</Title>
-
-          <IonList>
-            {movements.map((m) => (
-              <MovementRow key={m.id} movement={m} />
-            ))}
-          </IonList>
           <ButtonsWrapper>
             <IonButton mode="ios" routerLink="/nuova-spesa">
               <IonIcon slot="start" icon={add} />
@@ -32,6 +34,22 @@ const Movements = () => {
               Pagamento
             </IonButton>
           </ButtonsWrapper>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <PageContainer>
+          <IonList>
+            {[
+              ...movements,
+              ...movements,
+              ...movements,
+              ...movements,
+              ...movements,
+              ...movements,
+            ].map((m) => (
+              <MovementRow key={m.id} movement={m} />
+            ))}
+          </IonList>
         </PageContainer>
       </IonContent>
     </IonPage>
@@ -42,8 +60,6 @@ export default Movements;
 
 export const ButtonsWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  margin-top: auto;
 
   & > ion-button {
     flex: 1;

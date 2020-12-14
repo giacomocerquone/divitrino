@@ -1,5 +1,11 @@
 import React from "react";
-import { IonButton, IonContent, IonPage } from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonToolbar,
+} from "@ionic/react";
 import Title from "components/atoms/Title";
 import PageContainer from "components/atoms/PageContainer";
 import { useSelector } from "react-redux";
@@ -11,9 +17,13 @@ const Balance = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar style={{ padding: "0 20px 10px 20px" }}>
+          <Title>Bilancio</Title>
+        </IonToolbar>
+      </IonHeader>
       <IonContent fullscreen>
         <PageContainer>
-          <Title>Bilancio</Title>
           {people.map((p) => (
             <PayeeReport key={p.id} person={p} />
           ))}
