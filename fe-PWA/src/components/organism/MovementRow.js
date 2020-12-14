@@ -35,7 +35,9 @@ const MovementRow = ({ movement }) => {
           <IonLabelContent>
             <div>
               <h2>{movement.description} </h2>
-              <p>{`pagato da ${payer.name}`}</p>
+              <p>
+                pagato da <b>{payer.name}</b>
+              </p>
             </div>
 
             <Amount>{amount.toFormat("$0,0.00")}</Amount>
