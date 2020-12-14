@@ -26,6 +26,7 @@ const persistedReducer = persistReducer(persistConfig, appReducer);
 export default persistedReducer;
 
 // People
+export const getPeopleObj = (state) => fromPeople.getPeopleObj(state.people);
 export const getPeople = (state) => fromPeople.getPeople(state.people);
 export const getPersonById = (state, id) =>
   fromPeople.getPersonById(state.people, id);

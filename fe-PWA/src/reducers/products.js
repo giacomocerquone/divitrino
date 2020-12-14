@@ -34,7 +34,22 @@ const initialState = {
 const productsSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {},
+  reducers: {
+    addProducts(state, { payload }) {
+      const products = payload.reduce((acc, product) => {
+        acc[product.id] = product;
+        return acc;
+      }, {});
+      console.log("TESTING PRODUCTS REDUCER", products);
+      return {
+        ids: [...payload.map((product) => product.id), ...state.ids],
+        byId: {
+          ...state.byId,
+          ...products,
+        },
+      };
+    },
+  },
 });
 
 export default productsSlice;

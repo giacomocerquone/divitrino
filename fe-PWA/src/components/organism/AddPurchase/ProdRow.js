@@ -7,6 +7,8 @@ import {
   IonLabel,
 } from "@ionic/react";
 import React from "react";
+import { useSelector } from "react-redux";
+import { getPeopleObj } from "store/app.reducer";
 import { IonLabelContent } from "../MovementRow";
 
 export const ProdRow = ({
@@ -16,6 +18,11 @@ export const ProdRow = ({
   selectedRows,
   setSelectedRows,
 }) => {
+  const peopleObj = useSelector(getPeopleObj);
+  const debtorsString = product?.debtors?.length
+    ? product.debtors.map((d) => peopleObj[d].name).join(", ")
+    : "";
+
   return (
     <IonItemSliding>
       <IonItemOptions side="start">
@@ -43,7 +50,7 @@ export const ProdRow = ({
           <IonLabelContent>
             <div>
               <h2>{product.name}</h2>
-              <h3>Di: Giacomo, Danica</h3>
+              {debtorsString && <h3>Di: {debtorsString}</h3>}
             </div>
             <p>€ {product.price}</p>
           </IonLabelContent>

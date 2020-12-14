@@ -1,19 +1,15 @@
 import {
   IonAlert,
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonContent,
-  IonHeader,
   IonIcon,
   IonList,
   IonPage,
 } from "@ionic/react";
-import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
 import PageContainer from "components/atoms/PageContainer";
 import React, { useState } from "react";
 import { Plugins, CameraResultType } from "@capacitor/core";
-import { cameraOutline, personAddOutline } from "ionicons/icons";
+import { cameraOutline } from "ionicons/icons";
 import NewProdRow from "components/organism/AddPurchase/NewProdRow";
 import { ProdRow } from "components/organism/AddPurchase/ProdRow";
 import { ButtonsWrapper } from "./Movements";
@@ -23,6 +19,8 @@ import { getPeople } from "store/app.reducer";
 import movementsSlice from "reducers/movements";
 import { v4 as uuidv4 } from "uuid";
 import Dinero from "dinero.js";
+import productsSlice from "reducers/products";
+import Header from "components/organism/AddPurchase/Header";
 
 const { Camera } = Plugins;
 
@@ -70,41 +68,46 @@ const AddPurchase = ({ history }) => {
     setProds((p) => p.filter((item) => item.id !== id));
   };
 
-  const onAssign = (selectedPeople) => {
-    console.log("assigned", selectedPeople, selectedRows);
-    alert("assigned");
+  const onAssign = (debtors) => {
+    console.log("assigned", debtors, selectedRows);
+    const modProds = prods.map((p) => {
+      if (selectedRows[p.id]) {
+        return {
+          ...p,
+          debtors,
+        };
+      }
+      return p;
+    });
+
+    setProds(modProds);
     setSelectedRows({});
   };
 
   const onAddMovement = (payer) => {
-    const movementId = uuidv4();
-    dispatch(
-      movementsSlice.actions.addMovement({
-        id: movementId,
-        payer,
-        // amount: Dinero({
-        //   amount: parseInt(amount.replace(",", "").replace(".", ""), 10),
-        // }),
-      })
-    );
-    history.goBack();
+    try {
+      const movementId = uuidv4();
+      dispatch(
+        movementsSlice.actions.addMovement({
+          id: movementId,
+          payer,
+          // amount: Dinero({
+          //   amount: parseInt(amount.replace(",", "").replace(".", ""), 10),
+          // }),
+        })
+      );
+
+      dispatch(productsSlice.actions.addProducts([]));
+
+      history.goBack();
+    } catch (e) {
+      // TODO handle error
+    }
   };
 
   return (
     <IonPage>
-      <IonHeader mode="ios">
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton text="Indietro" default-href="/" />
-          </IonButtons>
-          <IonTitle>Aggiungi Spesa</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={onMultipleAssignIntent}>
-              <IonIcon icon={personAddOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <Header onMultipleAssignIntent={onMultipleAssignIntent} />
       <IonContent fullscreen>
         <PageContainer>
           <IonList>
@@ -146,7 +149,7 @@ const AddPurchase = ({ history }) => {
           isOpen={assignWarningOpen}
           onDidDismiss={() => setAssignWarningOpen(false)}
           header="Attenzione"
-          message="Bisogna selezionare dei prodotti per assegnarli a delle persone."
+          message="Seleziona dei prodotti per assegnarli a delle persone."
         />
         <IonAlert
           mode="ios"

@@ -54,6 +54,7 @@ const peopleSlice = createSlice({
 
 export default peopleSlice;
 
+export const getPeopleObj = (state) => state.byId;
 export const getPersonById = (state, id) => state.byId[id];
 export const getPeople = createSelector(
   [(state) => state, (state) => state.ids],
