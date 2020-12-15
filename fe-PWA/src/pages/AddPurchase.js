@@ -144,10 +144,20 @@ const AddPurchase = ({ history }) => {
             <NewProdRow setProds={setProds} />
           </IonList>
           <ButtonsWrapper>
-            <IonButton mode="ios" onClick={onTakePic} color="primary">
+            {/* <IonButton mode="ios" onClick={onTakePic} color="primary">
               <IonIcon slot="start" icon={cameraOutline}></IonIcon>
               scontrino
-            </IonButton>
+            </IonButton> */}
+            <label htmlFor="_pwa-elements-camera-input">
+              {this.noDevicesButtonText}
+            </label>
+            <input
+              type="file"
+              id="_pwa-elements-camera-input"
+              onChange={this.handleFileInputChange}
+              accept="image/*"
+            />
+
             <IonButton
               mode="ios"
               disabled={!prods.length}
