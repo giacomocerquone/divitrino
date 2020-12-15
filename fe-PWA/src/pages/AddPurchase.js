@@ -46,15 +46,22 @@ const AddPurchase = ({ history }) => {
   const dispatch = useDispatch();
 
   const onTakePic = async () => {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Base64,
-    });
-    setOcrLoading(true);
-    const ret = await recognize(`data:image/jpeg;base64,${image.base64String}`);
-    setOcrLoading(false);
-    console.log(ret.data.text);
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.Base64,
+      });
+      setOcrLoading(true);
+      const ret = await recognize(
+        `data:image/jpeg;base64,${image.base64String}`
+      );
+      setOcrLoading(false);
+      console.log(ret.data.text);
+    } catch (e) {
+      alert(e);
+      throw e;
+    }
   };
 
   const onMultipleAssignIntent = () => {
