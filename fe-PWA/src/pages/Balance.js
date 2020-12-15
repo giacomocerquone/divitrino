@@ -11,6 +11,7 @@ import PageContainer from "components/atoms/PageContainer";
 import { useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
 import PayeeReport from "components/organism/PayeeReport";
+import AppVersionString from "components/atoms/AppVersionString";
 
 const Balance = () => {
   const people = useSelector(getPeople);
@@ -43,6 +44,7 @@ const Balance = () => {
           >
             Gestisci gruppo
           </IonButton>
+          <AppVersionString />
         </PageContainer>
       </IonContent>
     </IonPage>
