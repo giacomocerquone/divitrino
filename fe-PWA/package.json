@@ -27,10 +27,10 @@
   },
   "scripts": {
     "start:tmp": "npm-run-all --parallel start:app start:server",
+    "build:tmp": "npm-run-all --parallel build:**",
     "start": "react-scripts start",
     "start:server": "netlify-lambda serve functions",
-    "build": "npm-run-all --parallel build:**",
-    "build:app": "ionic build --prod",
+    "build": "CI=false ionic build --prod",
     "build:functions": "netlify-lambda build functions",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
