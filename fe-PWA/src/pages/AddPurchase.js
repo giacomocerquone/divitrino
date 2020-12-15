@@ -4,6 +4,7 @@ import {
   IonContent,
   IonIcon,
   IonList,
+  IonLoading,
   IonPage,
 } from "@ionic/react";
 import PageContainer from "components/atoms/PageContainer";
@@ -20,8 +21,18 @@ import movementsSlice from "reducers/movements";
 import { v4 as uuidv4 } from "uuid";
 import productsSlice from "reducers/products";
 import Header from "components/organism/AddPurchase/Header";
+import Tesseract from "tesseract.js";
+const { createWorker } = Tesseract;
 
 const { Camera } = Plugins;
+
+const recognize = async (image) => {
+  const worker = createWorker();
+  await worker.load();
+  await worker.loadLanguage("eng");
+  await worker.initialize("eng");
+  return worker.recognize(image);
+};
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
@@ -29,6 +40,8 @@ const AddPurchase = ({ history }) => {
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [assignWarningOpen, setAssignWarningOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [ocrLoading, setOcrLoading] = useState(false);
+
   const people = useSelector(getPeople);
   const dispatch = useDispatch();
 
@@ -36,15 +49,12 @@ const AddPurchase = ({ history }) => {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
     });
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    var imageUrl = image.webPath;
-    // Can be set to the src of an image now
-    // imageElement.src = imageUrl;
+    setOcrLoading(true);
+    const ret = await recognize(`data:image/jpeg;base64,${image.base64String}`);
+    setOcrLoading(false);
+    console.log(ret.data.text);
   };
 
   const onMultipleAssignIntent = () => {
@@ -186,6 +196,12 @@ const AddPurchase = ({ history }) => {
               handler: onAddMovement,
             },
           ]}
+        />
+        <IonLoading
+          mode="ios"
+          isOpen={ocrLoading}
+          onDidDismiss={() => setOcrLoading(false)}
+          message={"Attendi..."}
         />
       </IonContent>
     </IonPage>

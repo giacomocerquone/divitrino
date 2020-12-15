@@ -1,9 +1,16 @@
 const { createWorker } = require("tesseract.js");
+const path = require("path");
 
 async function recognize(img) {
   const worker = createWorker({
     gzip: false,
+    workerPath: path.join(
+      "./node_modules/tesseract.js/src/worker-script/node/index.js"
+    ),
+    corePath: "./node_modules/tesseract.js-core/tesseract-core.asm",
+    langPath: path.join("./", "functions", "lang"),
     logger: (m) => null,
+    cacheMehod: "refresh", // not to read cache and write back
   });
 
   await worker.load();
@@ -36,11 +43,10 @@ exports.handler = async (event, context, callback) => {
     console.log("Function `scan-receipt` invoked", data);
 
     const image = data.base64;
-    const imageBuffer = await image.toBuffer();
 
     const {
       data: { text, hocr, tsv, box, unlv },
-    } = await recognize(imageBuffer);
+    } = await recognize(image);
 
     const manipulatedText = manipulate(text);
     console.log(text, manipulatedText);
