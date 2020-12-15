@@ -8,7 +8,7 @@ import {
   IonPage,
 } from "@ionic/react";
 import PageContainer from "components/atoms/PageContainer";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Plugins, CameraResultType } from "@capacitor/core";
 import { cameraOutline } from "ionicons/icons";
 import NewProdRow from "components/organism/AddPurchase/NewProdRow";
@@ -41,6 +41,7 @@ const AddPurchase = ({ history }) => {
   const [assignWarningOpen, setAssignWarningOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
+  const fileInput = useRef(null);
 
   const people = useSelector(getPeople);
   const dispatch = useDispatch();
@@ -144,17 +145,21 @@ const AddPurchase = ({ history }) => {
             <NewProdRow setProds={setProds} />
           </IonList>
           <ButtonsWrapper>
-            {/* <IonButton mode="ios" onClick={onTakePic} color="primary">
+            <IonButton
+              htmlFor="camera-input"
+              mode="ios"
+              onClick={() => fileInput.current.click()}
+              color="primary"
+            >
               <IonIcon slot="start" icon={cameraOutline}></IonIcon>
               scontrino
-            </IonButton> */}
-            <label htmlFor="_pwa-elements-camera-input">
-              {this.noDevicesButtonText}
-            </label>
+            </IonButton>
             <input
+              ref={fileInput}
               type="file"
-              id="_pwa-elements-camera-input"
-              onChange={this.handleFileInputChange}
+              id="camera-input"
+              hidden
+              onChange={(e) => alert(e)}
               accept="image/*"
             />
 
