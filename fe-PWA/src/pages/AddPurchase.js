@@ -9,7 +9,6 @@ import {
 } from "@ionic/react";
 import PageContainer from "components/atoms/PageContainer";
 import React, { useRef, useState } from "react";
-import { Plugins, CameraResultType } from "@capacitor/core";
 import { cameraOutline } from "ionicons/icons";
 import NewProdRow from "components/organism/AddPurchase/NewProdRow";
 import { ProdRow } from "components/organism/AddPurchase/ProdRow";
@@ -23,8 +22,6 @@ import productsSlice from "reducers/products";
 import Header from "components/organism/AddPurchase/Header";
 import Tesseract from "tesseract.js";
 const { createWorker } = Tesseract;
-
-const { Camera } = Plugins;
 
 const recognize = async (image) => {
   const worker = createWorker();
@@ -46,17 +43,10 @@ const AddPurchase = ({ history }) => {
   const people = useSelector(getPeople);
   const dispatch = useDispatch();
 
-  const onTakePic = async () => {
+  const onTakePic = async (e) => {
     try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.Base64,
-      });
       setOcrLoading(true);
-      const ret = await recognize(
-        `data:image/jpeg;base64,${image.base64String}`
-      );
+      const ret = await recognize(e.target.files[0]);
       setOcrLoading(false);
       console.log(ret.data.text);
     } catch (e) {
@@ -159,7 +149,7 @@ const AddPurchase = ({ history }) => {
               type="file"
               id="camera-input"
               hidden
-              onChange={(e) => alert(e)}
+              onChange={onTakePic}
               accept="image/*"
             />
 
