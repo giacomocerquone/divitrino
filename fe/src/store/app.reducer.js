@@ -70,21 +70,31 @@ export const getTotToReturnTo = (state, from, to) => {
   return movs.add(purchs); // TODO check syntax
 };
 
-export const newFunc = (state) => {
+export const getDebits = (state, normalize = false) => {
   const obj = {};
   const people = getPeople(state);
 
   people.forEach((from) => {
+    obj[from.id] = {};
     people
       .filter((p) => from.id !== p.id)
       .forEach((to) => {
         const toReturn = getTotToReturnTo(state, from, to);
+        const toReturnReverse = obj[to.id]?.[from.id];
 
-        obj[`"from"${from.id}"to"${to.id}`] = toReturn;
+        if (normalize && !!toReturnReverse) {
+          if (toReturn.lessThanOrEqual(toReturnReverse)) {
+            obj[to.id][from.id] = toReturnReverse.subtract(toReturn);
+            obj[from.id][to.id] = Dinero(); // set to 0
+          } else {
+            obj[to.id][from.id] = Dinero(); // set to 0
+            obj[from.id][to.id] = toReturn.subtract(toReturnReverse);
+          }
+        } else {
+          obj[from.id][to.id] = toReturn;
+        }
       });
   });
-
-  console.log(obj);
 
   return obj;
 };
@@ -93,9 +103,9 @@ export const newFunc = (state) => {
 
 // NEW
 // {
-//   "A": { B: 120, C: 140 },
-//   "B": {A: 100, C: 150}
-//   "C": { A: 80, B: 60 }
+//   A: { B: 120, C: 140 },
+//   B: { A: 100, C: 150 },
+//   C: { A: 80, B: 60 }
 // }
 
 // OLD
