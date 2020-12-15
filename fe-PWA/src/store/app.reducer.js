@@ -52,7 +52,7 @@ export const getTotToReturnTo = (state, from, to) => {
   const products = getProducts(state);
   const movements = getMovements(state);
 
-  const purchs = products.reduce((acc, p) => {
+  const prods = products.reduce((acc, p) => {
     const movement = getMovementById(state, p.movementId);
     if (movement.payer === to.id && p.debtors.includes(from.id)) {
       const pAmount = Dinero({ amount: p.amount });
@@ -69,24 +69,34 @@ export const getTotToReturnTo = (state, from, to) => {
     return acc;
   }, Dinero());
 
-  return movs.add(purchs); // TODO check syntax
+  return movs.add(prods); // TODO check syntax
 };
 
-export const newFunc = (state) => {
+export const getDebits = (state, normalize = false) => {
   const obj = {};
   const people = getPeople(state);
 
   people.forEach((from) => {
+    obj[from.id] = {};
     people
       .filter((p) => from.id !== p.id)
       .forEach((to) => {
         const toReturn = getTotToReturnTo(state, from, to);
+        const toReturnReverse = obj[to.id]?.[from.id];
 
-        obj[`"from"${from.id}"to"${to.id}`] = toReturn;
+        if (normalize && !!toReturnReverse) {
+          if (toReturn.lessThanOrEqual(toReturnReverse)) {
+            obj[to.id][from.id] = toReturnReverse.subtract(toReturn);
+            obj[from.id][to.id] = Dinero(); // set to 0
+          } else {
+            obj[to.id][from.id] = Dinero(); // set to 0
+            obj[from.id][to.id] = toReturn.subtract(toReturnReverse);
+          }
+        } else {
+          obj[from.id][to.id] = toReturn;
+        }
       });
   });
-
-  console.log(obj);
 
   return obj;
 };
