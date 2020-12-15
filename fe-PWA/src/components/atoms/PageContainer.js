@@ -4,5 +4,4 @@ export default styled.div`
   padding: 0 20px 20px 20px;
   display: flex;
   flex-direction: column;
-  height: 100%;
 `;

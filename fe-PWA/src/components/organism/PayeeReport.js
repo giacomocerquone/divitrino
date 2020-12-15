@@ -6,7 +6,33 @@ import {
   IonCardTitle,
 } from "@ionic/react";
 import { useSelector } from "react-redux";
-import { getPeople } from "store/app.reducer";
+import { getPeople, getDebits } from "store/app.reducer";
+
+const SingleReport = ({p, isPayer = false}) => {
+  const people = useSelector(getPeople);
+  const debits = useSelector((state) => getDebits(state));
+
+  const result = people.map((person) => {
+      if (person.id === p.id) return;
+      
+      const dinero = isPayer
+        ? debits[p.id][person.id]
+        : debits[person.id][p.id];
+      if (dinero.getAmount() <= 0) return; 
+
+      return (
+        <div key={person.id}>
+          <span>
+            - {isPayer ? 'a' : 'da'} <b>{person.name}</b>: {dinero.toFormat('$0,0.00')}
+          </span>
+        </div>
+      );
+    }).filter((el) => !!el);
+
+  return result.length ? result : (
+    <small style={{opacity: 0.6}}>- Vuoto -</small> 
+  );
+};
 
 const PayeeReport = ({ person }) => {
   const people = useSelector(getPeople);
@@ -15,14 +41,11 @@ const PayeeReport = ({ person }) => {
     <IonCard mode="ios">
       <IonCardContent>
         <IonCardTitle style={{ fontSize: 20 }}>{person.name}</IonCardTitle>
-        <IonCardSubtitle>deve dare</IonCardSubtitle>
-        {people.map(
-          (p, i) => p.id !== person.id && <p key={p.id}>a {p.name}</p>
-        )}
-        <IonCardSubtitle>deve ricevere</IonCardSubtitle>
-        {people.map(
-          (p, i) => p.id !== person.id && <p key={p.id}>da {p.name}</p>
-        )}
+        <IonCardSubtitle style={{ marginTop: 10 }}>deve dare</IonCardSubtitle>
+        <SingleReport p={person} isPayer />
+
+        <IonCardSubtitle style={{ marginTop: 10 }}>deve ricevere</IonCardSubtitle>
+        <SingleReport p={person} />
       </IonCardContent>
     </IonCard>
   );
