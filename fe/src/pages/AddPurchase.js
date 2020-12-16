@@ -20,16 +20,8 @@ import movementsSlice from "reducers/movements";
 import { v4 as uuidv4 } from "uuid";
 import productsSlice from "reducers/products";
 import Header from "components/organism/AddPurchase/Header";
-import Tesseract from "tesseract.js";
-const { createWorker } = Tesseract;
-
-const recognize = async (image) => {
-  const worker = createWorker();
-  await worker.load();
-  await worker.loadLanguage("eng");
-  await worker.initialize("eng");
-  return worker.recognize(image);
-};
+import ocr from "utils/ocr";
+import processOcr from "utils/processOcr";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
@@ -46,12 +38,12 @@ const AddPurchase = ({ history }) => {
   const onTakePic = async (e) => {
     try {
       setOcrLoading(true);
-      const ret = await recognize(e.target.files[0]);
-      setOcrLoading(false);
-      console.log(ret.data.text);
+      const res = await ocr(e.target.files[0]);
+      setProds((p) => [...p, ...processOcr(res)]);
     } catch (e) {
-      alert(e);
-      throw e;
+      console.log(e);
+    } finally {
+      setOcrLoading(false);
     }
   };
 

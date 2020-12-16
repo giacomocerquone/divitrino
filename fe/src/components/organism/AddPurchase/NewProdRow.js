@@ -12,11 +12,6 @@ const NewProdRow = ({ setProds }) => {
   const priceRef = useRef(null);
 
   const onProdAdd = async () => {
-    console.log({
-      name: prodName,
-      amount: convertToCents(prodPrice),
-      id: uuidv4(),
-    });
     setProds((p) => [
       ...p,
       {
