@@ -22,6 +22,7 @@ import productsSlice from "reducers/products";
 import Header from "components/organism/AddPurchase/Header";
 import ocr from "utils/ocr";
 import processOcr from "utils/processOcr";
+import convertToCents from "utils/convertToCents";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
@@ -58,7 +59,10 @@ const AddPurchase = ({ history }) => {
     }
   };
 
-  const onSingleAssignIntent = (id) => {
+  const onSingleAssignIntent = (id, slidingRef) => {
+    if (slidingRef) {
+      slidingRef.close();
+    }
     setSelectedRows({ [id]: true });
     setAssignModalOpen(true);
   };
@@ -89,17 +93,19 @@ const AddPurchase = ({ history }) => {
         movementsSlice.actions.addMovement({
           id: movementId,
           payer,
-          amount: prods.reduce((acc, p) => acc + p.amount, 0), // They're already stored as cents
+          amount: prods.reduce((acc, p) => acc + convertToCents(p.amount), 0),
         })
       );
 
       const prodsToDispatch = prods.map((p) => {
         return {
           ...p,
+          amount: convertToCents(p.amount),
           movementId,
         };
       });
       dispatch(productsSlice.actions.addProducts(prodsToDispatch));
+      setProds([]);
 
       history.goBack();
     } catch (e) {
@@ -119,6 +125,8 @@ const AddPurchase = ({ history }) => {
                 setSelectedRows={setSelectedRows}
                 key={p.id}
                 product={p}
+                prods={prods}
+                setProds={setProds}
                 onDelete={onProdDelete}
                 onSingleAssignIntent={onSingleAssignIntent}
               />

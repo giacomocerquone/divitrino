@@ -3,7 +3,6 @@ import { add } from "ionicons/icons";
 import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
-import convertToCents from "utils/convertToCents";
 
 const NewProdRow = ({ setProds }) => {
   const [prodName, setProdName] = useState("");
@@ -16,7 +15,7 @@ const NewProdRow = ({ setProds }) => {
       ...p,
       {
         name: prodName,
-        amount: convertToCents(prodPrice),
+        amount: prodPrice,
         id: uuidv4(),
       },
     ]);
@@ -27,7 +26,7 @@ const NewProdRow = ({ setProds }) => {
   return (
     <CustomIonItem>
       <IonButton
-        disabled={!prodName || !prodPrice}
+        disabled={!prodName}
         style={{ marginInlineEnd: 20 }}
         mode="ios"
         slot="start"
@@ -57,7 +56,7 @@ const NewProdRow = ({ setProds }) => {
         value={prodPrice}
         type="number"
         onIonChange={(e) => setProdPrice(e.detail.value)}
-        placeholder="€"
+        placeholder="Prezzo"
         clearInput
       ></IonInput>
     </CustomIonItem>

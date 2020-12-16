@@ -11,15 +11,11 @@ const processOcr = (res) => {
     const price = l.words.slice(-1).map((word) => word.text)[0];
     const amount = convertToCents(price);
 
-    if (isNaN(amount)) {
-      return false;
-    } else {
-      return {
-        name: words.join(" "),
-        amount,
-        id: uuidv4(),
-      };
-    }
+    return {
+      name: words.join(" "),
+      amount: isNaN(amount) ? 0 : amount / 100,
+      id: uuidv4(),
+    };
   });
 
   return resultedProds.filter((prod) => prod);

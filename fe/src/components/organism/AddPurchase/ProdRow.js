@@ -1,21 +1,22 @@
 import {
   IonCheckbox,
+  IonInput,
   IonItem,
   IonItemOption,
   IonItemOptions,
   IonItemSliding,
   IonLabel,
 } from "@ionic/react";
-import React, { useMemo } from "react";
+import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { getPeopleObj } from "store/app.reducer";
-import { IonLabelContent } from "../MovementRow";
-import Dinero from "dinero.js";
 
 export const ProdRow = ({
   onDelete,
   onSingleAssignIntent,
   product,
+  prods,
+  setProds,
   selectedRows,
   setSelectedRows,
 }) => {
@@ -23,17 +24,29 @@ export const ProdRow = ({
   const debtorsString = product?.debtors?.length
     ? product.debtors.map((d) => peopleObj[d].name).join(", ")
     : "";
+  const itemSliding = useRef(null);
 
-  const amount = useMemo(() => Dinero({ amount: product.amount }), [
-    product.amount,
-  ]);
+  const updateProduct = (e) => {
+    // TODO normalize prods array in obj
+    const newProds = prods.map((p) => {
+      if (p.id === product.id) {
+        return {
+          ...p,
+          [e.target.name]: e.detail.value,
+        };
+      }
+      return p;
+    });
+
+    setProds(newProds);
+  };
 
   return (
-    <IonItemSliding>
+    <IonItemSliding ref={itemSliding}>
       <IonItemOptions side="start">
         <IonItemOption
           color="primary"
-          onClick={() => onSingleAssignIntent(product.id)}
+          onClick={() => onSingleAssignIntent(product.id, itemSliding?.current)}
         >
           assegna
         </IonItemOption>
@@ -51,15 +64,29 @@ export const ProdRow = ({
           }
         />
 
-        <IonLabel>
-          <IonLabelContent>
-            <div>
-              <h2>{product.name}</h2>
-              {debtorsString && <h3>Di: {debtorsString}</h3>}
-            </div>
-            <p>{amount.toFormat("$0,0.00")}</p>
-          </IonLabelContent>
+        <IonLabel position="stacked">
+          {debtorsString && <p>Di: {debtorsString}</p>}
         </IonLabel>
+
+        <div style={{ display: "flex", marginTop: debtorsString ? 0 : 10 }}>
+          <IonInput
+            style={{ marginRight: 10 }}
+            autocorrect
+            autocapitalize
+            value={product.name}
+            placeholder="Nome prodotto"
+            name="name"
+            onIonChange={updateProduct}
+          ></IonInput>
+          <IonInput
+            style={{ flex: 0.3 }}
+            value={product.amount}
+            type="number"
+            name="amount"
+            onIonChange={updateProduct}
+            placeholder="Prezzo, es. 6.50"
+          ></IonInput>
+        </div>
       </IonItem>
 
       <IonItemOptions side="end">
