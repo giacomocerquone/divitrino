@@ -39,14 +39,7 @@ const Movements = () => {
       <IonContent>
         <PageContainer>
           <IonList>
-            {[
-              ...movements,
-              ...movements,
-              ...movements,
-              ...movements,
-              ...movements,
-              ...movements,
-            ].map((m) => (
+            {movements.map((m) => (
               <MovementRow key={m.id} movement={m} />
             ))}
           </IonList>
