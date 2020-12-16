@@ -39,12 +39,6 @@ export const getMovements = (state) =>
   fromMovements.getMovements(state.movements);
 export const getMovementById = (state, id) =>
   fromMovements.getMovementById(state.movements, id);
-// export const getTotReturnedTo = (state, personId) =>
-//   fromMovements.getTotReturnedTo(
-//     getPeople(state),
-//     getMovements(state),
-//     personId,
-//   );
 
 // Extra
 

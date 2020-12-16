@@ -10,7 +10,7 @@ import { getPeople, getDebits } from "store/app.reducer";
 
 const SingleReport = ({ p, isPayer = false }) => {
   const people = useSelector(getPeople);
-  const debits = useSelector((state) => getDebits(state));
+  const debits = useSelector(getDebits);
 
   const result = people
     .map((person) => {
