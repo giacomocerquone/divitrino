@@ -9,7 +9,5 @@ export default AppVersionString;
 
 const Text = styled.p`
   font-size: 10px;
-  position: fixed;
-  right: 5px;
-  bottom: 5px;
+  text-align: right;
 `;
