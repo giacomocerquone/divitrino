@@ -11,6 +11,7 @@ type Purchase = {
   id: string;
   payer: string;
   amount: number;
+  description?: string;
 };
 
 type MovementsState = {

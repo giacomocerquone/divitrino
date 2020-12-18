@@ -1,5 +1,4 @@
 import {
-  IonAlert,
   IonButton,
   IonContent,
   IonIcon,
@@ -27,9 +26,9 @@ import promptsSlice from "reducers/prompts";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
+  const [descr, setDescr] = useState(null);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
   const fileInput = useRef(null);
 
@@ -99,7 +98,7 @@ const AddPurchase = ({ history }) => {
     setSelectedRows({});
   };
 
-  const onAddMovement = (payer) => {
+  const addMovement = (payer, description) => {
     try {
       const movementId = uuidv4();
       dispatch(
@@ -107,6 +106,7 @@ const AddPurchase = ({ history }) => {
           id: movementId,
           payer,
           amount: prods.reduce((acc, p) => acc + convertToCents(p.amount), 0),
+          description,
         })
       );
 
@@ -124,6 +124,72 @@ const AddPurchase = ({ history }) => {
     } catch (e) {
       // TODO handle error
     }
+  };
+
+  const onAddDescription = (data) => {
+    dispatch(
+      promptsSlice.actions.openAlert({
+        header: "Info",
+        message: "Chi ha pagato?",
+        inputs: [
+          ...people.map((p) => ({
+            name: p.name,
+            label: p.name,
+            type: "radio",
+            value: p.id,
+          })),
+        ],
+        buttons: [
+          {
+            text: "Annulla",
+            role: "cancel",
+            handler: () => null,
+          },
+          {
+            text: "Aggiungi",
+            handler: (payer) => addMovement(payer, data.description),
+          },
+        ],
+      })
+    );
+  };
+
+  const onAddButtonPressed = () => {
+    if (!prods.every((p) => p?.debtors?.length > 0)) {
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message:
+            "Tutti i prodotti devono essere assegnati ad almeno una persona",
+        })
+      );
+      return;
+    }
+
+    dispatch(
+      promptsSlice.actions.openAlert({
+        header: "Descrizione",
+        message: "Aggiungi una descrizione",
+        inputs: [
+          {
+            name: "description",
+            label: "Nome",
+            type: "text",
+            value: "",
+          },
+        ],
+        buttons: [
+          {
+            text: "Annulla",
+            role: "cancel",
+          },
+          {
+            text: "Fatto",
+            handler: (data) => setTimeout(() => onAddDescription(data), 300),
+          },
+        ],
+      })
+    );
   };
 
   return (
@@ -172,19 +238,7 @@ const AddPurchase = ({ history }) => {
             <IonButton
               mode="ios"
               disabled={!prods.length}
-              onClick={() => {
-                if (!prods.every((p) => p?.debtors?.length > 0)) {
-                  dispatch(
-                    promptsSlice.actions.openAlert({
-                      header: "Attenzione",
-                      message:
-                        "Tutti i prodotti devono essere assegnati ad almeno una persona",
-                    })
-                  );
-                  return;
-                }
-                setConfirmModalOpen(true);
-              }}
+              onClick={onAddButtonPressed}
               color="success"
             >
               Aggiungi spesa
@@ -195,33 +249,6 @@ const AddPurchase = ({ history }) => {
           isOpen={assignModalOpen}
           onDone={onAssign}
           onClose={() => setAssignModalOpen(false)}
-        />
-
-        <IonAlert
-          mode="ios"
-          isOpen={confirmModalOpen}
-          onDidDismiss={() => setConfirmModalOpen(false)}
-          header="Info"
-          message="Chi ha pagato?"
-          inputs={[
-            ...people.map((p) => ({
-              name: p.name,
-              label: p.name,
-              type: "radio",
-              value: p.id,
-            })),
-          ]}
-          buttons={[
-            {
-              text: "Annulla",
-              role: "cancel",
-              handler: () => null,
-            },
-            {
-              text: "Aggiungi",
-              handler: onAddMovement,
-            },
-          ]}
         />
         <IonLoading
           mode="ios"
