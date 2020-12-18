@@ -6,11 +6,11 @@ import {
   IonCardTitle,
 } from "@ionic/react";
 import { useSelector } from "react-redux";
-import { getPeople, getDebits } from "store/app.reducer";
+import { getPeople, getDebts } from "store/app.reducer";
 
 const SingleReport = ({ p, isPayer = false }) => {
   const people = useSelector(getPeople);
-  const debits = useSelector(getDebits);
+  const debits = useSelector(getDebts);
 
   const result = people
     .map((person) => {

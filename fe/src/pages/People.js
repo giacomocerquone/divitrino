@@ -18,10 +18,55 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
 import peopleSlice from "reducers/people";
+import promptsSlice from "reducers/prompts";
+import { v4 as uuidv4 } from "uuid";
 
 const People = () => {
   const people = useSelector(getPeople);
   const dispatch = useDispatch();
+
+  const onAdd = (data) => {
+    const alreadyExist = people.some((p) => p.name === data.name);
+    if (alreadyExist || !data.name) {
+      setTimeout(() => {
+        dispatch(
+          promptsSlice.actions.openAlert({
+            header: "Nome esistente",
+            message: "Già esiste una persona con questo nome",
+          })
+        );
+      }, 300);
+      return;
+    }
+    dispatch(peopleSlice.actions.addPerson({ name: data.name, id: uuidv4() }));
+  };
+
+  const openAddPersonModal = () => {
+    dispatch(
+      promptsSlice.actions.openAlert({
+        header: "Aggiungi",
+        message: "Aggiungi una persona",
+        inputs: [
+          {
+            name: "name",
+            label: "Nome",
+            type: "text",
+            value: "",
+          },
+        ],
+        buttons: [
+          {
+            text: "Annulla",
+            role: "cancel",
+          },
+          {
+            text: "Fatto",
+            handler: onAdd,
+          },
+        ],
+      })
+    );
+  };
 
   return (
     <IonPage>
@@ -57,7 +102,7 @@ const People = () => {
 
           <IonButton
             mode="ios"
-            routerLink="/nuova-persona"
+            onClick={openAddPersonModal}
             color="primary"
             expand="block"
           >

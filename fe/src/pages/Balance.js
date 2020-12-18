@@ -28,23 +28,25 @@ const Balance = () => {
           {people.map((p) => (
             <PayeeReport key={p.id} person={p} />
           ))}
-          <IonButton
-            mode="ios"
-            onClick={() => null}
-            color="success"
-            expand="block"
-          >
-            Preggia i conti
-          </IonButton>
-          <IonButton
-            mode="ios"
-            routerLink="/persone"
-            color="primary"
-            expand="block"
-          >
-            Gestisci gruppo
-          </IonButton>
-          <AppVersionString />
+          <div style={{ marginTop: 10 }}>
+            <IonButton
+              mode="ios"
+              onClick={() => null}
+              color="success"
+              expand="block"
+            >
+              Preggia i conti
+            </IonButton>
+            <IonButton
+              mode="ios"
+              routerLink="/persone"
+              color="primary"
+              expand="block"
+            >
+              Gestisci gruppo
+            </IonButton>
+            <AppVersionString />
+          </div>
         </PageContainer>
       </IonContent>
     </IonPage>

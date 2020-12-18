@@ -27,19 +27,15 @@ const AddPayment = ({ history }) => {
   const dispatch = useDispatch();
 
   const onAdd = () => {
-    if (!payer || !payee || !amount) {
-      // TODO warning
-    } else {
-      dispatch(
-        movementsSlice.actions.addMovement({
-          id: uuidv4(),
-          payer,
-          payee,
-          amount: convertToCents(amount),
-        })
-      );
-      history.goBack();
-    }
+    dispatch(
+      movementsSlice.actions.addMovement({
+        id: uuidv4(),
+        payer,
+        payee,
+        amount: convertToCents(amount),
+      })
+    );
+    history.goBack();
   };
 
   return (
@@ -84,7 +80,13 @@ const AddPayment = ({ history }) => {
             </IonItem>
           </IonList>
 
-          <IonButton mode="ios" onClick={onAdd} color="primary" expand="block">
+          <IonButton
+            mode="ios"
+            disabled={!payer || !payee || !amount}
+            onClick={onAdd}
+            color="primary"
+            expand="block"
+          >
             Aggiungi
           </IonButton>
         </PageContainer>

@@ -14,7 +14,6 @@ import Balance from "pages/Balance";
 import Movements from "pages/Movements";
 import AddPayment from "pages/AddPayment";
 import People from "pages/People";
-import AddPerson from "pages/AddPerson";
 
 const AppRoutes = () => {
   return (
@@ -25,7 +24,6 @@ const AppRoutes = () => {
         <Route path="/nuovo-pagamento" component={AddPayment} />
         <Route path="/nuova-spesa" component={AddPurchase} />
         <Route path="/persone" component={People} />
-        <Route path="/nuova-persona" component={AddPerson} />
         <Route
           path="/"
           render={() => <Redirect to="/movimenti" />}

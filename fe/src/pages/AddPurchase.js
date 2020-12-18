@@ -23,12 +23,12 @@ import Header from "components/organism/AddPurchase/Header";
 import ocr from "utils/ocr";
 import processOcr from "utils/processOcr";
 import convertToCents from "utils/convertToCents";
+import promptsSlice from "reducers/prompts";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
-  const [assignWarningOpen, setAssignWarningOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
   const fileInput = useRef(null);
@@ -55,8 +55,21 @@ const AddPurchase = ({ history }) => {
     ) {
       setAssignModalOpen(true);
     } else {
-      setAssignWarningOpen(true);
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message: "Seleziona dei prodotti per assegnarli a delle persone.",
+        })
+      );
     }
+  };
+
+  const onSelectAll = () => {
+    const newSelRows = prods.reduce((acc, p) => {
+      acc[p.id] = true;
+      return acc;
+    }, {});
+    setSelectedRows(newSelRows);
   };
 
   const onSingleAssignIntent = (id, slidingRef) => {
@@ -115,7 +128,10 @@ const AddPurchase = ({ history }) => {
 
   return (
     <IonPage>
-      <Header onMultipleAssignIntent={onMultipleAssignIntent} />
+      <Header
+        onMultipleAssignIntent={onMultipleAssignIntent}
+        onSelectAll={onSelectAll}
+      />
       <IonContent fullscreen>
         <PageContainer>
           <IonList>
@@ -158,8 +174,12 @@ const AddPurchase = ({ history }) => {
               disabled={!prods.length}
               onClick={() => {
                 if (!prods.every((p) => p?.debtors?.length > 0)) {
-                  alert(
-                    "Tutti i prodotti devono essere assegnati ad almeno una persona"
+                  dispatch(
+                    promptsSlice.actions.openAlert({
+                      header: "Attenzione",
+                      message:
+                        "Tutti i prodotti devono essere assegnati ad almeno una persona",
+                    })
                   );
                   return;
                 }
@@ -176,13 +196,7 @@ const AddPurchase = ({ history }) => {
           onDone={onAssign}
           onClose={() => setAssignModalOpen(false)}
         />
-        <IonAlert
-          mode="ios"
-          isOpen={assignWarningOpen}
-          onDidDismiss={() => setAssignWarningOpen(false)}
-          header="Attenzione"
-          message="Seleziona dei prodotti per assegnarli a delle persone."
-        />
+
         <IonAlert
           mode="ios"
           isOpen={confirmModalOpen}

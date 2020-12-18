@@ -1,12 +1,12 @@
 import {
   IonCheckbox,
-  IonInput,
   IonItem,
   IonItemOption,
   IonItemOptions,
   IonItemSliding,
   IonLabel,
 } from "@ionic/react";
+import useProdInputs from "hooks/useProdInputs";
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { getPeopleObj } from "store/app.reducer";
@@ -41,6 +41,24 @@ export const ProdRow = ({
     setProds(newProds);
   };
 
+  const { NameInput, PriceInput } = useProdInputs({
+    nameProps: {
+      placeholder: "Nome prodotto",
+      name: "name",
+      onIonChange: updateProduct,
+      style: { marginRight: 10 },
+      value: product.name,
+    },
+    priceProps: {
+      type: "number",
+      name: "amount",
+      onIonChange: updateProduct,
+      placeholder: "Prezzo",
+      style: { flex: 0.3 },
+      value: product.amount,
+    },
+  });
+
   return (
     <IonItemSliding ref={itemSliding}>
       <IonItemOptions side="start">
@@ -69,23 +87,8 @@ export const ProdRow = ({
         </IonLabel>
 
         <div style={{ display: "flex", marginTop: debtorsString ? 0 : 10 }}>
-          <IonInput
-            style={{ marginRight: 10 }}
-            autocorrect
-            autocapitalize
-            value={product.name}
-            placeholder="Nome prodotto"
-            name="name"
-            onIonChange={updateProduct}
-          ></IonInput>
-          <IonInput
-            style={{ flex: 0.3 }}
-            value={product.amount}
-            type="number"
-            name="amount"
-            onIonChange={updateProduct}
-            placeholder="Prezzo, es. 6.50"
-          ></IonInput>
+          {NameInput}
+          {PriceInput}
         </div>
       </IonItem>
 
