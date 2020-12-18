@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type PromptsState = {
+  alert: AlertState;
+};
+
+type AlertState = {
+  header: string;
+};
+
 const initialState = {
   alert: {},
 };
@@ -25,4 +33,4 @@ const promptsSlice = createSlice({
 
 export default promptsSlice;
 
-export const getAlertState = (state) => state.alert;
+export const getAlertState = (state: PromptsState): AlertState => state.alert;

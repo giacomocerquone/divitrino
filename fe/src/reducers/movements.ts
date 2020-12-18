@@ -13,14 +13,14 @@ type Purchase = {
   amount: number;
 };
 
-type MovementState = {
+type MovementsState = {
   ids: string[];
   byId: {
     [id: string]: Movement | Purchase;
   };
 };
 
-const initialState: MovementState = {
+const initialState: MovementsState = {
   ids: [],
   byId: {},
 };
@@ -45,10 +45,10 @@ const movementsSlice = createSlice({
 export default movementsSlice;
 
 export const getMovementById = (
-  state: MovementState,
+  state: MovementsState,
   id: string
 ): Movement | Purchase | undefined => state.byId[id];
 export const getMovements = createSelector(
-  [(state) => state, (state: MovementState) => state.ids],
+  [(state) => state, (state: MovementsState) => state.ids],
   (state, ids) => ids.map((id) => getMovementById(state, id))
 );

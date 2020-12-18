@@ -1,6 +1,18 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+type Person = {
+  id: string;
+  name: string;
+};
+
+type PeopleState = {
+  ids: string[];
+  byId: {
+    [id: string]: Person;
+  };
+};
+
+const initialState: PeopleState = {
   ids: [],
   byId: {},
 };
@@ -33,9 +45,10 @@ const peopleSlice = createSlice({
 
 export default peopleSlice;
 
-export const getPeopleObj = (state) => state.byId;
-export const getPersonById = (state, id) => state.byId[id];
+export const getPeopleObj = (state: PeopleState): PeopleState["byId"] =>
+  state.byId;
+export const getPersonById = (state: PeopleState, id: string) => state.byId[id];
 export const getPeople = createSelector(
-  [(state) => state, (state) => state.ids],
+  [(state) => state, (state: PeopleState) => state.ids],
   (state, ids) => ids.map((id) => getPersonById(state, id))
 );
