@@ -21,7 +21,7 @@ const persistConfig = {
   storage,
   version: 0,
   migrate: createMigrate(storeMigrations),
-  whitelist: [],
+  blacklist: ["prompts"],
 };
 const persistedReducer = persistReducer(persistConfig, appReducer);
 
