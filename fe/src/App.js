@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import AppRoutes from "App.routes";
+import GenericAlert from "components/atoms/GenericAlert";
 
 const App = () => (
   <Provider store={store}>
@@ -12,6 +13,7 @@ const App = () => (
       <IonApp>
         <IonReactRouter>
           <AppRoutes />
+          <GenericAlert />
         </IonReactRouter>
       </IonApp>
     </PersistGate>

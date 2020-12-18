@@ -1,22 +1,3 @@
-/*
-{
-  ids: [1, 56],
-  byId: {
-    1: {
-      payer: 2,
-      payee: 1,
-      amount: Dinero({ amount: 40, currency: 'EUR' }),
-    },
-    56: {
-      id: 56,
-      description: 'spesa conad',
-      payer: 1,
-      amount: Dinero({ amount: 2131, currency: 'EUR' }),
-    },
-  },
-}
-*/
-
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

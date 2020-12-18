@@ -23,12 +23,12 @@ import Header from "components/organism/AddPurchase/Header";
 import ocr from "utils/ocr";
 import processOcr from "utils/processOcr";
 import convertToCents from "utils/convertToCents";
+import promptsSlice from "reducers/prompts";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
-  const [assignWarningOpen, setAssignWarningOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
   const fileInput = useRef(null);
@@ -55,7 +55,12 @@ const AddPurchase = ({ history }) => {
     ) {
       setAssignModalOpen(true);
     } else {
-      setAssignWarningOpen(true);
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message: "Seleziona dei prodotti per assegnarli a delle persone.",
+        })
+      );
     }
   };
 
@@ -176,13 +181,7 @@ const AddPurchase = ({ history }) => {
           onDone={onAssign}
           onClose={() => setAssignModalOpen(false)}
         />
-        <IonAlert
-          mode="ios"
-          isOpen={assignWarningOpen}
-          onDidDismiss={() => setAssignWarningOpen(false)}
-          header="Attenzione"
-          message="Seleziona dei prodotti per assegnarli a delle persone."
-        />
+
         <IonAlert
           mode="ios"
           isOpen={confirmModalOpen}

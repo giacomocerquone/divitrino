@@ -1,17 +1,19 @@
 import storage from "redux-persist/lib/storage";
 import { persistReducer, createMigrate } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
+import Dinero from "dinero.js";
 
 import storeMigrations from "./store.migrations";
 import peopleSlice, * as fromPeople from "reducers/people";
 import productsSlice, * as fromProducts from "reducers/products";
 import movementsSlice, * as fromMovements from "reducers/movements";
-import Dinero from "dinero.js";
+import promptsSlice, * as fromPrompts from "reducers/prompts";
 
 const appReducer = combineReducers({
   people: peopleSlice.reducer,
   products: productsSlice.reducer,
   movements: movementsSlice.reducer,
+  prompts: promptsSlice.reducer,
 });
 
 const persistConfig = {
@@ -40,8 +42,11 @@ export const getMovements = (state) =>
 export const getMovementById = (state, id) =>
   fromMovements.getMovementById(state.movements, id);
 
-// Extra
+// Prompts
+export const getAlertState = (state) =>
+  fromPrompts.getAlertState(state.prompts);
 
+// Extra
 export const getTotToReturnTo = (state, from, to) => {
   const products = getProducts(state);
   const movements = getMovements(state);
@@ -66,7 +71,7 @@ export const getTotToReturnTo = (state, from, to) => {
   return movs.add(prods); // TODO check syntax
 };
 
-export const getDebits = (state, normalize = false) => {
+export const getDebts = (state, normalize = true) => {
   const obj = {};
   const people = getPeople(state);
 
@@ -95,6 +100,7 @@ export const getDebits = (state, normalize = false) => {
   return obj;
 };
 
+// TODO check if comment is up to date
 // this fn returns
 
 // NEW

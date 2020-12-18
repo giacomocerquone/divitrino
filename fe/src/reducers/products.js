@@ -1,17 +1,3 @@
-/*
- {
-  ids: [1],
-  byId: {
-    1: {
-      movementId: 56,
-      name: 'Patatine',
-      amount: Dinero({amount: 120}),
-      debtors: [1, 2, 3],
-    },
-  },
-}
-*/
-
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
