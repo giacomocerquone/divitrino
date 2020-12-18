@@ -40,7 +40,7 @@ const NewProdRow = ({ setProds }) => {
         autocorrect
         autocapitalize
         value={prodName}
-        placeholder="Nome"
+        placeholder="Nome prodotto"
         onIonChange={(e) => setProdName(e.detail.value)}
         clearInput
       ></IonInput>

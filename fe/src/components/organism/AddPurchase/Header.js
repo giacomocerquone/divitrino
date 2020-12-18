@@ -6,10 +6,10 @@ import {
   IonIcon,
 } from "@ionic/react";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
-import { personAddOutline } from "ionicons/icons";
+import { checkmarkDoneOutline, personAddOutline } from "ionicons/icons";
 import React from "react";
 
-const Header = ({ onMultipleAssignIntent }) => {
+const Header = ({ onMultipleAssignIntent, onSelectAll }) => {
   return (
     <IonHeader mode="ios">
       <IonToolbar>
@@ -18,6 +18,9 @@ const Header = ({ onMultipleAssignIntent }) => {
         </IonButtons>
         <IonTitle>Aggiungi Spesa</IonTitle>
         <IonButtons slot="end">
+          <IonButton onClick={onSelectAll}>
+            <IonIcon icon={checkmarkDoneOutline} />
+          </IonButton>
           <IonButton onClick={onMultipleAssignIntent}>
             <IonIcon icon={personAddOutline} />
           </IonButton>

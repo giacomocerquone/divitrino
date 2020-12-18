@@ -64,6 +64,14 @@ const AddPurchase = ({ history }) => {
     }
   };
 
+  const onSelectAll = () => {
+    const newSelRows = prods.reduce((acc, p) => {
+      acc[p.id] = true;
+      return acc;
+    }, {});
+    setSelectedRows(newSelRows);
+  };
+
   const onSingleAssignIntent = (id, slidingRef) => {
     if (slidingRef) {
       slidingRef.close();
@@ -120,7 +128,10 @@ const AddPurchase = ({ history }) => {
 
   return (
     <IonPage>
-      <Header onMultipleAssignIntent={onMultipleAssignIntent} />
+      <Header
+        onMultipleAssignIntent={onMultipleAssignIntent}
+        onSelectAll={onSelectAll}
+      />
       <IonContent fullscreen>
         <PageContainer>
           <IonList>
