@@ -163,8 +163,12 @@ const AddPurchase = ({ history }) => {
               disabled={!prods.length}
               onClick={() => {
                 if (!prods.every((p) => p?.debtors?.length > 0)) {
-                  alert(
-                    "Tutti i prodotti devono essere assegnati ad almeno una persona"
+                  dispatch(
+                    promptsSlice.actions.openAlert({
+                      header: "Attenzione",
+                      message:
+                        "Tutti i prodotti devono essere assegnati ad almeno una persona",
+                    })
                   );
                   return;
                 }

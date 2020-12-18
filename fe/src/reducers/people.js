@@ -27,15 +27,6 @@ const peopleSlice = createSlice({
   initialState,
   reducers: {
     addPerson: (state, { payload }) => {
-      if (state.ids.includes(payload.id)) {
-        // TODO replace
-        // showMessage({
-        //   message: 'Nome esistente',
-        //   description: 'Già esiste una persona con questo nome',
-        //   type: 'warning',
-        // });
-        return;
-      }
       return {
         ...state,
         ids: [...state.ids, payload.id],

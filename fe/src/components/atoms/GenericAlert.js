@@ -15,6 +15,8 @@ const GenericAlert = () => {
       onDidDismiss={() => dispatch(promptsSlice.actions.closeAlert())}
       header={alertState.header}
       message={alertState.message}
+      inputs={alertState.inputs}
+      buttons={alertState.buttons}
     />
   );
 };
