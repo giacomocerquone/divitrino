@@ -40,6 +40,14 @@ const movementsSlice = createSlice({
         },
       };
     },
+    delMovement(state, { payload }) {
+      const { [payload]: omit, ...byId } = state.byId;
+      return {
+        ...state,
+        ids: state.ids.filter((id) => id !== payload),
+        byId,
+      };
+    },
   },
 });
 
