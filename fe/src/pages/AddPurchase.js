@@ -32,6 +32,8 @@ const AddPurchase = ({ history }) => {
   const [ocrLoading, setOcrLoading] = useState(false);
   const fileInput = useRef(null);
 
+  var arr = [5, 6, 13, 0, 1, 18, 23];
+
   const people = useSelector(getPeople);
   const dispatch = useDispatch();
 
@@ -89,6 +91,12 @@ const AddPurchase = ({ history }) => {
       Object.keys(selectedRows).every((key) => selectedRows[key])
     ) {
       dispatch(
+        Object.keys(selectedRows) ===
+          arr.filter((delMovements) => {
+            return arr;
+          })
+      );
+      dispatch(
         promptsSlice.actions.openAlert({
           header: "Attenzione",
           message: "Cosa preferisci?",
@@ -100,7 +108,7 @@ const AddPurchase = ({ history }) => {
             },
             {
               text: "Elimina",
-              // handler: delMovement(movement.id)
+              handler: () => dispatch(movementsSlice.actions.delMovement()),
             },
           ],
         })
