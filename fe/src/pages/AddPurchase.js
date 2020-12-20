@@ -26,7 +26,6 @@ import promptsSlice from "reducers/prompts";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
-  const [descr, setDescr] = useState(null);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
