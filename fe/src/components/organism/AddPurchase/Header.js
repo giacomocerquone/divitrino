@@ -16,7 +16,7 @@ const Header = ({ onMultipleAssignIntent, onSelectAll, onMultipleDeleteIntent}) 
         <IonButtons slot="start">
           <IonBackButton text="Indietro" default-href="/" />
         </IonButtons>
-        <IonTitle>Aggiungi Spesa</IonTitle>
+        <IonTitle>Aggiungi Acquisti</IonTitle>
         <IonButtons slot="end">
           <IonButton onClick={onSelectAll}>
             <IonIcon icon={checkmarkDoneOutline} />

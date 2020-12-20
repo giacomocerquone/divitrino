@@ -273,7 +273,7 @@ const AddPurchase = ({ history }) => {
               onClick={onAddButtonPressed}
               color="success"
             >
-              Aggiungi spesa
+              Aggiungi
             </IonButton>
           </ButtonsWrapper>
         </PageContainer>
