@@ -6,10 +6,85 @@ import {
   IonIcon,
 } from "@ionic/react";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
-import { checkmarkDoneOutline, personAddOutline, trashOutline } from "ionicons/icons";
+import {
+  checkmarkDoneOutline,
+  personAddOutline,
+  trashOutline,
+} from "ionicons/icons";
 import React from "react";
+import { useDispatch } from "react-redux";
+import promptsSlice from "reducers/prompts";
 
-const Header = ({ onMultipleAssignIntent, onSelectAll, onMultipleDeleteIntent}) => {
+const Header = ({
+  selectedRows,
+  setSelectedRows,
+  prods,
+  setProds,
+  setAssignModalOpen,
+}) => {
+  const dispatch = useDispatch();
+
+  const onMultipleAssignIntent = () => {
+    if (
+      Object.keys(selectedRows).length &&
+      Object.keys(selectedRows).every((key) => selectedRows[key])
+    ) {
+      setAssignModalOpen(true);
+    } else {
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message: "Seleziona dei prodotti per assegnarli a delle persone.",
+        })
+      );
+    }
+  };
+
+  const onMultipleDeleteIntent = () => {
+    if (
+      Object.keys(selectedRows).length &&
+      Object.keys(selectedRows).some((key) => selectedRows[key])
+    ) {
+      const idsToDelete = Object.keys(selectedRows).filter((key) => {
+        return selectedRows[key];
+      });
+      const delProds = (prods) =>
+        prods.filter((p) => !idsToDelete.find((id) => p.id === id));
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message: "Sicuro di voler eliminare i prodotti selezionati?",
+          buttons: [
+            {
+              text: "Annulla",
+              role: "cancel",
+              handler: () => null,
+            },
+            {
+              text: "Elimina",
+              handler: () => setProds((prods) => delProds(prods)),
+            },
+          ],
+        })
+      );
+    } else {
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message: "Seleziona dei prodotti per eliminarli.",
+        })
+      );
+    }
+  };
+
+  const onSelectAll = () => {
+    const newSelRows = prods.reduce((acc, p) => {
+      acc[p.id] = true;
+      return acc;
+    }, {});
+    setSelectedRows(newSelRows);
+  };
+
   return (
     <IonHeader mode="ios">
       <IonToolbar>

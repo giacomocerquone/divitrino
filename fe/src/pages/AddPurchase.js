@@ -46,73 +46,6 @@ const AddPurchase = ({ history }) => {
     }
   };
 
-  const onMultipleAssignIntent = () => {
-    if (Object.keys(selectedRows).some((key) => selectedRows[key])) {
-      setAssignModalOpen(true);
-    } else {
-      dispatch(
-        promptsSlice.actions.openAlert({
-          header: "Attenzione",
-          message: "Seleziona dei prodotti per assegnarli a delle persone.",
-        })
-      );
-    }
-  };
-
-  const onSelectAll = () => {
-    const newSelRows = prods.reduce((acc, p) => {
-      acc[p.id] = true;
-      return acc;
-    }, {});
-    setSelectedRows(newSelRows);
-  };
-
-  const onSingleAssignIntent = (id, slidingRef) => {
-    if (slidingRef) {
-      slidingRef.close();
-    }
-    setSelectedRows({ [id]: true });
-    setAssignModalOpen(true);
-  };
-
-  const onProdDelete = async (id) => {
-    setProds((p) => p.filter((item) => item.id !== id));
-  };
-
-  const onMultipleDeleteIntent = () => {
-    if (Object.keys(selectedRows).some((key) => selectedRows[key])) {
-      const idsToDelete = Object.keys(selectedRows).filter((key) => {
-        return selectedRows[key];
-      });
-      const delProds = (prods) =>
-        prods.filter((p) => !idsToDelete.find((id) => p.id === id));
-      dispatch(
-        promptsSlice.actions.openAlert({
-          header: "Attenzione",
-          message: "Sicuro di voler eliminare i prodotti selezionati?",
-          buttons: [
-            {
-              text: "Annulla",
-              role: "cancel",
-              handler: () => null,
-            },
-            {
-              text: "Elimina",
-              handler: () => setProds((prods) => delProds(prods)),
-            },
-          ],
-        })
-      );
-    } else {
-      dispatch(
-        promptsSlice.actions.openAlert({
-          header: "Attenzione",
-          message: "Seleziona dei prodotti per eliminarli.",
-        })
-      );
-    }
-  };
-
   const onAssign = (debtors) => {
     const modProds = prods.map((p) => {
       if (selectedRows[p.id]) {
@@ -225,23 +158,24 @@ const AddPurchase = ({ history }) => {
   return (
     <IonPage>
       <Header
-        onMultipleAssignIntent={onMultipleAssignIntent}
-        onSelectAll={onSelectAll}
-        onMultipleDeleteIntent={onMultipleDeleteIntent}
+        selectedRows={selectedRows}
+        setSelectedRows={setSelectedRows}
+        prods={prods}
+        setProds={setProds}
+        setAssignModalOpen={setAssignModalOpen}
       />
       <IonContent fullscreen>
         <PageContainer>
           <IonList>
             {prods.map((p) => (
               <ProdRow
+                setAssignModalOpen={setAssignModalOpen}
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 key={p.id}
                 product={p}
                 prods={prods}
                 setProds={setProds}
-                onDelete={onProdDelete}
-                onSingleAssignIntent={onSingleAssignIntent}
               />
             ))}
 

@@ -12,8 +12,7 @@ import { useSelector } from "react-redux";
 import { getPeopleObj } from "store/app.reducer";
 
 export const ProdRow = ({
-  onDelete,
-  onSingleAssignIntent,
+  setAssignModalOpen,
   product,
   prods,
   setProds,
@@ -58,6 +57,18 @@ export const ProdRow = ({
       value: product.amount,
     },
   });
+
+  const onSingleAssignIntent = (id, slidingRef) => {
+    if (slidingRef) {
+      slidingRef.close();
+    }
+    setSelectedRows({ [id]: true });
+    setAssignModalOpen(true);
+  };
+
+  const onDelete = async (id) => {
+    setProds((p) => p.filter((item) => item.id !== id));
+  };
 
   return (
     <IonItemSliding ref={itemSliding}>
