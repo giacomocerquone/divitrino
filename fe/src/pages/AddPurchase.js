@@ -12,7 +12,7 @@ import { cameraOutline } from "ionicons/icons";
 import NewProdRow from "components/organism/AddPurchase/NewProdRow";
 import { ProdRow } from "components/organism/AddPurchase/ProdRow";
 import { ButtonsWrapper } from "./Movements";
-import AssignModal from "components/organism/AssignModal";
+import AssignModal from "components/organism/AddPurchase/AssignModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
 import movementsSlice from "reducers/movements";
