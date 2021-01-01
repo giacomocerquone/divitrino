@@ -83,6 +83,43 @@ const AddPurchase = ({ history }) => {
     setProds((p) => p.filter((item) => item.id !== id));
   };
 
+  const onMultipleDeleteIntent = () => {
+    if (
+      Object.keys(selectedRows).length &&
+      Object.keys(selectedRows).some((key) => selectedRows[key])
+    ) {
+      const idsToDelete = Object.keys(selectedRows).filter((key) => {
+        return selectedRows[key];
+      });
+      const delProds = (prods) =>
+        prods.filter((p) => !idsToDelete.find((id) => p.id === id));
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message: "Sicuro di voler eliminare i prodotti selezionati?",
+          buttons: [
+            {
+              text: "Annulla",
+              role: "cancel",
+              handler: () => null,
+            },
+            {
+              text: "Elimina",
+              handler: () => setProds((prods) => delProds(prods)),
+            },
+          ],
+        })
+      );
+    } else {
+      dispatch(
+        promptsSlice.actions.openAlert({
+          header: "Attenzione",
+          message: "Seleziona dei prodotti per eliminarli.",
+        })
+      );
+    }
+  };
+
   const onAssign = (debtors) => {
     const modProds = prods.map((p) => {
       if (selectedRows[p.id]) {
@@ -197,6 +234,7 @@ const AddPurchase = ({ history }) => {
       <Header
         onMultipleAssignIntent={onMultipleAssignIntent}
         onSelectAll={onSelectAll}
+        onMultipleDeleteIntent={onMultipleDeleteIntent}
       />
       <IonContent fullscreen>
         <PageContainer>
