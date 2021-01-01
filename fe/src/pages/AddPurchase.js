@@ -88,12 +88,11 @@ const AddPurchase = ({ history }) => {
       Object.keys(selectedRows).length &&
       Object.keys(selectedRows).some((key) => selectedRows[key])
     ) {
-      const onSelectDelete = () => {
-        Object.keys(selectedRows).filter((key) => {
-          return selectedRows[key];
-        });
-        return onSelectDelete;
-      };
+      const idsToDelete = Object.keys(selectedRows).filter((key) => {
+        return selectedRows[key];
+      });
+      const delProds = (prods) =>
+        prods.filter((p) => !idsToDelete.find((id) => p.id === id));
       dispatch(
         promptsSlice.actions.openAlert({
           header: "Attenzione",
@@ -106,7 +105,7 @@ const AddPurchase = ({ history }) => {
             },
             {
               text: "Elimina",
-              handler: () => dispatch(movementsSlice.actions.delMovements()),
+              handler: () => setProds((prods) => delProds(prods)),
             },
           ],
         })

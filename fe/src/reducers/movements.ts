@@ -48,18 +48,6 @@ const movementsSlice = createSlice({
         byId,
       };
     },
-    delMovements(state, { payload }) {
-      const { [payload]: omit, ...byId } = state.byId;
-      state.ids.forEach(() => {
-        if (payload.find((id: any) => id === payload)) {
-          return {
-            ...state,
-            ids: state.ids.filter((id) => id !== payload),
-            byId,
-          };
-        }
-      });
-    },
   },
 });
 
