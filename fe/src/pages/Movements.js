@@ -22,9 +22,9 @@ const Movements = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar style={{ padding: "0 20px 10px 20px" }}>
+        <IonToolbar style={{ padding: "0 20px 20px 20px"}}>
           <Title>Movimenti</Title>
-          <ButtonsWrapper>
+          <ButtonsWrapper style={{"max-width": "768px", margin: "auto", padding: "0 20px"}}>
             <IonButton mode="ios" routerLink="/nuova-spesa">
               <IonIcon slot="start" icon={add} />
               Acquisti

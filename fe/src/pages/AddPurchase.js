@@ -238,7 +238,7 @@ const AddPurchase = ({ history }) => {
       />
       <IonContent fullscreen>
         <PageContainer>
-          <IonList>
+          <IonList style={{ flexGrow: 1 }}>
             {prods.map((p) => (
               <ProdRow
                 selectedRows={selectedRows}

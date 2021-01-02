@@ -25,9 +25,11 @@ const Balance = () => {
       </IonHeader>
       <IonContent fullscreen>
         <PageContainer>
-          {people.map((p) => (
-            <PayeeReport key={p.id} person={p} />
-          ))}
+          <div style={{ flexGrow: 1 }}>
+            {people.map((p) => (
+              <PayeeReport key={p.id} person={p} />
+            ))}
+          </div>
           <div style={{ marginTop: 10 }}>
             <IonButton
               mode="ios"

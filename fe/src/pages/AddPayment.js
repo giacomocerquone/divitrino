@@ -50,7 +50,7 @@ const AddPayment = ({ history }) => {
       </IonHeader>
       <IonContent fullscreen>
         <PageContainer>
-          <IonList style={{ marginBottom: 20 }}>
+          <IonList style={{ marginBottom: 20, flexGrow: "1" }}>
             <IonItem>
               <IonLabel position="floating">Importo</IonLabel>
               <IonInput
