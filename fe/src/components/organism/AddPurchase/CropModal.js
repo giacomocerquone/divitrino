@@ -1,7 +1,7 @@
 import { IonButton, IonModal } from "@ionic/react";
 import PageContainer from "components/atoms/PageContainer";
 import { ButtonsWrapper } from "pages/Movements";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useState } from "react";
 import ReactCrop from "react-image-crop";
 import getCroppedImg from "utils/getCroppedImg";
 
