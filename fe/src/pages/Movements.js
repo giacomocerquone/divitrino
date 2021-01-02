@@ -24,7 +24,7 @@ const Movements = () => {
       <IonHeader>
         <IonToolbar style={{ padding: "0 20px 20px 20px"}}>
           <Title>Movimenti</Title>
-          <ButtonsWrapper style={{"max-width": "768px", margin: "auto", padding: "0 20px"}}>
+          <ButtonsWrapper style={{maxWidth: 728, margin: "auto"}}>
             <IonButton mode="ios" routerLink="/nuova-spesa">
               <IonIcon slot="start" icon={add} />
               Acquisti

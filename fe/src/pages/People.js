@@ -80,7 +80,7 @@ const People = () => {
       </IonHeader>
       <IonContent fullscreen>
         <PageContainer>
-          <IonList>
+          <IonList style={{ flexGrow:1 }}>
             {people.map((p) => (
               <IonItemSliding key={p.id}>
                 <IonItem>
