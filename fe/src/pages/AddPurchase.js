@@ -48,10 +48,7 @@ const AddPurchase = ({ history }) => {
   };
 
   const onMultipleAssignIntent = () => {
-    if (
-      Object.keys(selectedRows).length &&
-      Object.keys(selectedRows).every((key) => selectedRows[key])
-    ) {
+    if (Object.keys(selectedRows).some((key) => selectedRows[key])) {
       setAssignModalOpen(true);
     } else {
       dispatch(
@@ -84,10 +81,7 @@ const AddPurchase = ({ history }) => {
   };
 
   const onMultipleDeleteIntent = () => {
-    if (
-      Object.keys(selectedRows).length &&
-      Object.keys(selectedRows).some((key) => selectedRows[key])
-    ) {
+    if (Object.keys(selectedRows).some((key) => selectedRows[key])) {
       const idsToDelete = Object.keys(selectedRows).filter((key) => {
         return selectedRows[key];
       });
