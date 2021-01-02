@@ -1,5 +1,7 @@
-function getCroppedImg(image, crop, fileName) {
+function getCroppedImg(src, crop, fileName) {
   const canvas = document.createElement("canvas");
+  const image = document.createElement("img");
+  image.src = src;
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
   canvas.width = crop.width;
