@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "purchases",
+  "info": {
+    "name": "purchase",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "payer": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "amount": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "string"
+    },
+    "products": {
+      "collection": "product"
+    }
+  }
+}
