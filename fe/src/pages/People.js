@@ -78,7 +78,7 @@ const People = () => {
           <IonTitle>Persone</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <PageContainer>
           <IonList>
             {people.map((p) => (

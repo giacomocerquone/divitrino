@@ -48,7 +48,7 @@ const AddPayment = ({ history }) => {
           <IonTitle>Aggiungi Pagamento</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <PageContainer>
           <IonList style={{ marginBottom: 20 }}>
             <IonItem>

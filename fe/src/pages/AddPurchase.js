@@ -12,7 +12,7 @@ import { cameraOutline } from "ionicons/icons";
 import NewProdRow from "components/organism/AddPurchase/NewProdRow";
 import { ProdRow } from "components/organism/AddPurchase/ProdRow";
 import { ButtonsWrapper } from "./Movements";
-import AssignModal from "components/organism/AssignModal";
+import AssignModal from "components/organism/AddPurchase/AssignModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
 import movementsSlice from "reducers/movements";
@@ -23,13 +23,15 @@ import ocr from "utils/ocr";
 import processOcr from "utils/processOcr";
 import convertToCents from "utils/convertToCents";
 import promptsSlice from "reducers/prompts";
+// import CropModal from "components/organism/AddPurchase/CropModal";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
-  const [descr, setDescr] = useState(null);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
+  // const [file, setFile] = useState(false);
+  // const [cropModalOpen, setCropModalOpen] = useState(false);
   const fileInput = useRef(null);
 
   const people = useSelector(getPeople);
@@ -47,72 +49,28 @@ const AddPurchase = ({ history }) => {
     }
   };
 
-  const onMultipleAssignIntent = () => {
-    if (Object.keys(selectedRows).some((key) => selectedRows[key])) {
-      setAssignModalOpen(true);
-    } else {
-      dispatch(
-        promptsSlice.actions.openAlert({
-          header: "Attenzione",
-          message: "Seleziona dei prodotti per assegnarli a delle persone.",
-        })
-      );
-    }
-  };
+  // const onTakePicWithModal = async (e) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     const reader = new FileReader();
+  //     reader.addEventListener("load", () => {
+  //       setFile(reader.result);
+  //       setCropModalOpen(true);
+  //     });
+  //     reader.readAsDataURL(e.target.files[0]);
+  //   }
+  // };
 
-  const onSelectAll = () => {
-    const newSelRows = prods.reduce((acc, p) => {
-      acc[p.id] = true;
-      return acc;
-    }, {});
-    setSelectedRows(newSelRows);
-  };
-
-  const onSingleAssignIntent = (id, slidingRef) => {
-    if (slidingRef) {
-      slidingRef.close();
-    }
-    setSelectedRows({ [id]: true });
-    setAssignModalOpen(true);
-  };
-
-  const onProdDelete = async (id) => {
-    setProds((p) => p.filter((item) => item.id !== id));
-  };
-
-  const onMultipleDeleteIntent = () => {
-    if (Object.keys(selectedRows).some((key) => selectedRows[key])) {
-      const idsToDelete = Object.keys(selectedRows).filter((key) => {
-        return selectedRows[key];
-      });
-      const delProds = (prods) =>
-        prods.filter((p) => !idsToDelete.find((id) => p.id === id));
-      dispatch(
-        promptsSlice.actions.openAlert({
-          header: "Attenzione",
-          message: "Sicuro di voler eliminare i prodotti selezionati?",
-          buttons: [
-            {
-              text: "Annulla",
-              role: "cancel",
-              handler: () => null,
-            },
-            {
-              text: "Elimina",
-              handler: () => setProds((prods) => delProds(prods)),
-            },
-          ],
-        })
-      );
-    } else {
-      dispatch(
-        promptsSlice.actions.openAlert({
-          header: "Attenzione",
-          message: "Seleziona dei prodotti per eliminarli.",
-        })
-      );
-    }
-  };
+  // const processImage = async (image) => {
+  //   try {
+  //     setOcrLoading(true);
+  //     const res = await ocr(image);
+  //     setProds((p) => [...p, ...processOcr(res)]);
+  //   } catch (e) {
+  //     console.log(e);
+  //   } finally {
+  //     setOcrLoading(false);
+  //   }
+  // };
 
   const onAssign = (debtors) => {
     const modProds = prods.map((p) => {
@@ -226,23 +184,24 @@ const AddPurchase = ({ history }) => {
   return (
     <IonPage>
       <Header
-        onMultipleAssignIntent={onMultipleAssignIntent}
-        onSelectAll={onSelectAll}
-        onMultipleDeleteIntent={onMultipleDeleteIntent}
+        selectedRows={selectedRows}
+        setSelectedRows={setSelectedRows}
+        prods={prods}
+        setProds={setProds}
+        setAssignModalOpen={setAssignModalOpen}
       />
-      <IonContent fullscreen>
+      <IonContent>
         <PageContainer>
           <IonList>
             {prods.map((p) => (
               <ProdRow
+                setAssignModalOpen={setAssignModalOpen}
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 key={p.id}
                 product={p}
                 prods={prods}
                 setProds={setProds}
-                onDelete={onProdDelete}
-                onSingleAssignIntent={onSingleAssignIntent}
               />
             ))}
 
@@ -273,7 +232,7 @@ const AddPurchase = ({ history }) => {
               onClick={onAddButtonPressed}
               color="success"
             >
-              Aggiungi spesa
+              Aggiungi
             </IonButton>
           </ButtonsWrapper>
         </PageContainer>
@@ -288,6 +247,12 @@ const AddPurchase = ({ history }) => {
           onDidDismiss={() => setOcrLoading(false)}
           message={"Attendi..."}
         />
+        {/* <CropModal
+          open={cropModalOpen}
+          setOpen={setCropModalOpen}
+          file={file}
+          processImage={processImage}
+        /> */}
       </IonContent>
     </IonPage>
   );

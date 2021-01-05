@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import convertToCents from "./convertToCents";
 
+function ucFirst(str) {
+  var firstLetter = str.substr(0, 1);
+  return firstLetter.toUpperCase() + str.substr(1);
+}
+
 const processOcr = (res) => {
   const {
     data: { lines },
@@ -12,7 +17,7 @@ const processOcr = (res) => {
     const amount = convertToCents(price);
 
     return {
-      name: words.join(" "),
+      name: ucFirst(words.join(" ").toLowerCase()),
       amount: isNaN(amount) ? 0 : amount / 100,
       id: uuidv4(),
     };

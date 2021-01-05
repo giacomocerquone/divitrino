@@ -23,7 +23,7 @@ const Balance = () => {
           <Title>Bilancio</Title>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <PageContainer>
           {people.map((p) => (
             <PayeeReport key={p.id} person={p} />
