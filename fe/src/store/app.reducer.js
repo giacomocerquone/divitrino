@@ -35,6 +35,8 @@ export const getPersonById = (state, id) =>
 
 // Products
 export const getProducts = (state) => fromProducts.getProducts(state.products);
+export const getMovementProducts = (state, movementId) =>
+  fromProducts.getMovementProducts(state.products, movementId);
 
 // Movements
 export const getMovements = (state) =>

@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
-type Movement = {
+type Payment = {
   id: string;
   payer: string;
   payee: string;
@@ -17,7 +17,7 @@ type Purchase = {
 type MovementsState = {
   ids: string[];
   byId: {
-    [id: string]: Movement | Purchase;
+    [id: string]: Payment | Purchase;
   };
 };
 
@@ -56,7 +56,7 @@ export default movementsSlice;
 export const getMovementById = (
   state: MovementsState,
   id: string
-): Movement | Purchase | undefined => state.byId[id];
+): Payment | Purchase | undefined => state.byId[id];
 export const getMovements = createSelector(
   [(state) => state, (state: MovementsState) => state.ids],
   (state, ids) => ids.map((id) => getMovementById(state, id))
