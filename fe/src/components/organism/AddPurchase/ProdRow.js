@@ -81,7 +81,7 @@ export const ProdRow = ({
         </IonItemOption>
       </IonItemOptions>
 
-      <IonItem>
+      <IonItem mode="md">
         <IonCheckbox
           slot="start"
           checked={selectedRows?.[product.id]}
