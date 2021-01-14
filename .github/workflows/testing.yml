@@ -1,10 +1,14 @@
-name: CI
+name: fe-CI
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+
+defaults:
+  run:
+    working-directory: ./fe
 
 jobs:
   build:
