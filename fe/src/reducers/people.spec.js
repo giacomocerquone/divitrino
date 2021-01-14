@@ -2,14 +2,14 @@ import peopleSlice, * as fromPeople from "./people";
 
 describe("people reducer", () => {
   it("should return initial state on first run", () => {
-    const nextState = {
+    const initialState = {
       ids: [],
       byId: {},
     };
 
     const result = peopleSlice.reducer(undefined, {});
 
-    expect(result).toEqual(nextState);
+    expect(result).toEqual(initialState);
   });
 
   it("should correctly: add a person, get the people, get one person by id", () => {

@@ -2,14 +2,14 @@ import movementsSlice, * as fromMovements from "./movements";
 
 describe("movements reducer", () => {
   it("should return initial state on first run", () => {
-    const nextState = {
+    const initialState = {
       ids: [],
       byId: {},
     };
 
     const result = movementsSlice.reducer(undefined, {});
 
-    expect(result).toEqual(nextState);
+    expect(result).toEqual(initialState);
   });
 
   it("should correctly: add a movement, get the movements, get one movement by id", () => {
