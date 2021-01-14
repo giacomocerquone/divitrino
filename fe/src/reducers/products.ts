@@ -32,7 +32,6 @@ const productsSlice = createSlice({
         },
         {}
       );
-      console.log("TESTING PRODUCTS REDUCER", products);
       return {
         ids: [...payload.map((product: Product) => product.id), ...state.ids],
         byId: {
@@ -49,6 +48,21 @@ export default productsSlice;
 export const getProductById = (state: ProductsState, id: string) =>
   state.byId[id];
 export const getProducts = createSelector(
-  [(state: ProductsState) => state, (state) => state.ids],
-  (state: ProductsState, ids) => ids.map((id) => getProductById(state, id))
+  [(state: ProductsState) => state],
+  (state: ProductsState) => state.ids.map((id) => getProductById(state, id))
+);
+export const getMovementProducts = createSelector(
+  [
+    (state: ProductsState) => state,
+    (_: ProductsState, movementId: string) => movementId,
+  ],
+  (state: ProductsState, movementId) => {
+    return state.ids.reduce((acc: Product[], pId: string) => {
+      if (getProductById(state, pId)?.movementId === movementId) {
+        return [...acc, getProductById(state, pId)];
+      }
+
+      return acc;
+    }, []);
+  }
 );

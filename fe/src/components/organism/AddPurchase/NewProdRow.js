@@ -32,7 +32,7 @@ const NewProdRow = ({ setProds }) => {
     },
     priceProps: {
       value: prodPrice,
-      style: { flex: 0.4 },
+      style: { flex: 0.4, marginLeft: 10 },
       type: "number",
       onIonChange: (e) => setProdPrice(e.detail.value),
       placeholder: "Prezzo",

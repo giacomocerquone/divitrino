@@ -25,7 +25,7 @@ const Movements = () => {
         <IonToolbar style={{ padding: "0 20px 10px 20px" }}>
           <Title>Movimenti</Title>
           <ButtonsWrapper>
-            <IonButton mode="ios" routerLink="/nuova-spesa">
+            <IonButton mode="ios" routerLink="/nuovo-acquisto">
               <IonIcon slot="start" icon={add} />
               Acquisti
             </IonButton>

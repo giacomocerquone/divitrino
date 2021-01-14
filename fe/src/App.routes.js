@@ -14,6 +14,7 @@ import Balance from "pages/Balance";
 import Movements from "pages/Movements";
 import AddPayment from "pages/AddPayment";
 import People from "pages/People";
+import PurchaseDetail from "pages/PurchaseDetail";
 
 const AppRoutes = () => {
   return (
@@ -22,7 +23,8 @@ const AppRoutes = () => {
         <Route path="/movimenti" component={Movements} exact={true} />
         <Route path="/bilancio" component={Balance} />
         <Route path="/nuovo-pagamento" component={AddPayment} />
-        <Route path="/nuova-spesa" component={AddPurchase} />
+        <Route path="/nuovo-acquisto" component={AddPurchase} />
+        <Route path="/dettaglio-acquisto/:id" component={PurchaseDetail} />
         <Route path="/persone" component={People} />
         <Route
           path="/"
