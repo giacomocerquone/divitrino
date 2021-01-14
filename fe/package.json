@@ -41,7 +41,11 @@
     "build:functions": "netlify-lambda build functions",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint './src/**/*.js'"
+    "lint": "eslint './src/**/*.js'",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -63,7 +67,8 @@
     "@ionic/cli": "^6.12.3",
     "http-proxy-middleware": "^1.0.6",
     "netlify-lambda": "^2.0.2",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "standard-version": "^9.1.0"
   },
   "description": "An Ionic project"
 }
