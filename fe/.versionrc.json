@@ -9,6 +9,6 @@
     { "type": "perf", "hidden": true },
     { "type": "test", "hidden": true }
   ],
-  "commitUrlFormat": "https://github.com/giacomocerquone/divitrino/commits/{{hash}}",
+  "commitUrlFormat": "https://github.com/giacomocerquone/divitrino/commit/{{hash}}",
   "compareUrlFormat": "https://github.com/giacomocerquone/divitrino/compare/{{previousTag}}...{{currentTag}}"
 }
