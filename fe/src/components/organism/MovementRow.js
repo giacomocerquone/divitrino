@@ -16,7 +16,7 @@ import Dinero from "dinero.js";
 import movementsSlice from "reducers/movements";
 
 const MovementRow = ({ movement }) => {
-  const isPurchase = movement.payee;
+  const isPurchase = !movement.payee;
   const payer = useSelector((state) => getPersonById(state, movement.payer));
   const payee = useSelector((state) => getPersonById(state, movement.payee));
   const dispatch = useDispatch();
@@ -28,20 +28,12 @@ const MovementRow = ({ movement }) => {
 
   return (
     <IonItemSliding>
-      <IonItem>
+      <IonItem routerLink={isPurchase && `/dettaglio-acquisto/${movement.id}`}>
         <CustomIonAvatar slot="start">
           <img src={isPurchase ? purchaseIcon : movementIcon} alt="cibo" />
         </CustomIonAvatar>
         <IonLabel>
           {isPurchase ? (
-            <IonLabelContent>
-              <p>
-                <b>{payer.name}</b> ha pagato <b>{payee.name}</b>
-              </p>
-
-              <Amount>{amount.toFormat("$0,0.00")}</Amount>
-            </IonLabelContent>
-          ) : (
             <IonLabelContent>
               <div>
                 <h2>{movement.description} </h2>
@@ -49,6 +41,14 @@ const MovementRow = ({ movement }) => {
                   pagato da <b>{payer.name}</b>
                 </p>
               </div>
+
+              <Amount>{amount.toFormat("$0,0.00")}</Amount>
+            </IonLabelContent>
+          ) : (
+            <IonLabelContent>
+              <p>
+                <b>{payer.name}</b> ha pagato <b>{payee.name}</b>
+              </p>
 
               <Amount>{amount.toFormat("$0,0.00")}</Amount>
             </IonLabelContent>

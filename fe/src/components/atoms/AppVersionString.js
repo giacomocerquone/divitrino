@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const AppVersionString = () => {
-  return <Text>v.0.1.2</Text>;
+  return <Text>v.{process.env.REACT_APP_VERSION}</Text>;
 };
 
 export default AppVersionString;
