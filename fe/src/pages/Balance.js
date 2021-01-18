@@ -41,8 +41,7 @@ const Balance = () => {
         amount: amountReverse,
       });
     });
-    payments.forEach(payment => movementsSlice.actions.addMovement(payment));
-    console.log("payments: ", payments);
+    payments.forEach(payment => dispatch(movementsSlice.actions.addMovement(payment)));
   };
 
   const onPressEqualize = () => {
