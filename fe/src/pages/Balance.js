@@ -17,32 +17,32 @@ import AppVersionString from "components/atoms/AppVersionString";
 import promptsSlice from "reducers/prompts";
 import movementsSlice from "reducers/movements";
 
+const equalize = (id, debts, dispatch) => {
+  const payments = [];
+  Object.keys(debts).filter(id2 => id2 !== id).forEach(id2 => {
+    const amount = debts[id][id2]?.getAmount();
+    if (amount) return payments.push({
+      id: uuidv4(),
+      payer: id,
+      payee: id2,
+      amount,
+    });
+    const amountReverse = debts[id2][id]?.getAmount();
+    if (amountReverse) return payments.push({
+      id: uuidv4(),
+      payer: id2,
+      payee: id,
+      amount: amountReverse,
+    });
+  });
+  payments.forEach(payment => dispatch(movementsSlice.actions.addMovement(payment)));
+};
+
 const Balance = () => {
   const people = useSelector(getPeople);
   const debts = useSelector(getDebts);
 
   const dispatch = useDispatch();
-  
-  const equalize = (id) => {
-    const payments = [];
-    Object.keys(debts).filter(id2 => id2 !== id).forEach(id2 => {
-      const amount = debts[id][id2]?.getAmount();
-      if (amount) return payments.push({
-        id: uuidv4(),
-        payer: id,
-        payee: id2,
-        amount,
-      });
-      const amountReverse = debts[id2][id]?.getAmount();
-      if (amountReverse) return payments.push({
-        id: uuidv4(),
-        payer: id2,
-        payee: id,
-        amount: amountReverse,
-      });
-    });
-    payments.forEach(payment => dispatch(movementsSlice.actions.addMovement(payment)));
-  };
 
   const onPressEqualize = () => {
     dispatch(
@@ -65,7 +65,7 @@ const Balance = () => {
           },
           {
             text: "Pareggia",
-            handler: (id) => equalize(id),
+            handler: (id) => equalize(id, debts, dispatch),
           },
         ],
       })
