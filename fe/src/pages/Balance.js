@@ -25,7 +25,7 @@ const Balance = () => {
   
   const equalize = (id) => {
     const payments = [];
-    Object.keys(debts).forEach(id2 => {
+    Object.keys(debts).filter(id2 => id2 !== id).forEach(id2 => {
       const amount = debts[id][id2]?.getAmount();
       if (amount) return payments.push({
         id: uuidv4(),
