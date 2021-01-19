@@ -17,7 +17,7 @@ import AppVersionString from "components/atoms/AppVersionString";
 import promptsSlice from "reducers/prompts";
 import movementsSlice from "reducers/movements";
 
-const equalize = (id, debts, dispatch) => {
+export const equalize = (id, debts, dispatch) => {
   const payments = [];
   Object.keys(debts).filter(id2 => id2 !== id).forEach(id2 => {
     const amount = debts[id][id2]?.getAmount();
@@ -36,6 +36,7 @@ const equalize = (id, debts, dispatch) => {
     });
   });
   payments.forEach(payment => dispatch(movementsSlice.actions.addMovement(payment)));
+  return payments; // omit?
 };
 
 const Balance = () => {
