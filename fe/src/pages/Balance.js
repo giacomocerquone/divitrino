@@ -19,24 +19,27 @@ import movementsSlice from "reducers/movements";
 
 export const equalize = (id, debts, dispatch) => {
   const payments = [];
-  Object.keys(debts).filter(id2 => id2 !== id).forEach(id2 => {
-    const amount = debts[id][id2]?.getAmount();
-    if (amount) return payments.push({
-      id: uuidv4(),
-      payer: id,
-      payee: id2,
-      amount,
+  Object.keys(debts)
+    .filter((id2) => id2 !== id)
+    .forEach((id2) => {
+      const amount = debts[id][id2]?.getAmount();
+      if (amount)
+        return payments.push({
+          id: uuidv4(),
+          payer: id,
+          payee: id2,
+          amount,
+        });
+      const amountReverse = debts[id2][id]?.getAmount();
+      if (amountReverse)
+        return payments.push({
+          id: uuidv4(),
+          payer: id2,
+          payee: id,
+          amount: amountReverse,
+        });
     });
-    const amountReverse = debts[id2][id]?.getAmount();
-    if (amountReverse) return payments.push({
-      id: uuidv4(),
-      payer: id2,
-      payee: id,
-      amount: amountReverse,
-    });
-  });
-  payments.forEach(payment => dispatch(movementsSlice.actions.addMovement(payment)));
-  return payments; // omit?
+  return payments;
 };
 
 const Balance = () => {
@@ -66,7 +69,10 @@ const Balance = () => {
           },
           {
             text: "Pareggia",
-            handler: (id) => equalize(id, debts, dispatch),
+            handler: (id) =>
+              equalize(id, debts, dispatch).forEach((payment) =>
+                dispatch(movementsSlice.actions.addMovement(payment))
+              ),
           },
         ],
       })

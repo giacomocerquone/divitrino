@@ -1,7 +1,7 @@
 import Dinero from "dinero.js";
 
 import movementsSlice from "../reducers/movements";
-import { equalize } from '../pages/Balance';
+import { equalize } from "../pages/Balance";
 
 describe("Balance page", () => {
   it("should correctly equalize a person's balance by id", () => {
@@ -12,15 +12,13 @@ describe("Balance page", () => {
       C: { A: Dinero({ amount: 30 }), B: Dinero() },
     };
     const dispatch = jest.fn();
-    
-    equalize(id, debts, dispatch);
+
+    const result = equalize(id, debts, dispatch);
 
     const payments = [
       { id: expect.any(String), payer: "A", payee: "B", amount: 10 },
       { id: expect.any(String), payer: "C", payee: "A", amount: 30 },
     ];
-    payments.forEach((payment, i) => 
-      expect(dispatch).toHaveBeenNthCalledWith(i + 1, movementsSlice.actions.addMovement(payment))
-    );
-  })
+    expect(result).toEqual(expect.arrayContaining(payments));
+  });
 });
