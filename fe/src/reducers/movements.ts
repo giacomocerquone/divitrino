@@ -14,6 +14,8 @@ type Purchase = {
   description?: string;
 };
 
+type Movement = Payment | Purchase;
+
 type MovementsState = {
   ids: string[];
   byId: {
@@ -38,6 +40,20 @@ const movementsSlice = createSlice({
           ...state.byId,
           [payload.id]: payload,
         },
+      };
+    },
+    addMovements(state, { payload }) {
+      const byId = payload.reduce(
+        (acc: MovementsState["byId"], m: Movement) => {
+          acc[m.id] = m;
+          return acc;
+        },
+        { ...state.byId }
+      );
+      return {
+        ...state,
+        ids: [...payload.map((m: Movement) => m.id), ...state.ids],
+        byId,
       };
     },
     delMovement(state, { payload }) {

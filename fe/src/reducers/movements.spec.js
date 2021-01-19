@@ -28,6 +28,22 @@ describe("movements reducer", () => {
     ]);
   });
 
+  it("should correctly: add multiple movements, get the movements", () => {
+    const sampleMovements = [
+      { id: "id1", payer: "me", payee: "you" },
+      { id: "id2", payer: "me", payee: "you" },
+    ];
+
+    const movementsState = movementsSlice.reducer(
+      undefined,
+      movementsSlice.actions.addMovements(sampleMovements)
+    );
+
+    expect(fromMovements.getMovements(movementsState)).toEqual(
+      expect.arrayContaining(sampleMovements)
+    );
+  });
+
   it("should correctly delete a movement", () => {
     const movState = {
       ids: ["id"],

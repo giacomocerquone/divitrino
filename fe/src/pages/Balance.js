@@ -70,8 +70,10 @@ const Balance = () => {
           {
             text: "Pareggia",
             handler: (id) =>
-              equalize(id, debts, dispatch).forEach((payment) =>
-                dispatch(movementsSlice.actions.addMovement(payment))
+              dispatch(
+                movementsSlice.actions.addMovements(
+                  equalize(id, debts, dispatch)
+                )
               ),
           },
         ],

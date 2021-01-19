@@ -1,6 +1,5 @@
 import Dinero from "dinero.js";
 
-import movementsSlice from "../reducers/movements";
 import { equalize } from "../pages/Balance";
 
 describe("Balance page", () => {
