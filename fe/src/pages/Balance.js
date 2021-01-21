@@ -17,7 +17,7 @@ import AppVersionString from "components/atoms/AppVersionString";
 import promptsSlice from "reducers/prompts";
 import movementsSlice from "reducers/movements";
 
-export const equalize = (id, debts, dispatch) => {
+export const equalize = (id, debts) => {
   const payments = [];
   Object.keys(debts)
     .filter((id2) => id2 !== id)
@@ -70,10 +70,8 @@ const Balance = () => {
           {
             text: "Pareggia",
             handler: (id) =>
-              dispatch(
-                movementsSlice.actions.addMovements(
-                  equalize(id, debts, dispatch)
-                )
+              id && dispatch(
+                movementsSlice.actions.addMovements(equalize(id, debts))
               ),
           },
         ],
