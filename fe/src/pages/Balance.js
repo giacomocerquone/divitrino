@@ -6,15 +6,78 @@ import {
   IonPage,
   IonToolbar,
 } from "@ionic/react";
+import { useSelector, useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+
 import Title from "components/atoms/Title";
 import PageContainer from "components/atoms/PageContainer";
-import { useSelector } from "react-redux";
-import { getPeople } from "store/app.reducer";
+import { getPeople, getDebts } from "store/app.reducer";
 import PayeeReport from "components/organism/PayeeReport";
 import AppVersionString from "components/atoms/AppVersionString";
+import promptsSlice from "reducers/prompts";
+import movementsSlice from "reducers/movements";
+
+export const equalize = (id, debts) => {
+  const payments = [];
+  Object.keys(debts)
+    .filter((id2) => id2 !== id)
+    .forEach((id2) => {
+      const amount = debts[id][id2]?.getAmount();
+      if (amount)
+        return payments.push({
+          id: uuidv4(),
+          payer: id,
+          payee: id2,
+          amount,
+        });
+      const amountReverse = debts[id2][id]?.getAmount();
+      if (amountReverse)
+        return payments.push({
+          id: uuidv4(),
+          payer: id2,
+          payee: id,
+          amount: amountReverse,
+        });
+    });
+  return payments;
+};
 
 const Balance = () => {
   const people = useSelector(getPeople);
+  const debts = useSelector(getDebts);
+
+  const dispatch = useDispatch();
+
+  const onPressEqualize = () => {
+    dispatch(
+      promptsSlice.actions.openAlert({
+        header: "Info",
+        message: "Chi ha pagato?",
+        inputs: [
+          ...people.map((p) => ({
+            name: p.name,
+            label: p.name,
+            type: "radio",
+            value: p.id,
+          })),
+        ],
+        buttons: [
+          {
+            text: "Annulla",
+            role: "cancel",
+            handler: () => null,
+          },
+          {
+            text: "Pareggia",
+            handler: (id) =>
+              id && dispatch(
+                movementsSlice.actions.addMovements(equalize(id, debts))
+              ),
+          },
+        ],
+      })
+    );
+  };
 
   return (
     <IonPage>
@@ -31,11 +94,11 @@ const Balance = () => {
           <div style={{ marginTop: 10 }}>
             <IonButton
               mode="ios"
-              onClick={() => null}
+              onClick={onPressEqualize}
               color="success"
               expand="block"
             >
-              Preggia i conti
+              Pareggia i conti
             </IonButton>
             <IonButton
               mode="ios"

@@ -108,9 +108,16 @@ export const getDebts = (state, normalize = true) => {
 // NEW
 // {
 //   "A": { B: 120, C: 140 },
-//   "B": {A: 100, C: 150}
+//   "B": { A: 100, C: 150}
 //   "C": { A: 80, B: 60 }
 // }
+// Normalized (default):
+// {
+//   "A": { B: 20, C: 60 },
+//   "B": { A: 0, C: 90}
+//   "C": { A: 0, B: 0 }
+// }
+//
 
 // OLD
 // {
