@@ -22,16 +22,26 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
   return (
     <IonModal
       isOpen={open}
-      swipeToClose={true}
+      swipeToClose={false}
       onDidDismiss={() => setOpen(false)}
     >
-      <Cropper
-        openCvPath="./opencv/opencv.js"
-        ref={cropperRef}
-        image={file}
-        maxHeight={window.innerHeight - 200}
-      />
-
+      <div
+        style={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <Cropper
+          openCvPath="./opencv/opencv.js"
+          ref={cropperRef}
+          image={file}
+          maxWidth={window.innerWidth - 15}
+          maxHeight={window.innerHeight - 200}
+        />
+      </div>
       <PageContainer>
         <ButtonsWrapper>
           <IonButton color="danger" onClick={() => setOpen(false)}>
