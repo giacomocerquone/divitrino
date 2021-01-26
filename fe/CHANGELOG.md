@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/giacomocerquone/divitrino/compare/v0.1.6...v0.1.7) (2021-01-26)
+
+
+### Bug Fixes
+
+* improve crop modal buttons and cropper sizes and positions ([0f3c453](https://github.com/giacomocerquone/divitrino/commit/0f3c453aed950add28ef6822e04b19a65a581c93))
+* improve cropper position ([2239bdf](https://github.com/giacomocerquone/divitrino/commit/2239bdf4e70aecf568696876bb70c9f9505d0963))
+* update perspective cropper ([3230286](https://github.com/giacomocerquone/divitrino/commit/3230286c8fd236bb51a9ed51564db43358db3139))
+
 ### [0.1.6](https://github.com/giacomocerquone/divitrino/compare/v0.1.5...v0.1.6) (2021-01-26)
 
 
