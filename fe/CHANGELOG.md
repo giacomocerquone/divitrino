@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/giacomocerquone/divitrino/compare/v0.1.4...v0.1.5) (2021-01-26)
+
+
+### Features
+
+* rename labels in addpayment ([4439509](https://github.com/giacomocerquone/divitrino/commit/443950965732a0ad5b787aac66948aa61f81d161))
+
 ### [0.1.4](https://github.com/giacomocerquone/divitrino/compare/v0.1.3...v0.1.4) (2021-01-26)
 
 
