@@ -38,6 +38,7 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
           openCvPath="./opencv/opencv.js"
           ref={cropperRef}
           image={file}
+          maxHeight={window.innerHeight - 10}
         />
       </div>
       <div
