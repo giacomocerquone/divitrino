@@ -1,18 +1,22 @@
 import { IonButton, IonModal } from "@ionic/react";
 import PageContainer from "components/atoms/PageContainer";
 import { ButtonsWrapper } from "pages/Movements";
-import React, { useState } from "react";
-import ReactCrop from "react-image-crop";
-import getCroppedImg from "utils/getCroppedImg";
+import React, { useRef } from "react";
+import Cropper from "react-perspective-cropper";
 
 const CropModal = ({ open, setOpen, file, processImage }) => {
-  const [crop, setCrop] = useState({ unit: "%", width: 30 });
-  const [completedCrop, setCompletedCrop] = useState(null);
+  const cropperRef = useRef();
 
   const onDoneCropping = async () => {
-    const res = await getCroppedImg(file, completedCrop, "asd.jpg");
-    setOpen(false);
+    const res = await cropperRef.current.done({
+      preview: false,
+      filterCvParams: {
+        thMeanCorrection: 13,
+        thMode: window.cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+      },
+    });
     processImage(res);
+    setOpen(false);
   };
 
   return (
@@ -21,11 +25,11 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
       swipeToClose={true}
       onDidDismiss={() => setOpen(false)}
     >
-      <ReactCrop
-        src={file}
-        crop={crop}
-        onChange={(c) => setCrop(c)}
-        onComplete={(c) => setCompletedCrop(c)}
+      <Cropper
+        openCvPath="./opencv/opencv.js"
+        ref={cropperRef}
+        image={file}
+        maxHeight={window.innerHeight - 200}
       />
 
       <PageContainer>
@@ -33,11 +37,7 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
           <IonButton color="danger" onClick={() => setOpen(false)}>
             Annulla
           </IonButton>
-          <IonButton
-            color="primary"
-            disabled={!completedCrop?.width || !completedCrop?.height}
-            onClick={onDoneCropping}
-          >
+          <IonButton color="primary" onClick={onDoneCropping}>
             Ritaglia
           </IonButton>
         </ButtonsWrapper>

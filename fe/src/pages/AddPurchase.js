@@ -23,24 +23,31 @@ import ocr from "utils/ocr";
 import processOcr from "utils/processOcr";
 import convertToCents from "utils/convertToCents";
 import promptsSlice from "reducers/prompts";
-// import CropModal from "components/organism/AddPurchase/CropModal";
+import CropModal from "components/organism/AddPurchase/CropModal";
 
 const AddPurchase = ({ history }) => {
   const [prods, setProds] = useState([]);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
-  // const [file, setFile] = useState(false);
-  // const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [file, setFile] = useState();
+  const [cropModalOpen, setCropModalOpen] = useState(false);
   const fileInput = useRef(null);
 
   const people = useSelector(getPeople);
   const dispatch = useDispatch();
 
   const onTakePic = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+      setCropModalOpen(true);
+    }
+  };
+
+  const processImage = async (image) => {
     try {
       setOcrLoading(true);
-      const res = await ocr(e.target.files[0]);
+      const res = await ocr(image);
       setProds((p) => [...p, ...processOcr(res)]);
     } catch (e) {
       console.log(e);
@@ -48,29 +55,6 @@ const AddPurchase = ({ history }) => {
       setOcrLoading(false);
     }
   };
-
-  // const onTakePicWithModal = async (e) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     const reader = new FileReader();
-  //     reader.addEventListener("load", () => {
-  //       setFile(reader.result);
-  //       setCropModalOpen(true);
-  //     });
-  //     reader.readAsDataURL(e.target.files[0]);
-  //   }
-  // };
-
-  // const processImage = async (image) => {
-  //   try {
-  //     setOcrLoading(true);
-  //     const res = await ocr(image);
-  //     setProds((p) => [...p, ...processOcr(res)]);
-  //   } catch (e) {
-  //     console.log(e);
-  //   } finally {
-  //     setOcrLoading(false);
-  //   }
-  // };
 
   const onAssign = (debtors) => {
     const modProds = prods.map((p) => {
@@ -247,12 +231,12 @@ const AddPurchase = ({ history }) => {
           onDidDismiss={() => setOcrLoading(false)}
           message={"Attendi..."}
         />
-        {/* <CropModal
+        <CropModal
           open={cropModalOpen}
           setOpen={setCropModalOpen}
           file={file}
           processImage={processImage}
-        /> */}
+        />
       </IonContent>
     </IonPage>
   );
