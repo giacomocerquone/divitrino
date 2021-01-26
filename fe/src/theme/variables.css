@@ -16,6 +16,13 @@ ion-button {
   font-weight: bold;
 }
 
+@media screen and (min-width: 600px) {
+  .ion-modal {
+    --width: 100%;
+    --height: 100%;
+  }
+}
+
 :root {
   /** primary **/
   --ion-color-primary: #3880ff;

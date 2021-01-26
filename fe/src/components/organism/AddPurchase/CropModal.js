@@ -1,5 +1,4 @@
 import { IonButton, IonModal } from "@ionic/react";
-import PageContainer from "components/atoms/PageContainer";
 import { ButtonsWrapper } from "pages/Movements";
 import React, { useRef } from "react";
 import Cropper from "react-perspective-cropper";
@@ -21,6 +20,7 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
 
   return (
     <IonModal
+      className="ion-modal"
       isOpen={open}
       swipeToClose={false}
       onDidDismiss={() => setOpen(false)}
@@ -38,11 +38,16 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
           openCvPath="./opencv/opencv.js"
           ref={cropperRef}
           image={file}
-          maxWidth={window.innerWidth - 15}
-          maxHeight={window.innerHeight - 200}
         />
       </div>
-      <PageContainer>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 20,
+          zIndex: 999,
+          left: "calc(50% - 110px)",
+        }}
+      >
         <ButtonsWrapper>
           <IonButton color="danger" onClick={() => setOpen(false)}>
             Annulla
@@ -51,7 +56,7 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
             Ritaglia
           </IonButton>
         </ButtonsWrapper>
-      </PageContainer>
+      </div>
     </IonModal>
   );
 };
