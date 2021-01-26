@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/giacomocerquone/divitrino/compare/v0.1.5...v0.1.6) (2021-01-26)
+
+
+### Bug Fixes
+
+* adjust crop modal content positions ([b82cc32](https://github.com/giacomocerquone/divitrino/commit/b82cc326592c8da1006a16a70e998e144632124f))
+
 ### [0.1.5](https://github.com/giacomocerquone/divitrino/compare/v0.1.4...v0.1.5) (2021-01-26)
 
 
