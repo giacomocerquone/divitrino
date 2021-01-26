@@ -29,9 +29,9 @@ const Movements = () => {
               <IonIcon slot="start" icon={add} />
               Acquisti
             </IonButton>
-            <IonButton mode="ios" routerLink="/nuovo-pagamento">
+            <IonButton mode="ios" routerLink="/nuovo-trasferimento">
               <IonIcon slot="start" icon={add} />
-              Pagamento
+              trasferimento
             </IonButton>
           </ButtonsWrapper>
         </IonToolbar>

@@ -22,7 +22,7 @@ const AppRoutes = () => {
       <IonRouterOutlet>
         <Route path="/movimenti" component={Movements} exact={true} />
         <Route path="/bilancio" component={Balance} />
-        <Route path="/nuovo-pagamento" component={AddPayment} />
+        <Route path="/nuovo-trasferimento" component={AddPayment} />
         <Route path="/nuovo-acquisto" component={AddPurchase} />
         <Route path="/dettaglio-acquisto/:id" component={PurchaseDetail} />
         <Route path="/persone" component={People} />

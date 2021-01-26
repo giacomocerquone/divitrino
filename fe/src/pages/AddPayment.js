@@ -14,7 +14,6 @@ import PageContainer from "components/atoms/PageContainer";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import movementsSlice from "reducers/movements";
-import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import PeopleSelect from "components/organism/PeopleSelect";
 import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
@@ -45,7 +44,7 @@ const AddPayment = ({ history }) => {
           <IonButtons slot="start">
             <IonBackButton text="Indietro" default-href="/" />
           </IonButtons>
-          <IonTitle>Aggiungi Pagamento</IonTitle>
+          <IonTitle>Aggiungi Trasferimento</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -62,17 +61,14 @@ const AddPayment = ({ history }) => {
             </IonItem>
 
             <IonItem>
-              <IonLabel position="floating">Pagante</IonLabel>
+              <IonLabel position="floating">Chi dà</IonLabel>
               <PeopleSelect
                 value={payer}
                 onIonChange={(e) => setPayer(e.detail.value)}
               />
             </IonItem>
-
-            <P>ha restituito denaro a</P>
-
             <IonItem>
-              <IonLabel position="floating">Ricevente</IonLabel>
+              <IonLabel position="floating">Chi riceve</IonLabel>
               <PeopleSelect
                 value={payee}
                 onIonChange={(e) => setPayee(e.detail.value)}
@@ -96,9 +92,3 @@ const AddPayment = ({ history }) => {
 };
 
 export default AddPayment;
-
-const P = styled.p`
-  font-weight: bold;
-  margin-top: 25px;
-  margin-bottom: 10px;
-`;
