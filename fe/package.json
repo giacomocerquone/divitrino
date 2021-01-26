@@ -21,7 +21,7 @@
     "ionicons": "^5.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-perspective-cropper": "^0.1.2",
+    "react-perspective-cropper": "0.1.7",
     "react-redux": "^7.2.2",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
