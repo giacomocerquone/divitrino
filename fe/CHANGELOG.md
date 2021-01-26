@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/giacomocerquone/divitrino/compare/v0.1.3...v0.1.4) (2021-01-26)
+
+
+### Features
+
+* add crop modal ([c77e7a0](https://github.com/giacomocerquone/divitrino/commit/c77e7a06b4b419f0d45f76c538136dbaf16b3814))
+* add perspective cropper npm package ([a9ef6f7](https://github.com/giacomocerquone/divitrino/commit/a9ef6f793506e695399f1b3907eef2398d7bf474))
+* add purchase detail page ([3a29ddb](https://github.com/giacomocerquone/divitrino/commit/3a29ddb194255eada80e2bfc21c1d67f622bbabc))
+
+
+### Bug Fixes
+
+* show correct movement thumb ([555b9e5](https://github.com/giacomocerquone/divitrino/commit/555b9e53e03c496b939890f6d9fcc58dc693194a))
+
 ### 0.1.3 (2021-01-14)
 
 
