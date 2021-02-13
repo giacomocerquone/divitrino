@@ -1,10 +1,9 @@
 import React from "react";
 import {
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonItemOption,
   IonItemOptions,
@@ -13,10 +12,13 @@ import {
   IonList,
   IonPage,
 } from "@ionic/react";
+
+import Title from "components/atoms/Title";
 import PageContainer from "components/atoms/PageContainer";
+import { logInOutline } from "ionicons/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getPeople } from "store/app.reducer";
-import { IonTitle, IonToolbar } from "components/atoms/CustomIon";
+import { IonToolbar } from "components/atoms/CustomIon";
 import peopleSlice from "reducers/people";
 import promptsSlice from "reducers/prompts";
 import { v4 as uuidv4 } from "uuid";
@@ -70,12 +72,9 @@ const People = () => {
 
   return (
     <IonPage>
-      <IonHeader mode="ios">
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton text="Indietro" default-href="/" />
-          </IonButtons>
-          <IonTitle>Persone</IonTitle>
+      <IonHeader>
+        <IonToolbar style={{ padding: "0 20px 10px 20px" }}>
+          <Title>People</Title>
         </IonToolbar>
       </IonHeader>
       <IonContent>

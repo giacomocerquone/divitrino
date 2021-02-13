@@ -28,7 +28,7 @@ const MovementRow = ({ movement }) => {
 
   return (
     <IonItemSliding>
-      <IonItem routerLink={isPurchase && `/dettaglio-acquisto/${movement.id}`}>
+      <IonItem routerLink={isPurchase && `/movimenti/dettaglio/${movement.id}`}>
         <CustomIonAvatar slot="start">
           <img src={isPurchase ? purchaseIcon : movementIcon} alt="cibo" />
         </CustomIonAvatar>

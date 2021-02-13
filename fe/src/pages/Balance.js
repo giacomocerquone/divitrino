@@ -13,9 +13,9 @@ import Title from "components/atoms/Title";
 import PageContainer from "components/atoms/PageContainer";
 import { getPeople, getDebts } from "store/app.reducer";
 import PayeeReport from "components/organism/PayeeReport";
-import AppVersionString from "components/atoms/AppVersionString";
 import promptsSlice from "reducers/prompts";
 import movementsSlice from "reducers/movements";
+import AppVersionString from "components/atoms/AppVersionString";
 
 export const equalize = (id, debts) => {
   const payments = [];
@@ -70,7 +70,8 @@ const Balance = () => {
           {
             text: "Pareggia",
             handler: (id) =>
-              id && dispatch(
+              id &&
+              dispatch(
                 movementsSlice.actions.addMovements(equalize(id, debts))
               ),
           },
@@ -100,16 +101,8 @@ const Balance = () => {
             >
               Pareggia i conti
             </IonButton>
-            <IonButton
-              mode="ios"
-              routerLink="/persone"
-              color="primary"
-              expand="block"
-            >
-              Gestisci gruppo
-            </IonButton>
-            <AppVersionString />
           </div>
+          <AppVersionString />
         </PageContainer>
       </IonContent>
     </IonPage>
