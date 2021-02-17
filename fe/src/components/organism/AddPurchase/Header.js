@@ -12,17 +12,14 @@ import {
   trashOutline,
 } from "ionicons/icons";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import promptsSlice from "reducers/prompts";
+import purchaseSlice from "reducers/purchase";
+import { getPurchaseProducts } from "store/app.reducer";
 
-const Header = ({
-  selectedRows,
-  setSelectedRows,
-  prods,
-  setProds,
-  setAssignModalOpen,
-}) => {
+const Header = ({ selectedRows, setSelectedRows, setAssignModalOpen }) => {
   const dispatch = useDispatch();
+  const prods = useSelector(getPurchaseProducts);
 
   const onMultipleAssignIntent = () => {
     if (Object.keys(selectedRows).some((key) => selectedRows[key])) {
@@ -42,8 +39,6 @@ const Header = ({
       const idsToDelete = Object.keys(selectedRows).filter((key) => {
         return selectedRows[key];
       });
-      const delProds = (prods) =>
-        prods.filter((p) => !idsToDelete.find((id) => p.id === id));
       dispatch(
         promptsSlice.actions.openAlert({
           header: "Attenzione",
@@ -56,7 +51,8 @@ const Header = ({
             },
             {
               text: "Elimina",
-              handler: () => setProds((prods) => delProds(prods)),
+              handler: () =>
+                dispatch(purchaseSlice.actions.delProds({ idsToDelete })),
             },
           ],
         })

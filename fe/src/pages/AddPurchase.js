@@ -14,7 +14,7 @@ import { ProdRow } from "components/organism/AddPurchase/ProdRow";
 import { ButtonsWrapper } from "./Movements";
 import AssignModal from "components/organism/AddPurchase/AssignModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getPeople } from "store/app.reducer";
+import { getPeople, getPurchaseProducts } from "store/app.reducer";
 import movementsSlice from "reducers/movements";
 import { v4 as uuidv4 } from "uuid";
 import productsSlice from "reducers/products";
@@ -24,9 +24,9 @@ import processOcr from "utils/processOcr";
 import convertToCents from "utils/convertToCents";
 import promptsSlice from "reducers/prompts";
 import CropModal from "components/organism/AddPurchase/CropModal";
+import purchaseSlice from "reducers/purchase";
 
 const AddPurchase = ({ history }) => {
-  const [prods, setProds] = useState([]);
   const [selectedRows, setSelectedRows] = useState({});
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
@@ -35,7 +35,11 @@ const AddPurchase = ({ history }) => {
   const fileInput = useRef(null);
 
   const people = useSelector(getPeople);
+  const prods = useSelector(getPurchaseProducts);
   const dispatch = useDispatch();
+
+  const addProds = (prods) => dispatch(purchaseSlice.actions.addProds(prods));
+  const setProds = (prods) => dispatch(purchaseSlice.actions.setProds(prods));
 
   const onTakePic = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -48,7 +52,7 @@ const AddPurchase = ({ history }) => {
     try {
       setOcrLoading(true);
       const res = await ocr(image);
-      setProds((p) => [...p, ...processOcr(res)]);
+      addProds(processOcr(res));
     } catch (e) {
       console.log(e);
     } finally {
@@ -170,8 +174,6 @@ const AddPurchase = ({ history }) => {
       <Header
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
-        prods={prods}
-        setProds={setProds}
         setAssignModalOpen={setAssignModalOpen}
       />
       <IonContent>
@@ -184,12 +186,10 @@ const AddPurchase = ({ history }) => {
                 setSelectedRows={setSelectedRows}
                 key={p.id}
                 product={p}
-                prods={prods}
-                setProds={setProds}
               />
             ))}
 
-            <NewProdRow setProds={setProds} />
+            <NewProdRow />
           </IonList>
           <ButtonsWrapper>
             <IonButton
