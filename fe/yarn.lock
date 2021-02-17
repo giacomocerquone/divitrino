@@ -10688,10 +10688,10 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
-react-perspective-cropper@0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/react-perspective-cropper/-/react-perspective-cropper-0.1.8.tgz#30efa9f63ed01eeac2f1f1ef241387524f98c469"
-  integrity sha512-YSueii49fODu/0dTWG8JD1Nt0u5XCc5qmya+E+bA9Rz1B9hDSxYVd4i7yyueyKSk5uh0+IzDrS6QmqAJrrnV0g==
+react-perspective-cropper@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-perspective-cropper/-/react-perspective-cropper-0.2.1.tgz#48cdd78fbf6b30660d21c9c6c80bf1fcab00a038"
+  integrity sha512-+mb/4Z8Bj+35LuiG8PjHD+ADIXaJ4M21WSJLlAZ8s67RMVkw7Yyel+wuvY/x4/XO6nd93OFy2AjLlAOLsdsBBg==
   dependencies:
     opencv-react "0.0.4"
     prop-types "^15.7.2"
