@@ -8,14 +8,13 @@ import {
 } from "@ionic/react";
 import useProdInputs from "hooks/useProdInputs";
 import React, { useRef } from "react";
-import { useSelector } from "react-redux";
-import { getPeopleObj } from "store/app.reducer";
+import { useSelector, useDispatch } from "react-redux";
+import { getPeopleObj, getPurchaseProducts } from "store/app.reducer";
+import purchaseSlice from "reducers/purchase";
 
 export const ProdRow = ({
   setAssignModalOpen,
   product,
-  prods,
-  setProds,
   selectedRows,
   setSelectedRows,
 }) => {
@@ -24,6 +23,9 @@ export const ProdRow = ({
     ? product.debtors.map((d) => peopleObj[d].name).join(", ")
     : "";
   const itemSliding = useRef(null);
+  const setProds = (prods) => dispatch(purchaseSlice.actions.addProds(prods));
+  const prods = useSelector(getPurchaseProducts);
+  const dispatch = useDispatch();
 
   const updateProduct = (e) => {
     // TODO normalize prods array in obj
@@ -67,7 +69,7 @@ export const ProdRow = ({
   };
 
   const onDelete = async (id) => {
-    setProds((p) => p.filter((item) => item.id !== id));
+    dispatch(purchaseSlice.actions.delProds({ idsToDelete: [id] }));
   };
 
   return (

@@ -1,24 +1,28 @@
 import { IonButton, IonIcon, IonItem } from "@ionic/react";
 import { add } from "ionicons/icons";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 import useProdInputs from "hooks/useProdInputs";
+import purchaseSlice from "reducers/purchase";
 
-const NewProdRow = ({ setProds }) => {
+const NewProdRow = () => {
   const [prodName, setProdName] = useState("");
   const [prodPrice, setProdPrice] = useState("");
+  const dispatch = useDispatch();
 
   const onProdAdd = async () => {
     if (prodName && prodPrice) {
-      setProds((p) => [
-        ...p,
-        {
-          name: prodName,
-          amount: prodPrice,
-          id: uuidv4(),
-        },
-      ]);
+      dispatch(
+        purchaseSlice.actions.addProds([
+          {
+            name: prodName,
+            amount: prodPrice,
+            id: uuidv4(),
+          },
+        ])
+      );
       setProdName();
       setProdPrice();
     }

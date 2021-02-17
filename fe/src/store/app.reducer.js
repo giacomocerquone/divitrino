@@ -8,11 +8,13 @@ import peopleSlice, * as fromPeople from "reducers/people";
 import productsSlice, * as fromProducts from "reducers/products";
 import movementsSlice, * as fromMovements from "reducers/movements";
 import promptsSlice, * as fromPrompts from "reducers/prompts";
+import purchaseSlice, * as fromPurchase from "reducers/purchase";
 
 const appReducer = combineReducers({
   people: peopleSlice.reducer,
   products: productsSlice.reducer,
   movements: movementsSlice.reducer,
+  purchase: purchaseSlice.reducer,
   prompts: promptsSlice.reducer,
 });
 
@@ -47,6 +49,10 @@ export const getMovementById = (state, id) =>
 // Prompts
 export const getAlertState = (state) =>
   fromPrompts.getAlertState(state.prompts);
+
+// Purchase
+export const getPurchaseProducts = (state) =>
+  fromPurchase.getPurchaseProducts(state.purchase);
 
 // Extra
 export const getTotToReturnTo = (state, from, to) => {
