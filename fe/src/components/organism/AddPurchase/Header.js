@@ -68,11 +68,15 @@ const Header = ({ selectedRows, setSelectedRows, setAssignModalOpen }) => {
   };
 
   const onSelectAll = () => {
-    const newSelRows = prods.reduce((acc, p) => {
-      acc[p.id] = true;
-      return acc;
-    }, {});
-    setSelectedRows(newSelRows);
+    if (Object.keys(selectedRows).some((k) => selectedRows[k])) {
+      setSelectedRows({});
+    } else {
+      const newSelRows = prods.reduce((acc, p) => {
+        acc[p.id] = true;
+        return acc;
+      }, {});
+      setSelectedRows(newSelRows);
+    }
   };
 
   return (
