@@ -42,6 +42,7 @@ const AddPurchase = ({ history }) => {
   const setProds = (prods) => dispatch(purchaseSlice.actions.setProds(prods));
 
   const onTakePic = async (e) => {
+    console.log("e", e);
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
       setCropModalOpen(true);
