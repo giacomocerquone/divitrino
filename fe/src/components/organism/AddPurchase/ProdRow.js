@@ -23,7 +23,7 @@ export const ProdRow = ({
     ? product.debtors.map((d) => peopleObj[d].name).join(", ")
     : "";
   const itemSliding = useRef(null);
-  const setProds = (prods) => dispatch(purchaseSlice.actions.addProds(prods));
+  const setProds = (prods) => dispatch(purchaseSlice.actions.setProds(prods));
   const prods = useSelector(getPurchaseProducts);
   const dispatch = useDispatch();
 
