@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import promptsSlice from "reducers/prompts";
+import purchaseSlice from "reducers/purchase";
 import {
   persistStore,
   FLUSH,
@@ -24,6 +25,7 @@ export const store = configureStore({
         PURGE,
         REGISTER,
         promptsSlice.actions.openAlert.toString(),
+        purchaseSlice.actions.delProds.toString(),
       ],
     },
   }),
