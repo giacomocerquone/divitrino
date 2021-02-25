@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/giacomocerquone/divitrino/compare/v0.1.7...v0.1.8) (2021-02-25)
+
+
+### Features
+
+* add possibility to toggle between all prods selected and no prod selected ([4e7d3d7](https://github.com/giacomocerquone/divitrino/commit/4e7d3d71f5656646489a4652ab0c6a554be7a2c7))
+* add products handling in redux ([41c33bd](https://github.com/giacomocerquone/divitrino/commit/41c33bdf90d1a10e479b746a0997d73affd8f8bc))
+* update cropper version, preloading at boot ([10a8490](https://github.com/giacomocerquone/divitrino/commit/10a84900a816df1dd9cb5947971467b1eb8efb5a))
+
+
+### Bug Fixes
+
+* better position the cropmodal ([915ba5d](https://github.com/giacomocerquone/divitrino/commit/915ba5de638f3fa24ee3887feb136ba2dbab408c))
+* ignore delProds actions ([38d18c2](https://github.com/giacomocerquone/divitrino/commit/38d18c299fef548106727e22ccc760f20e6a5fed))
+* input file modal wasn't working the second time the image was selected ([1ceb1b9](https://github.com/giacomocerquone/divitrino/commit/1ceb1b95752c28037445e05c7802ec49070c9f37))
+* prods to add edit ([03b723c](https://github.com/giacomocerquone/divitrino/commit/03b723c4c471d027dea965545dc17803f425c08b))
+
 ### [0.1.7](https://github.com/giacomocerquone/divitrino/compare/v0.1.6...v0.1.7) (2021-01-26)
 
 
