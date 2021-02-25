@@ -42,11 +42,16 @@ const AddPurchase = ({ history }) => {
   const setProds = (prods) => dispatch(purchaseSlice.actions.setProds(prods));
 
   const onTakePic = async (e) => {
-    console.log("e", e);
+    // TODO Add loader
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
       setCropModalOpen(true);
     }
+  };
+
+  const onClose = () => {
+    setCropModalOpen(false);
+    setFile(undefined);
   };
 
   const processImage = async (image) => {
@@ -194,7 +199,6 @@ const AddPurchase = ({ history }) => {
           </IonList>
           <ButtonsWrapper>
             <IonButton
-              htmlFor="camera-input"
               mode="ios"
               onClick={() => fileInput.current.click()}
               color="primary"
@@ -209,6 +213,7 @@ const AddPurchase = ({ history }) => {
               hidden
               onChange={onTakePic}
               accept="image/*"
+              key={file} // to trigger rerender and clear the input choice
             />
 
             <IonButton
@@ -234,7 +239,7 @@ const AddPurchase = ({ history }) => {
         />
         <CropModal
           open={cropModalOpen}
-          setOpen={setCropModalOpen}
+          onClose={onClose}
           file={file}
           processImage={processImage}
         />
