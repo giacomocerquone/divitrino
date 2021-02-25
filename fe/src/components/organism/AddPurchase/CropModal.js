@@ -3,7 +3,7 @@ import { ButtonsWrapper } from "pages/Movements";
 import React, { useRef } from "react";
 import Cropper from "react-perspective-cropper";
 
-const CropModal = ({ open, setOpen, file, processImage }) => {
+const CropModal = ({ open, file, processImage, onClose }) => {
   const cropperRef = useRef();
 
   const onDoneCropping = async () => {
@@ -15,7 +15,7 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
       },
     });
     processImage(res);
-    setOpen(false);
+    onClose();
   };
 
   return (
@@ -23,21 +23,22 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
       className="ion-modal"
       isOpen={open}
       swipeToClose={false}
-      onDidDismiss={() => setOpen(false)}
+      onDidDismiss={onClose}
     >
       <div
         style={{
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-around",
+          justifyContent: "flex-start",
+          marginTop: 20,
           alignItems: "center",
         }}
       >
         <Cropper
           ref={cropperRef}
           image={file}
-          maxHeight={window.innerHeight - 10}
+          maxHeight={window.innerHeight - 60}
         />
       </div>
       <div
@@ -48,11 +49,11 @@ const CropModal = ({ open, setOpen, file, processImage }) => {
           left: "calc(50% - 110px)",
         }}
       >
-        <ButtonsWrapper>
-          <IonButton color="danger" onClick={() => setOpen(false)}>
+        <ButtonsWrapper style={{ width: 110 }}>
+          <IonButton color="danger" onClick={onClose} mode="md">
             Annulla
           </IonButton>
-          <IonButton color="primary" onClick={onDoneCropping}>
+          <IonButton color="primary" onClick={onDoneCropping} mode="md">
             Ritaglia
           </IonButton>
         </ButtonsWrapper>
