@@ -58,6 +58,21 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "users_permissions_users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "users",
+      "dominant": true
+    },
+    "users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "users_permissions_users"
+    },
+    "product": {
+      "via": "debtors",
+      "model": "product"
     }
   }
 }
