@@ -59,20 +59,14 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "users_permissions_users": {
-      "plugin": "users-permissions",
-      "collection": "user",
+    "product": {
+      "model": "product",
+      "via": "debtors"
+    },
+    "groups": {
+      "collection": "group",
       "via": "users",
       "dominant": true
-    },
-    "users": {
-      "plugin": "users-permissions",
-      "collection": "user",
-      "via": "users_permissions_users"
-    },
-    "product": {
-      "via": "debtors",
-      "model": "product"
     }
   }
 }

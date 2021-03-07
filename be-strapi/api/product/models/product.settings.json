@@ -18,9 +18,9 @@
       "type": "integer"
     },
     "debtors": {
+      "via": "product",
       "plugin": "users-permissions",
-      "collection": "user",
-      "via": "product"
+      "collection": "user"
     }
   }
 }
