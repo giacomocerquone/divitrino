@@ -8,12 +8,14 @@ import peopleSlice, * as fromPeople from "reducers/people";
 import productsSlice, * as fromProducts from "reducers/products";
 import movementsSlice, * as fromMovements from "reducers/movements";
 import promptsSlice, * as fromPrompts from "reducers/prompts";
+import userSlice, * as fromUser from "reducers/user.ts";
 
 const appReducer = combineReducers({
   people: peopleSlice.reducer,
   products: productsSlice.reducer,
   movements: movementsSlice.reducer,
   prompts: promptsSlice.reducer,
+  user: userSlice.reducer,
 });
 
 const persistConfig = {
@@ -26,6 +28,9 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, appReducer);
 
 export default persistedReducer;
+
+// User
+export const getToken = (state) => fromUser.getToken(state.user);
 
 // People
 export const getPeopleObj = (state) => fromPeople.getPeopleObj(state.people);
