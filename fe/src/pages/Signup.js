@@ -17,7 +17,7 @@ import { useMutation } from "graphql-hooks";
 import userSlice from "reducers/user";
 import { useDispatch } from "react-redux";
 
-const LOGIN_MUTATION = `mutation Login($input: UsersPermissionsLoginInput!) {
+const SIGNUP_MUTATION = `mutation Signup($input: UsersPermissionsLoginInput!) {
   login(input: $input) {
     jwt
     user {
@@ -33,9 +33,9 @@ const initialFormState = {
   password: "",
 };
 
-const Login = () => {
+const Signup = () => {
   const [data, setData] = useState(initialFormState);
-  const [loginMut, { loading }] = useMutation(LOGIN_MUTATION);
+  const [loginMut, { loading }] = useMutation(SIGNUP_MUTATION);
   const { identifier, password } = data;
   const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ const Login = () => {
       <IonPage>
         <IonHeader>
           <IonToolbar style={{ padding: "0 20px 10px 20px" }}>
-            <Title>Login</Title>
+            <Title>Registrazione</Title>
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -96,7 +96,7 @@ const Login = () => {
               disable={loading}
               color="primary"
               mode="ios"
-              routerLink="/signup"
+              onClick={doLogin}
             >
               <IonIcon slot="start" icon={logInOutline} />
               Registrati
@@ -108,7 +108,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
 
 const PageContainer = styled.div`
   padding: 0 20px 20px 20px;

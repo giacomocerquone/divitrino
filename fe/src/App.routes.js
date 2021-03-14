@@ -21,11 +21,13 @@ import AddPayment from "pages/AddPayment";
 import PurchaseDetail from "pages/PurchaseDetail";
 import People from "pages/People";
 import Login from "pages/Login";
+import Signup from "pages/Signup";
 
 const AppRoutes = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
+        <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/people" component={People} />
         <Route path="/movimenti" component={Movements} exact={true} />
