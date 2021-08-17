@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  name     String
+  password String
+  groups   Group[]
+
+  paymentsAsPayer Payment[]  @relation("payer")
+  paymentsAsPayee Payment[]  @relation("payee")
+  purchaseAsPayer Purchase[]
+  products        Product[]
+}
+
+model Group {
+  id        String     @id @default(uuid())
+  name      String
+  users     User[]
+  purchases Purchase[]
+  Payment   Payment[]
+}
+
+model Purchase {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  amount      Int
+  description String?
+  products    Product[]
+  group       Group     @relation(fields: [groupId], references: [id])
+  groupId     String
+  payer       User      @relation(fields: [payerId], references: [id])
+  payerId     String
+}
+
+model Product {
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  id             String   @id @default(uuid())
+  name           String
+  pricePerDebtor Int
+  debtors        User[]
+  purchase       Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId     String
+}
+
+model Payment {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  id        String   @id @default(uuid())
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   String
+  amount    Int
+  payerId   String
+  payeeId   String
+  payer     User     @relation("payer", fields: [payerId], references: [id])
+  payee     User     @relation("payee", fields: [payeeId], references: [id])
+}
