@@ -6,15 +6,15 @@ import { useDispatch } from "react-redux";
 import BottomBar from "../components/molecules/BottomBar";
 import { colors } from "../constants/ui";
 import * as userActions from "../store/userSlice";
-import Balances from "./Balances";
-import Groups from "./Groups";
+import Balance from "./Balance";
+import Groups from "./Group";
 import Movements from "./Movements";
 
-export type TabsNames = "Movements" | "Balances" | "Groups";
+export type TabsNames = "Movements" | "Balance" | "Groups";
 export type TabsMap = Record<TabsNames, ReactNode | null>;
-const tabs: TabsMap = {
+const Tabs: TabsMap = {
   Movements,
-  Balances,
+  Balance,
   Groups,
 };
 
@@ -26,9 +26,14 @@ const HomeNav = () => {
     dispatch(userActions.logout());
   };
 
+  const TabComponent = Tabs[activeTab];
+
   return (
     <SafeAreaView edges={["top"]} style={styles.root}>
-      <View style={{ flex: 1 }}>{tabs[activeTab]}</View>
+      <View style={{ flex: 1 }}>
+        {/* TODO WTF */}
+        <TabComponent />
+      </View>
       <BottomBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { colors } from "../constants/ui";
 import { getToken } from "../store";
 import HomeNav from "./HomeNav";
+import Invite from "./Invite";
 import Login from "./Login";
 import Signup from "./Signup";
 
@@ -23,7 +24,10 @@ const IntroNav = () => {
       }}
     >
       {!token ? (
-        <Stack.Screen name="Home" component={HomeNav} />
+        <>
+          <Stack.Screen name="Home" component={HomeNav} />
+          <Stack.Screen name="Invite" component={Invite} />
+        </>
       ) : (
         <>
           <Stack.Screen name="Login" component={Login} />

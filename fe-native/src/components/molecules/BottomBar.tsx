@@ -21,8 +21,8 @@ const BottomBar: FunctionComponent<Props> = ({
       />
       <IconButton
         name="cash"
-        active={activeTab === "Balances"}
-        onPress={() => setActiveTab("Balances")}
+        active={activeTab === "Balance"}
+        onPress={() => setActiveTab("Balance")}
       />
       <AddButton
         onPress={onAdd}

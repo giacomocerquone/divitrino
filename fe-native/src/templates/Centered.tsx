@@ -18,9 +18,7 @@ const Centered: FunctionComponent<Props> = ({
   return (
     <View style={styles.root}>
       {/* TODO image */}
-      <Text size="xl" weight="normal">
-        {title}
-      </Text>
+      <Text size="xl" weight="normal" text={title} />
       <Text align="center" style={styles.description}>
         {description}
       </Text>

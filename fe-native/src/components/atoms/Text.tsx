@@ -1,11 +1,12 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import { Text as RNText, TextStyle } from "react-native";
 
-type size = "xs" | "s" | "m" | "l" | "xl";
+type size = "xxs" | "xs" | "s" | "m" | "l" | "xl";
 
 type weight = "light" | "normal" | "bold";
 
-const sizesMap: Record<size, TextStyle["fontSize"]> = {
+const sizesMap: Record<size, number> = {
+  xxs: 10,
   xs: 14,
   s: 16,
   m: 18,
@@ -40,7 +41,8 @@ const Text: FunctionComponent<Props> = ({
         color,
         fontFamily: familyWeightsMap[weight],
         textAlign: align || "auto",
-        lineHeight,
+        lineHeight: lineHeight || sizesMap[size] * 1.4,
+        textAlignVertical: "center",
         ...style,
       }}
     >
