@@ -7,9 +7,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { Provider } from "react-redux";
 import "react-native-gesture-handler";
 
 import IntroNav from "./src/pages/IntroNav";
+import store from "./src/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,8 +25,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <IntroNav />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <IntroNav />
+      </NavigationContainer>
+    </Provider>
   );
 }

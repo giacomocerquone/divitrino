@@ -1,8 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 import { colors } from "../constants/ui";
+import { getToken } from "../store";
 import HomeNav from "./HomeNav";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -10,7 +11,8 @@ import Signup from "./Signup";
 const Stack = createNativeStackNavigator();
 
 const IntroNav = () => {
-  const token = "";
+  const token = useSelector(getToken);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -33,5 +35,3 @@ const IntroNav = () => {
 };
 
 export default IntroNav;
-
-const styles = StyleSheet.create({});

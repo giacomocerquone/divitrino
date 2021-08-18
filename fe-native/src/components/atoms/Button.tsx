@@ -11,13 +11,15 @@ const Button: FunctionComponent<Props> = (props) => {
       style={[styles.root, props.style]}
       onPress={props.onPress}
     >
-      <Text
-        text={props.label}
-        transform="uppercase"
-        weight="bold"
-        color={colors.white}
-        {...props.textProps}
-      />
+      {props.label && (
+        <Text
+          text={props.label}
+          transform="uppercase"
+          weight="bold"
+          color={colors.white}
+          {...props.textProps}
+        />
+      )}
     </TouchableOpacity>
   );
 };
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   textProps?: ComponentProps<typeof Text>;
-  label: string;
+  label?: string;
   style?: TouchableOpacityProps["style"];
   onPress: TouchableOpacityProps["onPress"];
 }
