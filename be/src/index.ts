@@ -79,15 +79,6 @@ app.after(() => {
       })
     );
   });
-  app.get("/groups", async (req, res) => {
-    return res.send(
-      await prisma.group.findMany({
-        include: {
-          users: true,
-        },
-      })
-    );
-  });
   app.get("/purchases", async (req, res) => {
     return res.send(
       await prisma.purchase.findMany({

@@ -4,82 +4,109 @@ import httpErrors from "http-errors";
 import { prisma } from "../";
 
 export default async function (app: FastifyInstance) {
-  app.post<{
-    Body: IPurchaseBody;
-  }>(
-    `/purchase`, // @ts-ignore
-    { preHandler: app.auth([app.checkAuth]) },
+  // @ts-ignore
+  app.addHook("preHandler", app.auth([app.checkAuth]));
+
+  app.get<{ Querystring: IMovementsQueryString }>(
+    "movements",
     async (req, res) => {
-      const { description, payerId, products, groupId } = req.body;
-
-      const amount = products.reduce((tot, prod) => {
-        return tot + prod.pricePerDebtor;
-      }, 0);
-
-      const prodsToCreate = products.reduce<
-        {
-          name: string;
-          pricePerDebtor: number;
-          debtors: { connect: { id: string }[] };
-        }[]
-      >((acc, prod) => {
-        acc.push({
-          name: prod.name,
-          pricePerDebtor: prod.pricePerDebtor,
-          debtors: {
-            connect: prod.debtors.map((debtor) => ({ id: debtor })),
-          },
-        });
-
-        return acc;
-      }, []);
-
-      const result = await prisma.purchase.create({
-        data: {
-          groupId,
-          payerId,
-          amount,
-          description,
-          products: {
-            create: prodsToCreate,
-          },
+      const movements = await prisma.group.findMany({
+        where: {
+          id: req.query.groupId,
+        },
+        include: {
+          payments: true,
+          purchases: true,
         },
       });
 
-      return res.send(result);
+      res.send(movements);
     }
   );
+  app.get<{ Querystring: IUsersGroupQueryString }>(
+    "/users",
+    async (req, res) => {
+      return res.send(
+        await prisma.user.findMany({
+          where: {
+            groups: {
+              every: {
+                id: req.query.groupId,
+              },
+            },
+          },
+        })
+      );
+    }
+  );
+
+  app.post<{
+    Body: IPurchaseBody;
+  }>(`/purchase`, async (req, res) => {
+    const { description, payerId, products, groupId } = req.body;
+
+    const amount = products.reduce((tot, prod) => {
+      return tot + prod.pricePerDebtor;
+    }, 0);
+
+    const prodsToCreate = products.reduce<
+      {
+        name: string;
+        pricePerDebtor: number;
+        debtors: { connect: { id: string }[] };
+      }[]
+    >((acc, prod) => {
+      acc.push({
+        name: prod.name,
+        pricePerDebtor: prod.pricePerDebtor,
+        debtors: {
+          connect: prod.debtors.map((debtor) => ({ id: debtor })),
+        },
+      });
+
+      return acc;
+    }, []);
+
+    const result = await prisma.purchase.create({
+      data: {
+        groupId,
+        payerId,
+        amount,
+        description,
+        products: {
+          create: prodsToCreate,
+        },
+      },
+    });
+
+    return res.send(result);
+  });
 
   app.post<{
     Body: IPaymentBody;
-  }>(
-    `/payment`, // @ts-ignore
-    { preHandler: app.auth([app.checkAuth]) },
-    async (req, res) => {
-      const { amount, payerId, payeeId, groupId } = req.body;
+  }>(`/payment`, async (req, res) => {
+    const { amount, payerId, payeeId, groupId } = req.body;
 
-      if (!payerId || !payeeId || !amount) {
-        return res.send(
-          new httpErrors.BadRequest("amount, payerId and payeeId are needed")
-        );
-      }
-
-      const result = await prisma.payment.create({
-        data: {
-          amount,
-          payerId,
-          payeeId,
-          groupId,
-        },
-      });
-
-      return res.send(result);
+    if (!payerId || !payeeId || !amount) {
+      return res.send(
+        new httpErrors.BadRequest("amount, payerId and payeeId are needed")
+      );
     }
-  );
+
+    const result = await prisma.payment.create({
+      data: {
+        amount,
+        payerId,
+        payeeId,
+        groupId,
+      },
+    });
+
+    return res.send(result);
+  });
 
   app.get<{ Querystring: IBalanceQueryString }>(
-    "/balance", // @ts-ignore
-    { preHandler: app.auth([app.checkAuth]) },
+    "/balance",
     async (req, res) => {
       const usersGroup = await prisma.group.findUnique({
         where: {
@@ -179,5 +206,12 @@ interface IPurchaseBody {
 }
 
 interface IBalanceQueryString {
+  groupId: string;
+}
+interface IMovementsQueryString {
+  groupId: string;
+}
+
+interface IUsersGroupQueryString {
   groupId: string;
 }

@@ -21,11 +21,13 @@ model User {
 }
 
 model Group {
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   id        String     @id @default(uuid())
   name      String
   users     User[]
   purchases Purchase[]
-  Payment   Payment[]
+  payments  Payment[]
 }
 
 model Purchase {

@@ -50,6 +50,17 @@ export default async function (app: FastifyInstance) {
       where: {
         email,
       },
+      select: {
+        name: true,
+        email: true,
+        id: true,
+        password: true,
+        groups: {
+          select: {
+            id: true,
+          },
+        },
+      },
     });
 
     if (!user) {
