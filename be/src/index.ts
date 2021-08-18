@@ -12,7 +12,7 @@ import userRouter from "./routes/user";
 
 dotenv.config();
 export const prisma = new PrismaClient();
-const app = fastify();
+const app = fastify({ logger: process.env.NODE_ENV !== "production" });
 
 app
   .decorate("checkAuth", async (req: any) => {
@@ -70,15 +70,6 @@ app
   .register(userRouter);
 
 app.after(() => {
-  app.get("/users", async (req, res) => {
-    return res.send(
-      await prisma.user.findMany({
-        include: {
-          groups: true,
-        },
-      })
-    );
-  });
   app.get("/purchases", async (req, res) => {
     return res.send(
       await prisma.purchase.findMany({
@@ -98,7 +89,7 @@ app.after(() => {
   });
 });
 
-app.listen(3000, (err) => {
+app.listen(process.env.PORT || 3000, process.env.IP || "localhost", (err) => {
   if (err) {
     console.error(err);
     process.exit(1);

@@ -8,7 +8,7 @@ export default async function (app: FastifyInstance) {
   app.addHook("preHandler", app.auth([app.checkAuth]));
 
   app.get<{ Querystring: IMovementsQueryString }>(
-    "movements",
+    "/movements",
     async (req, res) => {
       const movements = await prisma.group.findMany({
         where: {
