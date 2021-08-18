@@ -20,7 +20,7 @@ const IntroNav = () => {
         },
       }}
     >
-      {token ? (
+      {!token ? (
         <Stack.Screen name="Home" component={HomeNav} />
       ) : (
         <>

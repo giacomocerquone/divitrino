@@ -1,18 +1,26 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+
 import Input from "../components/atoms/Input";
+import { login } from "../constants/endpoints";
+import client from "../services/client";
 import Centered from "../templates/Centered";
 
 const Login = () => {
   const navigation = useNavigation();
-  const [data, setData] = useState({
+  const [{ email, pwd }, setData] = useState({
     email: "",
     pwd: "",
   });
 
-  const onSubmit = () => {
-    console.log("asd");
+  const onSubmit = async () => {
+    try {
+      const res = await client.post(login, { email, pwd });
+      // dispatch()
+    } catch (e) {
+      console.log("login error");
+    }
   };
 
   // @ts-ignore
@@ -32,14 +40,14 @@ scansionando gli scontrini`}
       <Input
         autoCompleteType="email"
         placeholder="E-mail"
-        value={data.email}
+        value={email}
         onChangeText={(text) => setData((d) => ({ ...d, email: text }))}
       />
       <Input
         autoCapitalize="none"
         autoCompleteType="password"
         placeholder="Password"
-        value={data.pwd}
+        value={pwd}
         onChangeText={(text) => setData((d) => ({ ...d, pwd: text }))}
       />
     </Centered>
