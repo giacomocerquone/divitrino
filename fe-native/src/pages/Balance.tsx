@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 import Text from "../components/atoms/Text";
 import { unit } from "../constants/ui";
 
-const UserDebts = () => {
+const UserDebts: FunctionComponent<Props> = () => {
   return <View />;
 };
 
@@ -31,3 +31,7 @@ export default Balance;
 const styles = StyleSheet.create({
   root: { paddingHorizontal: unit * 5 },
 });
+
+interface Props {
+  item: any; // TODO
+}

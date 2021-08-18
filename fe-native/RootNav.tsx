@@ -2,16 +2,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { colors } from "../constants/ui";
-import { getToken } from "../store";
-import HomeNav from "./HomeNav";
-import Invite from "./Invite";
-import Login from "./Login";
-import Signup from "./Signup";
+import { colors } from "./src/constants/ui";
+import HomeNav from "./src/pages/HomeNav";
+import Invite from "./src/pages/Invite";
+import Login from "./src/pages/Login";
+import Signup from "./src/pages/Signup";
+import { getToken } from "./src/store";
 
 const Stack = createNativeStackNavigator();
 
-const IntroNav = () => {
+const RootNav = () => {
   const token = useSelector(getToken);
 
   return (
@@ -23,7 +23,7 @@ const IntroNav = () => {
         },
       }}
     >
-      {!token ? (
+      {token ? (
         <>
           <Stack.Screen name="Home" component={HomeNav} />
           <Stack.Screen name="Invite" component={Invite} />
@@ -38,4 +38,4 @@ const IntroNav = () => {
   );
 };
 
-export default IntroNav;
+export default RootNav;

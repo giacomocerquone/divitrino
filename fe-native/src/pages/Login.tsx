@@ -1,14 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
 
 import Input from "../components/atoms/Input";
 import { login } from "../constants/endpoints";
 import client from "../services/client";
+import * as userActions from "../store/userSlice";
 import Centered from "../templates/Centered";
 
 const Login = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [{ email, pwd }, setData] = useState({
     email: "",
     pwd: "",
@@ -16,10 +19,12 @@ const Login = () => {
 
   const onSubmit = async () => {
     try {
-      const res = await client.post(login, { email, pwd });
-      // dispatch()
+      const {
+        data: { accessToken: token, ...user },
+      } = await client.post(login, { email, password: pwd });
+      dispatch(userActions.login({ token, user }));
     } catch (e) {
-      console.log("login error");
+      console.log("login error", e?.response?.data?.message || e);
     }
   };
 
@@ -38,6 +43,7 @@ scansionando gli scontrini`}
       secondaryText="Registrati"
     >
       <Input
+        autoCapitalize="none"
         autoCompleteType="email"
         placeholder="E-mail"
         value={email}
@@ -46,6 +52,7 @@ scansionando gli scontrini`}
       <Input
         autoCapitalize="none"
         autoCompleteType="password"
+        secureTextEntry
         placeholder="Password"
         value={pwd}
         onChangeText={(text) => setData((d) => ({ ...d, pwd: text }))}

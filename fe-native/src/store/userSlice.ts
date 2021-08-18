@@ -1,19 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface User {
+  name: string;
+  email: string;
+  id: string;
+  groups: {
+    id: string;
+  }[];
+}
 export interface UserState {
   token: string;
+  user: Partial<User>;
 }
 
 const initialState: UserState = {
   token: "",
+  user: {},
 };
 
 export const counterSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setToken(state, action: PayloadAction<string>) {
-      state.token = action.payload;
+    login(state, action: PayloadAction<{ token: string; user: User }>) {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
     },
     logout(state) {
       state.token = "";
@@ -22,7 +33,7 @@ export const counterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, logout } = counterSlice.actions;
+export const { login, logout } = counterSlice.actions;
 
 export default counterSlice.reducer;
 

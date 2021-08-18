@@ -1,13 +1,16 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Input from "../components/atoms/Input";
 import { signup } from "../constants/endpoints";
 import client from "../services/client";
+import * as userActions from "../store/userSlice";
 import Centered from "../templates/Centered";
 
 const Signup = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [{ email, pwd, group, name }, setData] = useState({
     email: "",
     pwd: "",
@@ -18,13 +21,16 @@ const Signup = () => {
   const onSubmit = async () => {
     try {
       // todo distinguish groupid with groupname
-      const res = await client.post(signup, {
+      const {
+        data: { accessToken: token, user },
+      } = await client.post(signup, {
         name,
         email,
         pwd,
         groupName: group,
       });
-      // dispatch()
+
+      dispatch(userActions.login({ token, user }));
     } catch (e) {
       console.log("signup error");
     }
@@ -45,10 +51,9 @@ scansionando gli scontrini`}
       secondaryText="Accedi"
     >
       <Input
-        autoCompleteType="email"
-        placeholder="E-mail"
+        placeholder="Nome"
         value={name}
-        onChangeText={(text) => setData((d) => ({ ...d, email: text }))}
+        onChangeText={(text) => setData((d) => ({ ...d, name: text }))}
       />
       <Input
         autoCompleteType="email"
@@ -59,6 +64,7 @@ scansionando gli scontrini`}
       <Input
         autoCapitalize="none"
         autoCompleteType="password"
+        secureTextEntry
         placeholder="Password"
         value={pwd}
         onChangeText={(text) => setData((d) => ({ ...d, pwd: text }))}

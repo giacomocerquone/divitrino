@@ -11,7 +11,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import "react-native-gesture-handler";
 
-import IntroNav from "./src/pages/IntroNav";
+import RootNav from "./RootNav";
 import store from "./src/store";
 
 export default function App() {
@@ -29,7 +29,7 @@ export default function App() {
     <SafeAreaProvider>
       <Provider store={store}>
         <NavigationContainer>
-          <IntroNav />
+          <RootNav />
         </NavigationContainer>
       </Provider>
     </SafeAreaProvider>

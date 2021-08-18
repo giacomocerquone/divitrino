@@ -14,7 +14,7 @@ const apiReqInterceptor = (
   config: AxiosRequestConfig
   // getState = store.getState
 ) => {
-  console.log("Api request sent:", config.url, config.baseURL);
+  console.log("Api request sent:", config.baseURL, config.url, config.method);
 
   const token = "";
 
