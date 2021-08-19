@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
 import Product from "../components/organisms/NewPurchase/Product";
@@ -9,8 +9,9 @@ import ProductInput from "../components/organisms/NewPurchase/ProductInput";
 import Toolbar from "../components/organisms/NewPurchase/Toolbar";
 import { colors, unit } from "../constants/ui";
 import { getPurchaseProducts } from "../store";
+import * as purchaseActions from "../store/purchaseSlice";
 
-type TSelectedProds = Record<number, boolean>;
+type TSelectedProds = Record<string, boolean>;
 
 const keyboardDismissProp =
   Platform.OS === "ios"
@@ -18,6 +19,7 @@ const keyboardDismissProp =
     : { onScrollEndDrag: Keyboard.dismiss };
 
 const NewPurchase = () => {
+  const dispatch = useDispatch();
   const prods = useSelector(getPurchaseProducts);
   const [selectedProdsIndexes, setSelectedProdsIndexes] =
     useState<TSelectedProds>({});
@@ -33,11 +35,25 @@ const NewPurchase = () => {
   );
 
   const onSelectAll = () => {
-    const allIdxsTrue = prods.reduce<TSelectedProds>((acc, _, idx) => {
-      return { ...acc, [idx]: true };
+    const areAllSelected = Object.values(Array.from(prods.keys())).every(
+      (index) => selectedProdsIndexes[index]
+    );
+    const newIndexes = prods.reduce<TSelectedProds>((acc, _, idx) => {
+      return { ...acc, [idx]: !areAllSelected };
     }, {});
 
-    setSelectedProdsIndexes(allIdxsTrue);
+    setSelectedProdsIndexes(newIndexes);
+  };
+
+  const onDelete = () => {
+    dispatch(
+      purchaseActions.delProds(
+        Object.keys(selectedProdsIndexes)
+          .filter((index) => selectedProdsIndexes[index])
+          .map((index) => parseInt(index, 10))
+      )
+    );
+    setSelectedProdsIndexes({});
   };
 
   return (
@@ -55,7 +71,7 @@ const NewPurchase = () => {
               text="Nuovo acquisto"
               style={styles.headerTitle}
             />
-            <Toolbar onSelectAll={onSelectAll} />
+            <Toolbar onSelectAll={onSelectAll} onDelete={onDelete} />
           </View>
         }
         contentContainerStyle={styles.root}

@@ -28,8 +28,6 @@ const ProductInput: FunctionComponent<Props> = () => {
     setFocusedInputIdx(0);
   };
 
-  console.log("rerendering");
-
   return (
     <View style={styles.root}>
       <Input

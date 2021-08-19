@@ -20,10 +20,11 @@ const purchaseSlice = createSlice({
     setProds(state, { payload }: PayloadAction<IProduct[]>) {
       state.prods = payload;
     },
-    delProds(state, { payload }: PayloadAction<{ indexes: number[] }>) {
-      for (const idx of payload.indexes) {
-        delete state.prods[idx];
-      }
+    delProds(state, { payload }: PayloadAction<number[]>) {
+      return {
+        ...state,
+        prods: state.prods.filter((_, idx) => !payload.includes(idx)),
+      };
     },
   },
 });
