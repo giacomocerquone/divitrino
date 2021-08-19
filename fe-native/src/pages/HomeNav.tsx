@@ -38,7 +38,6 @@ const HomeNav = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onLogout={onLogout}
-        onAdd={() => null}
       />
     </SafeAreaView>
   );

@@ -1,17 +1,23 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { colors, unit } from "../../constants/ui";
 import { TabsNames } from "../../pages/HomeNav";
 import AddButton from "../atoms/AddButton";
 import IconButton from "../atoms/IconButton";
+import AddBox from "./AddBox";
 
 const BottomBar: FunctionComponent<Props> = ({
   activeTab,
   setActiveTab,
   onLogout,
-  onAdd,
 }) => {
+  const [addBoxVisible, setAddBoxVisible] = useState(false);
+
+  const onAdd = () => {
+    setAddBoxVisible((v) => !v);
+  };
+
   return (
     <View style={styles.root}>
       <IconButton
@@ -24,6 +30,7 @@ const BottomBar: FunctionComponent<Props> = ({
         active={activeTab === "Balance"}
         onPress={() => setActiveTab("Balance")}
       />
+      {addBoxVisible && <AddBox />}
       <AddButton
         onPress={onAdd}
         style={{ position: "relative", top: -unit * 6 }}
@@ -43,7 +50,6 @@ export default BottomBar;
 interface Props {
   activeTab: TabsNames;
   setActiveTab: (name: TabsNames) => void;
-  onAdd: () => void;
   onLogout: () => void;
 }
 
@@ -54,6 +60,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: colors.white,
   },
 });

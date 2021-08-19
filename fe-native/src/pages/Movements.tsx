@@ -21,8 +21,9 @@ const Movements = () => {
 
   const sections = useMemo(() => {
     const groupedByCreatedAt = [...movs?.purchases, ...movs?.payments].reduce<
-      Record<string, (IPurchase | IPayment)[]>
-    >((sects, mov: IPurchase | IPayment) => {
+      Record<string, (IPurchase & IPayment)[]>
+    >((sects, mov: any) => {
+      // TODO replace any on mov
       if (sects[mov.createdAt]) {
         sects[mov.createdAt].push(mov);
       } else {
@@ -37,8 +38,6 @@ const Movements = () => {
       data: groupedByCreatedAt[date],
     }));
   }, [movs]);
-
-  console.log(sections);
 
   return (
     <SectionList

@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { FunctionComponent, ComponentProps } from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { colors, unit } from "../../constants/ui";
 
@@ -10,26 +11,24 @@ const IconButton: FunctionComponent<Props> = ({
   onPress,
   style,
   fontSize,
-  iconSize,
+  size,
 }) => {
   return (
-    <View style={[styles.root, style]}>
-      <Ionicons.Button
-        iconStyle={{ fontSize: fontSize || unit * 5, marginRight: 0 }}
-        name={name}
-        backgroundColor={active ? colors.purple : colors.lightPurple}
-        borderRadius={iconSize || unit * 8}
-        onPress={onPress}
-        style={{
-          margin: 0,
-          padding: 0,
-          alignItems: "center",
-          justifyContent: "center",
-          width: iconSize || unit * 8,
-          height: iconSize || unit * 8,
-        }}
-      />
-    </View>
+    <TouchableOpacity
+      style={[
+        styles.root,
+        {
+          backgroundColor: active ? colors.purple : colors.lightPurple,
+          borderRadius: size || unit * 8,
+          width: size || unit * 8,
+          height: size || unit * 8,
+        },
+        style,
+      ]}
+      onPress={onPress}
+    >
+      <Ionicons color={colors.white} name={name} size={fontSize || unit * 5} />
+    </TouchableOpacity>
   );
 };
 
@@ -46,7 +45,7 @@ interface Props {
   style?: ViewStyle;
   active?: boolean;
   name: ComponentProps<typeof Ionicons.Button>["name"];
-  onPress: ComponentProps<typeof Ionicons.Button>["onPress"];
+  onPress: ComponentProps<typeof TouchableOpacity>["onPress"];
+  size?: number;
   fontSize?: number;
-  iconSize?: number;
 }
