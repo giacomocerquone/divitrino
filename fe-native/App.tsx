@@ -3,6 +3,7 @@ import {
   Poppins_400Regular,
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
@@ -26,12 +27,14 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <NavigationContainer>
-          <RootNav />
-        </NavigationContainer>
-      </Provider>
-    </SafeAreaProvider>
+    <BottomSheetModalProvider>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <NavigationContainer>
+            <RootNav />
+          </NavigationContainer>
+        </Provider>
+      </SafeAreaProvider>
+    </BottomSheetModalProvider>
   );
 }

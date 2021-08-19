@@ -3,13 +3,13 @@ import React, { FunctionComponent } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { colors, unit } from "../../constants/ui";
-import { IPayment, IPurchase } from "../../interfaces";
+import { IPayment, IPurchase, TMovement } from "../../interfaces";
 import Text from "../atoms/Text";
 
 // TODO need to check for payments UI
 const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
   return (
-    <TouchableOpacity style={styles.root} onPress={onPress}>
+    <TouchableOpacity style={styles.root} onPress={() => onPress(item)}>
       <View>
         {!!item.description && <Text size="s" text={item.description} />}
         <Text size="xs">
@@ -22,7 +22,7 @@ const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
   );
 };
 
-export default Movement;
+export default React.memo(Movement);
 
 const styles = StyleSheet.create({
   root: {
@@ -41,5 +41,5 @@ const styles = StyleSheet.create({
 
 interface Props {
   item: IPurchase & IPayment;
-  onPress: () => void;
+  onPress: (item: TMovement) => void;
 }

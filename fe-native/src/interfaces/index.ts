@@ -9,14 +9,17 @@ export interface IUser {
   groups: Group[];
 }
 
-export interface IMovement {
+export interface IGroupOperation {
   payer: IUser;
   createdAt: string;
+  amount: number;
 }
 
-export interface IPurchase extends IMovement {}
+export interface IPurchase extends IGroupOperation {}
 
-export interface IPayment extends IMovement {
+export interface IPayment extends IGroupOperation {
   payee: IUser;
   description: string; // TODO a payment doesn't have a description
 }
+
+export type TMovement = IPayment & IPurchase;
