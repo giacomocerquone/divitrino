@@ -12,8 +12,10 @@ import { getGroupId } from "../store";
 const User: FunctionComponent<Props> = ({ item }) => {
   return (
     <View style={styles.user}>
-      <Text text={item.name} size="xs" />
-      <Text text={item.email} size="xxs" />
+      <View>
+        <Text text={item.name} size="xs" />
+        <Text text={item.email} size="xxs" />
+      </View>
     </View>
   );
 };
@@ -28,12 +30,7 @@ const Group = () => {
       contentContainerStyle={styles.root}
       data={users}
       ListHeaderComponent={
-        <Text
-          size="xl"
-          weight="normal"
-          text="Gruppo"
-          style={{ marginVertical: unit * 6 }}
-        />
+        <Text size="xl" weight="normal" text="Gruppo" style={styles.title} />
       }
       renderItem={({ item }) => <User item={item} />}
       ListFooterComponent={
@@ -41,7 +38,7 @@ const Group = () => {
           label="invita"
           // @ts-ignore
           onPress={() => navigate("Invite")}
-          style={{ alignSelf: "center", paddingHorizontal: unit * 8 }}
+          style={styles.inviteButton}
         />
       }
     />
@@ -52,6 +49,7 @@ export default Group;
 
 const styles = StyleSheet.create({
   root: { paddingHorizontal: unit * 5 },
+  title: { marginTop: unit * 6, marginBottom: unit * 4 },
   user: {
     flexDirection: "row",
     alignItems: "center",
@@ -60,6 +58,12 @@ const styles = StyleSheet.create({
     borderRadius: unit * 2,
     width: "100%",
     backgroundColor: colors.white,
+    marginVertical: unit * 2,
+  },
+  inviteButton: {
+    alignSelf: "center",
+    paddingHorizontal: unit * 8,
+    marginTop: unit * 4,
   },
 });
 

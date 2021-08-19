@@ -1,16 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface User {
-  name: string;
-  email: string;
-  id: string;
-  groups: {
-    id: string;
-  }[];
-}
+import { IUser } from "../interfaces";
+
 export interface UserState {
   token: string;
-  user: Partial<User>;
+  user: Partial<IUser>;
 }
 
 const initialState: UserState = {
@@ -22,7 +16,7 @@ export const counterSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login(state, action: PayloadAction<{ token: string; user: User }>) {
+    login(state, action: PayloadAction<{ token: string; user: IUser }>) {
       state.token = action.payload.token;
       state.user = action.payload.user;
     },

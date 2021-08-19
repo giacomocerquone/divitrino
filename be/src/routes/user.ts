@@ -10,13 +10,28 @@ export default async function (app: FastifyInstance) {
   app.get<{ Querystring: IMovementsQueryString }>(
     "/movements",
     async (req, res) => {
-      const movements = await prisma.group.findMany({
+      const movements = await prisma.group.findFirst({
         where: {
           id: req.query.groupId,
         },
         include: {
-          payments: true,
-          purchases: true,
+          payments: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            include: {
+              payer: true,
+              payee: true,
+            },
+          },
+          purchases: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            include: {
+              payer: true,
+            },
+          },
         },
       });
 

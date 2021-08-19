@@ -48,6 +48,7 @@ scansionando gli scontrini`}
       disabled={submitting}
     >
       <Input
+        keyboardType="email-address"
         autoCapitalize="none"
         autoCompleteType="email"
         placeholder="E-mail"

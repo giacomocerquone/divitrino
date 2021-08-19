@@ -1,23 +1,24 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { FunctionComponent } from "react";
-import { StyleSheet, TouchableHighlight, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { colors, unit } from "../../constants/ui";
+import { IPayment, IPurchase } from "../../interfaces";
 import Text from "../atoms/Text";
 
 // TODO need to check for payments UI
 const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
   return (
-    <TouchableHighlight style={styles.root} onPress={onPress}>
+    <TouchableOpacity style={styles.root} onPress={onPress}>
       <View>
-        {item.description && <Text size="xs" text={item.description} />}
-        <Text>
-          Pagato da <Text weight="bold" size="xxs" text={item.payer} />
+        {!!item.description && <Text size="s" text={item.description} />}
+        <Text size="xs">
+          Pagato da <Text weight="bold" size="xs" text={item.payer.name} />
         </Text>
       </View>
 
       <Ionicons name="chevron-forward" color={colors.grey} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
@@ -30,18 +31,15 @@ const styles = StyleSheet.create({
     borderRadius: unit * 2,
     paddingLeft: unit * 14,
     paddingRight: unit * 6,
+    paddingVertical: unit * 4,
     alignItems: "center",
     justifyContent: "space-between",
-    marginVertical: unit * 3,
+    marginBottom: unit * 3,
     backgroundColor: colors.white,
   },
 });
 
 interface Props {
-  item: {
-    description: string;
-    payer: string;
-    createdAt: Date;
-  };
+  item: IPurchase & IPayment;
   onPress: () => void;
 }
