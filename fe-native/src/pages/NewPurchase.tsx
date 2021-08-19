@@ -5,16 +5,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Text from "../components/atoms/Text";
 import Product from "../components/organisms/NewPurchase/Product";
 import ProductInput from "../components/organisms/NewPurchase/ProductInput";
+import Toolbar from "../components/organisms/NewPurchase/Toolbar";
 import { unit } from "../constants/ui";
 
 const NewPurchase = () => {
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaView>
       <FlatList
         data={[]}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Text size="m" weight="normal" text="Nuovo acquisto" />
+            <Text
+              size="m"
+              weight="normal"
+              text="Nuovo acquisto"
+              style={styles.headerTitle}
+            />
+            <Toolbar />
           </View>
         }
         contentContainerStyle={styles.root}
@@ -31,7 +38,10 @@ const styles = StyleSheet.create({
   root: { paddingHorizontal: unit * 5 },
   header: {
     alignItems: "center",
-    paddingTop: unit * 6,
-    paddingBottom: unit * 2,
+    marginTop: unit * 6,
+    marginBottom: unit * 6,
+  },
+  headerTitle: {
+    marginBottom: unit * 2,
   },
 });

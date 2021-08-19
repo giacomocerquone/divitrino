@@ -12,7 +12,7 @@ const initialState: UserState = {
   user: {},
 };
 
-export const counterSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
@@ -26,10 +26,9 @@ export const counterSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { login, logout } = counterSlice.actions;
+export const { login, logout } = userSlice.actions;
 
-export default counterSlice.reducer;
+export default userSlice.reducer;
 
 export const getToken = (state: UserState) => state.token;
 export const getGroupId = (state: UserState) =>

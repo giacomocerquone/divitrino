@@ -9,7 +9,7 @@ export default {
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#F9F9F9",
   },
   updates: {
     fallbackToCacheTimeout: 0,
@@ -22,6 +22,10 @@ export default {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#FFFFFF",
+    },
+    androidStatusBar: {
+      barStyle: "dark-content",
+      backgroundColor: "#F9F9F9",
     },
   },
   web: {
