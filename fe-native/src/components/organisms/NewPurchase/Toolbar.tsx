@@ -1,17 +1,17 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { colors, unit } from "../../../constants/ui";
 import IconButton from "../../atoms/IconButton";
 
-const Toolbar = () => {
+const Toolbar: FunctionComponent<Props> = ({ onSelectAll }) => {
   return (
     <View style={styles.root}>
       <IconButton
         style={styles.button}
         size={32}
         name="checkmark-done"
-        onPress={() => null}
+        onPress={onSelectAll}
       />
       <IconButton
         style={styles.button}
@@ -47,3 +47,7 @@ const styles = StyleSheet.create({
     marginHorizontal: unit * 2,
   },
 });
+
+interface Props {
+  onSelectAll: () => void;
+}

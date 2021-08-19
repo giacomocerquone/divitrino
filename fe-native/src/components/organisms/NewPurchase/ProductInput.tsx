@@ -8,21 +8,27 @@ import * as purchaseActions from "../../../store/purchaseSlice";
 import Input from "../../atoms/Input";
 import VerticalLine from "../../atoms/VerticalLine";
 
+const initialProdState = {
+  name: "",
+  price: "",
+};
+
 const ProductInput: FunctionComponent<Props> = () => {
   const dispatch = useDispatch();
   const [focusedInputIdx, setFocusedInputIdx] = useState(0);
-  const [product, setProduct] = useState<IProduct>({
-    name: "",
-    price: "",
-  });
+  const [product, setProduct] = useState<IProduct>(initialProdState);
 
-  const onEnter = () => {
+  const onEnter = async () => {
     if (focusedInputIdx < 1) {
       return setFocusedInputIdx((idx) => idx + 1);
     }
 
     dispatch(purchaseActions.addProds([product]));
+    setProduct(initialProdState);
+    setFocusedInputIdx(0);
   };
+
+  console.log("rerendering");
 
   return (
     <View style={styles.root}>
@@ -61,8 +67,8 @@ const styles = StyleSheet.create({
     borderRadius: unit * 2,
     alignItems: "center",
   },
-  nameInput: { flex: 4, borderWidth: 0 },
-  priceInput: { flex: 1, borderWidth: 0 },
+  nameInput: { flex: 4, borderWidth: 0, fontSize: 16 },
+  priceInput: { flex: 1, borderWidth: 0, fontSize: 16 },
 });
 
 interface Props {}
