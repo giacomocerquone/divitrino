@@ -6,19 +6,19 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { colors, unit } from "../../constants/ui";
 
 const IconButton: FunctionComponent<Props> = ({
-  active,
   name,
   onPress,
   style,
   fontSize,
   size,
+  bgColor,
 }) => {
   return (
     <TouchableOpacity
       style={[
         styles.root,
         {
-          backgroundColor: active ? colors.purple : colors.lightPurple,
+          backgroundColor: bgColor || colors.purple,
           borderRadius: size || unit * 8,
           width: size || unit * 8,
           height: size || unit * 8,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   style?: ViewStyle;
-  active?: boolean;
+  bgColor?: string;
   name: ComponentProps<typeof Ionicons.Button>["name"];
   onPress: ComponentProps<typeof TouchableOpacity>["onPress"];
   size?: number;

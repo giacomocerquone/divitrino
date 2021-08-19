@@ -2,6 +2,7 @@ import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
 
+import { unit } from "../../constants/ui";
 import IconButton from "../atoms/IconButton";
 import Text from "../atoms/Text";
 
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginBottom: unit * 4,
   },
 });
 

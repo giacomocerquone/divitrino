@@ -3,7 +3,7 @@ import { it } from "date-fns/locale";
 import React, { FunctionComponent } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
-import { colors } from "../../constants/ui";
+import { colors, unit } from "../../constants/ui";
 import { TMovement } from "../../interfaces";
 import BottomSheetContent from "../../templates/BottomSheetContent";
 import Text from "../atoms/Text";
@@ -16,18 +16,19 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
       </View>
     );
   }
+
   return (
     <BottomSheetContent headerTitle={movement.description}>
-      <Text size="s">
-        <Text text="Totale" />
+      <Text size="s" style={styles.paragraph}>
+        <Text text="Totale " />
         <Text text={`€ ${movement.amount}`} weight="bold" />
       </Text>
-      <Text size="s">
-        <Text text="Pagato da" />
+      <Text size="s" style={styles.paragraph}>
+        <Text text="Pagato da " />
         <Text text={movement.payer.name} weight="bold" />
       </Text>
-      <Text size="s">
-        <Text text="Data" />
+      <Text size="s" style={styles.paragraph}>
+        <Text text="Data " />
         <Text
           text={format(new Date(movement.createdAt), "dd MMMM", { locale: it })}
           weight="bold"
@@ -39,7 +40,11 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
 
 export default MovementDetail;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  paragraph: {
+    marginVertical: unit,
+  },
+});
 
 interface Props {
   movement?: TMovement;

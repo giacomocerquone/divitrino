@@ -1,8 +1,8 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { StyleSheet, SectionList } from "react-native";
+import { StyleSheet, SectionList, View } from "react-native";
 import { useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
@@ -19,7 +19,7 @@ const Movements = () => {
   const [activeMov, setActiveMov] = useState<TMovement>();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
+  const snapPoints = useMemo(() => ["30%"], []);
 
   const onMovPress = useCallback((movement) => {
     bottomSheetModalRef.current?.present();
@@ -45,8 +45,15 @@ const Movements = () => {
         )}
       />
       <BottomSheetModal
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            disappearsOnIndex={-1}
+            appearsOnIndex={0}
+            {...props}
+          />
+        )}
         ref={bottomSheetModalRef}
-        index={1}
+        index={0}
         snapPoints={snapPoints}
       >
         <MovementDetail movement={activeMov} />

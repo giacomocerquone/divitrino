@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 
@@ -23,7 +23,15 @@ const HomeNav = () => {
   const [activeTab, setActiveTab] = useState<TabsNames>("Movements");
 
   const onLogout = () => {
-    dispatch(userActions.logout());
+    Alert.alert("Sei sicuro?", "Vuoi davvero effettuare il logout?", [
+      {
+        text: "Esci",
+        onPress: () => dispatch(userActions.logout()),
+      },
+      {
+        text: "Annulla",
+      },
+    ]);
   };
 
   const TabComponent = Tabs[activeTab];
