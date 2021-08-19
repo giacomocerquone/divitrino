@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
-import React, { useMemo } from "react";
+import React from "react";
 import { StyleSheet, SectionList } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -8,7 +8,6 @@ import Text from "../components/atoms/Text";
 import Movement from "../components/molecules/Movement";
 import { colors, unit } from "../constants/ui";
 import useFetchMovements from "../hooks/useFetchMovements";
-import { IPayment, IPurchase } from "../interfaces";
 import { getGroupId } from "../store";
 
 const Movements = () => {
@@ -19,29 +18,9 @@ const Movements = () => {
     console.log("movement pressed");
   };
 
-  const sections = useMemo(() => {
-    const groupedByCreatedAt = [...movs?.purchases, ...movs?.payments].reduce<
-      Record<string, (IPurchase & IPayment)[]>
-    >((sects, mov: any) => {
-      // TODO replace any on mov
-      if (sects[mov.createdAt]) {
-        sects[mov.createdAt].push(mov);
-      } else {
-        sects[mov.createdAt] = [mov];
-      }
-
-      return sects;
-    }, {});
-
-    return Object.keys(groupedByCreatedAt).map((date) => ({
-      createdAt: date,
-      data: groupedByCreatedAt[date],
-    }));
-  }, [movs]);
-
   return (
     <SectionList
-      sections={sections}
+      sections={movs}
       contentContainerStyle={styles.root}
       renderItem={({ item }) => <Movement item={item} onPress={onMovPress} />}
       renderSectionHeader={({ section: { createdAt } }) => (

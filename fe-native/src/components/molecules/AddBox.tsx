@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 
@@ -7,18 +8,20 @@ import IconButton from "../atoms/IconButton";
 const width = Dimensions.get("window").width;
 
 const AddBox = () => {
+  const { navigate } = useNavigation();
+
   return (
     <View style={styles.root}>
       <View style={styles.container}>
         <IconButton
           name="receipt"
-          onPress={() => console.log("asdsaasd")}
+          onPress={() => navigate("NewPurchase")}
           size={unit * 10}
           fontSize={unit * 6}
         />
         <IconButton
           name="arrow-forward"
-          onPress={() => null}
+          onPress={() => navigate("NewPayment")}
           size={unit * 10}
           fontSize={unit * 6}
         />

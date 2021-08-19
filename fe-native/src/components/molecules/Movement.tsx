@@ -17,7 +17,7 @@ const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
         </Text>
       </View>
 
-      <Ionicons name="chevron-forward" color={colors.grey} />
+      <Ionicons name="open" color={colors.purple} size={unit * 4} />
     </TouchableOpacity>
   );
 };
