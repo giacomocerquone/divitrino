@@ -1,11 +1,20 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useRef, useEffect } from "react";
 import { StyleSheet, TextInput, TextInputProps } from "react-native";
 
 import { colors, unit } from "../../constants/ui";
 
-const Input: FunctionComponent<Props> = (props) => {
+const Input: FunctionComponent<Props> = ({ focused, ...props }) => {
+  const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    if (focused) {
+      inputRef?.current?.focus();
+    }
+  }, [focused]);
+
   return (
     <TextInput
+      ref={inputRef}
       {...props}
       style={[styles.input, props.style]}
       placeholderTextColor={colors.grey}
@@ -28,4 +37,6 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props extends TextInputProps {}
+interface Props extends TextInputProps {
+  focused?: boolean;
+}

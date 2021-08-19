@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 
-import BottomSheetHeader from "../components/molecules/BottomSheetHeader";
+import BottomSheetHeader from "../components/organisms/BottomSheetHeader";
 import { colors, unit } from "../constants/ui";
 
 const BottomSheetContent: FunctionComponent<Props> = ({

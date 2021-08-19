@@ -23,3 +23,9 @@ export interface IPayment extends IGroupOperation {
 }
 
 export type TMovement = IPayment & IPurchase;
+
+export interface IProduct {
+  price: number;
+  name: string;
+  debtors: Partial<IUser>[];
+}

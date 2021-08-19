@@ -2,11 +2,11 @@ import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { StyleSheet, SectionList, View } from "react-native";
+import { StyleSheet, SectionList } from "react-native";
 import { useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
-import Movement from "../components/molecules/Movement";
+import Movement from "../components/organisms/Movement";
 import MovementDetail from "../components/organisms/MovementDetail";
 import { colors, unit } from "../constants/ui";
 import useFetchMovements from "../hooks/useFetchMovements";

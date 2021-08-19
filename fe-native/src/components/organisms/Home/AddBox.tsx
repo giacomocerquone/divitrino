@@ -2,8 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 
-import { unit } from "../../constants/ui";
-import IconButton from "../atoms/IconButton";
+import { unit } from "../../../constants/ui";
+import IconButton from "../../atoms/IconButton";
 
 const width = Dimensions.get("window").width;
 

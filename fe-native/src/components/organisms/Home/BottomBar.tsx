@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { colors, unit } from "../../constants/ui";
-import { TabsNames } from "../../pages/HomeNav";
-import AddButton from "../atoms/AddButton";
-import IconButton from "../atoms/IconButton";
+import { colors, unit } from "../../../constants/ui";
+import { TabsNames } from "../../../pages/HomeNav";
+import AddButton from "../../atoms/AddButton";
+import IconButton from "../../atoms/IconButton";
 import AddBox from "./AddBox";
 
 const BottomBar: FunctionComponent<Props> = ({
