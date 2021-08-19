@@ -17,10 +17,12 @@ const Signup = () => {
     group: "",
     name: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async () => {
     try {
       // todo distinguish groupid with groupname
+      setSubmitting(true);
       const {
         data: { accessToken: token, user },
       } = await client.post(signup, {
@@ -33,6 +35,8 @@ const Signup = () => {
       dispatch(userActions.login({ token, user }));
     } catch (e) {
       console.log("signup error");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -49,6 +53,7 @@ scansionando gli scontrini`}
       onSecondary={goToLogin}
       primaryText="Registrati"
       secondaryText="Accedi"
+      disabled={submitting}
     >
       <Input
         placeholder="Nome"

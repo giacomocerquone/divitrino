@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import Constants from "expo-constants";
 
+import store, { getToken } from "../store";
+
 const baseURL = Constants?.manifest?.extra?.baseApi;
 
 // import { store } from "store";
@@ -16,7 +18,7 @@ const apiReqInterceptor = (
 ) => {
   console.log("Api request sent:", config.baseURL, config.url, config.method);
 
-  const token = "";
+  const token = getToken(store.getState());
 
   if (token) {
     const headers = {

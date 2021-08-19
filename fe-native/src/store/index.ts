@@ -14,3 +14,4 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const getToken = (state: RootState) => fromUser.getToken(state.user);
+export const getGroupId = (state: RootState) => fromUser.getGroupId(state.user);

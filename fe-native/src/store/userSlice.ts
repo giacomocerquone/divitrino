@@ -38,3 +38,5 @@ export const { login, logout } = counterSlice.actions;
 export default counterSlice.reducer;
 
 export const getToken = (state: UserState) => state.token;
+export const getGroupId = (state: UserState) =>
+  state.user?.groups?.[0]?.id || "";

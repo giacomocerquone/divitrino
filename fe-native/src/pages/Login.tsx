@@ -16,15 +16,19 @@ const Login = () => {
     email: "",
     pwd: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async () => {
     try {
+      setSubmitting(true);
       const {
         data: { accessToken: token, ...user },
       } = await client.post(login, { email, password: pwd });
       dispatch(userActions.login({ token, user }));
     } catch (e) {
       console.log("login error", e?.response?.data?.message || e);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -41,6 +45,7 @@ scansionando gli scontrini`}
       onSecondary={goToSignup}
       primaryText="Accedi"
       secondaryText="Registrati"
+      disabled={submitting}
     >
       <Input
         autoCapitalize="none"

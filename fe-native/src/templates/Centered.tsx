@@ -14,6 +14,7 @@ const Centered: FunctionComponent<Props> = ({
   onSecondary,
   primaryText,
   secondaryText,
+  disabled,
 }) => {
   return (
     <View style={styles.root}>
@@ -24,9 +25,15 @@ const Centered: FunctionComponent<Props> = ({
       </Text>
       <View style={{ alignSelf: "stretch" }}>
         {children}
-        <Button onPress={onPrimary} label={primaryText} style={styles.button} />
+        <Button
+          onPress={onPrimary}
+          label={primaryText}
+          style={styles.button}
+          disabled={disabled}
+        />
         {onSecondary && secondaryText && (
           <Link
+            disabled={disabled}
             onPress={onSecondary}
             label={secondaryText}
             textProps={{
@@ -58,6 +65,7 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
+  disabled?: boolean;
   children: ReactNode;
   title: string;
   description: string;

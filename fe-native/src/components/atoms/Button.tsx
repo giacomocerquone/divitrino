@@ -10,6 +10,7 @@ const Button: FunctionComponent<Props> = (props) => {
     <TouchableOpacity
       style={[styles.root, props.style]}
       onPress={props.onPress}
+      disabled={props.disabled}
     >
       {props.label && (
         <Text
@@ -41,4 +42,5 @@ interface Props {
   label?: string;
   style?: TouchableOpacityProps["style"];
   onPress: TouchableOpacityProps["onPress"];
+  disabled?: boolean;
 }

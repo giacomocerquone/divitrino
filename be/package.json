@@ -5,7 +5,10 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "start:prod": "node dist/src/index.js"
+    "start:prod": "node dist/src/index.js",
+    "migrate": "prisma migrate dev --name init",
+    "generate": "prisma generate",
+    "seed": "prisma db seed --preview-feature"
   },
   "dependencies": {
     "@prisma/client": "2.29.1",
