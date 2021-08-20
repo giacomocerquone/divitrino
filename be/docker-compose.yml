@@ -1,23 +1,17 @@
-# docker-compose.yml
-
 version: "3.7"
 services:
   postgres:
     image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: divitrino
     ports:
       - "5432:5432"
 
   divitrino:
-    build: .
-    environment:
-      IP: 0.0.0.0
-      ACCESS_TOKEN_SECRET: pwdsecret
-      NODE_ENV: production
-      DATABASE_URL: postgres://postgres:password@postgres:5432/divitrino
+    env_file:
+      - .env
+    build:
+      context: .
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - postgres
     ports:

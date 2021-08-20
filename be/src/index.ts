@@ -95,6 +95,8 @@ app.listen(process.env.PORT || 3000, process.env.IP || "localhost", (err) => {
     process.exit(1);
   }
   console.log(`
-  🚀 Server ready at: http://localhost:3000
+  🚀 Server ready at: http://${process.env.IP || "localhost"}:${
+    process.env.PORT || 3000
+  }
   ⭐️ See sample requests: http://pris.ly/e/ts/rest-fastify#3-using-the-rest-api`);
 });
