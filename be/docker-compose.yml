@@ -6,24 +6,19 @@ services:
     image: postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: divitrino
     ports:
       - "5432:5432"
-    volumes:
-      - divitrino-db:/var/lib/postgresql/data
 
   divitrino:
-    build:
-      context: .
+    build: .
     environment:
-      DB_SCHEMA: postgres
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: postgres
+      IP: 0.0.0.0
+      ACCESS_TOKEN_SECRET: pwdsecret
+      NODE_ENV: production
+      DATABASE_URL: postgres://postgres:password@postgres:5432/divitrino
     depends_on:
       - postgres
     ports:
       - "3000:3000"
-
-volumes:
-  divitrino-db:
