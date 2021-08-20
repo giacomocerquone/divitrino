@@ -4,7 +4,11 @@ import { StyleSheet, View } from "react-native";
 import { colors, unit } from "../../../constants/ui";
 import IconButton from "../../atoms/IconButton";
 
-const Toolbar: FunctionComponent<Props> = ({ onSelectAll, onDelete }) => {
+const Toolbar: FunctionComponent<Props> = ({
+  onSelectAll,
+  onDelete,
+  onAssign,
+}) => {
   return (
     <View style={styles.root}>
       <IconButton
@@ -17,13 +21,7 @@ const Toolbar: FunctionComponent<Props> = ({ onSelectAll, onDelete }) => {
         style={styles.button}
         size={32}
         name="people"
-        onPress={() => null}
-      />
-      <IconButton
-        style={styles.button}
-        size={32}
-        name="information"
-        onPress={() => null}
+        onPress={onAssign}
       />
       <IconButton
         style={styles.button}
@@ -51,4 +49,5 @@ const styles = StyleSheet.create({
 interface Props {
   onSelectAll: () => void;
   onDelete: () => void;
+  onAssign: () => void;
 }

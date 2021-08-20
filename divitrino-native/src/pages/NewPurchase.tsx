@@ -3,6 +3,7 @@ import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
+import Button from "../components/atoms/Button";
 import Text from "../components/atoms/Text";
 import Product from "../components/organisms/NewPurchase/Product";
 import ProductInput from "../components/organisms/NewPurchase/ProductInput";
@@ -56,6 +57,14 @@ const NewPurchase = () => {
     setSelectedProdsIndexes({});
   };
 
+  const onAssign = () => {
+    // TODO open bottomsheet
+  };
+
+  const openRecap = async () => {
+    // TODO open bottomsheet and post to server
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/* @ts-ignore waiting on https://github.com/facebook/react-native/pull/26422 */}
@@ -71,7 +80,11 @@ const NewPurchase = () => {
               text="Nuovo acquisto"
               style={styles.headerTitle}
             />
-            <Toolbar onSelectAll={onSelectAll} onDelete={onDelete} />
+            <Toolbar
+              onAssign={onAssign}
+              onSelectAll={onSelectAll}
+              onDelete={onDelete}
+            />
           </View>
         }
         contentContainerStyle={styles.root}
@@ -84,6 +97,12 @@ const NewPurchase = () => {
           />
         )}
         ListFooterComponent={<ProductInput />}
+        keyExtractor={(_, index) => index.toString()}
+      />
+      <Button
+        label="Aggiungi"
+        onPress={openRecap}
+        style={{ marginVertical: unit * 2, marginHorizontal: unit * 5 }}
       />
     </SafeAreaView>
   );

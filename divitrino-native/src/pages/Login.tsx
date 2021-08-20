@@ -24,11 +24,11 @@ const Login = () => {
       const {
         data: { accessToken: token, ...user },
       } = await client.post(login, { email, password: pwd });
+      setSubmitting(false);
       dispatch(userActions.login({ token, user }));
     } catch (e) {
-      console.log("login error", e?.response?.data?.message || e);
-    } finally {
       setSubmitting(false);
+      console.log("login error", e?.response?.data?.message || e);
     }
   };
 

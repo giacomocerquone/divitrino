@@ -23,10 +23,10 @@ export default {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#FFFFFF",
     },
-    androidStatusBar: {
-      barStyle: "dark-content",
-      backgroundColor: "#F9F9F9",
-    },
+  },
+  androidStatusBar: {
+    barStyle: "dark-content",
+    backgroundColor: "#F9F9F9",
   },
   web: {
     favicon: "./assets/favicon.png",

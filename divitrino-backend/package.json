@@ -1,6 +1,6 @@
 {
-  "name": "rest-express",
-  "version": "1.0.0",
+  "name": "divitrino-backend",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
