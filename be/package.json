@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon -w src src/index.ts",
+    "dev": "nodemon ./src/index.ts",
     "build": "tsc",
-    "start": "node dist/src/index.js",
-    "migrate": "prisma migrate dev --name init",
     "generate": "prisma generate",
-    "seed": "prisma db seed --preview-feature"
+    "migrate": "prisma migrate dev --name init",
+    "seed": "prisma db seed --preview-feature",
+    "db:push": "prisma db push"
   },
   "dependencies": {
     "@prisma/client": "2.29.1",
@@ -26,6 +26,7 @@
     "@types/jsonwebtoken": "^8.5.4",
     "@types/node": "12.20.19",
     "nodemon": "^2.0.12",
+    "pm2": "^5.1.1",
     "prisma": "2.29.1",
     "ts-node": "10.2.0",
     "ts-node-dev": "^1.1.8",

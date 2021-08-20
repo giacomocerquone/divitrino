@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  divitrino:
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "npm run db:push && npm run dev"

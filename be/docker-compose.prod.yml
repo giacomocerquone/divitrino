@@ -1,0 +1,4 @@
+version: "3.7"
+services:
+  divitrino:
+    command: bash -c "npm run db:push && ./node_modules/.bin/pm2-runtime ./dist/index.js"

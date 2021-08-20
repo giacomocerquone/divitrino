@@ -10,8 +10,6 @@ services:
       - .env
     build:
       context: .
-      args:
-        DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - postgres
     ports:
