@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  divitrino:
+  rest_api:
     volumes:
       - ./:/usr/src/app
     command: bash -c "npm run db:push && npm run seed && npm run dev"

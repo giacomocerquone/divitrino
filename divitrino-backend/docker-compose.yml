@@ -1,11 +1,13 @@
 version: "3.7"
 services:
   postgres:
+    env_file:
+      - .env
     image: postgres
     ports:
       - "5432:5432"
 
-  divitrino:
+  rest_api:
     env_file:
       - .env
     build:
