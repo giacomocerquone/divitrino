@@ -39,22 +39,23 @@ export default async function (app: FastifyInstance) {
     }
   );
 
-  app.get<{ Querystring: IUsersGroupQueryString }>(
-    "/users",
-    async (req, res) => {
-      return res.send(
-        await prisma.user.findMany({
-          where: {
-            groups: {
-              every: {
-                id: req.query.groupId,
-              },
+  app.get("/groups", async (req, res) => {
+    return res.send(
+      await prisma.group.findMany({
+        where: {
+          users: {
+            some: {
+              // @ts-ignore
+              id: req.user.id,
             },
           },
-        })
-      );
-    }
-  );
+        },
+        include: {
+          users: true,
+        },
+      })
+    );
+  });
 
   app.post<{
     Body: IPurchaseBody;
@@ -225,9 +226,5 @@ interface IBalanceQueryString {
   groupId: string;
 }
 interface IMovementsQueryString {
-  groupId: string;
-}
-
-interface IUsersGroupQueryString {
   groupId: string;
 }
