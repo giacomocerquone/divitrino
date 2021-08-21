@@ -20,16 +20,24 @@ const purchaseSlice = createSlice({
     setProds(state, { payload }: PayloadAction<IProduct[]>) {
       state.prods = payload;
     },
-    delProds(state, { payload }: PayloadAction<number[]>) {
+    editProds(state, { payload }: PayloadAction<Record<string, IProduct>>) {
+      for (const idx in payload) {
+        state.prods[parseInt(idx, 10)] = payload[idx];
+      }
+    },
+    delProds(state, { payload }: PayloadAction<string[]>) {
       return {
         ...state,
-        prods: state.prods.filter((_, idx) => !payload.includes(idx)),
+        prods: state.prods.filter(
+          (_, idx) => !payload.includes(idx.toString())
+        ),
       };
     },
   },
 });
 
-export const { addProds, setProds, delProds } = purchaseSlice.actions;
+export const { addProds, setProds, delProds, editProds } =
+  purchaseSlice.actions;
 
 export default purchaseSlice.reducer;
 

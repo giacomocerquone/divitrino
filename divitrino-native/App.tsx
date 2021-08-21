@@ -12,9 +12,10 @@ import FlashMessage from "react-native-flash-message";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import "react-native-gesture-handler";
+import { PersistGate } from "redux-persist/integration/react";
 
 import RootNav from "./RootNav";
-import store from "./src/store";
+import { persistor, store } from "./src/store";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,15 +29,17 @@ export default function App() {
   }
 
   return (
-    <BottomSheetModalProvider>
-      <SafeAreaProvider>
-        <Provider store={store}>
-          <NavigationContainer>
-            <RootNav />
-            <FlashMessage position="top" />
-          </NavigationContainer>
-        </Provider>
-      </SafeAreaProvider>
-    </BottomSheetModalProvider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BottomSheetModalProvider>
+            <NavigationContainer>
+              <RootNav />
+              <FlashMessage position="top" />
+            </NavigationContainer>
+          </BottomSheetModalProvider>
+        </PersistGate>
+      </Provider>
+    </SafeAreaProvider>
   );
 }

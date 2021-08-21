@@ -11,10 +11,10 @@ import MovementDetail from "../components/organisms/MovementDetail";
 import { colors, unit } from "../constants/ui";
 import useFetchMovements from "../hooks/useFetchMovements";
 import { TMovement } from "../interfaces";
-import { getGroupId } from "../store";
+import { getActiveGroupId } from "../store";
 
 const Movements = () => {
-  const groupId = useSelector(getGroupId);
+  const groupId = useSelector(getActiveGroupId);
   const movs = useFetchMovements(groupId);
   const [activeMov, setActiveMov] = useState<TMovement>();
 

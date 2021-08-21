@@ -1,12 +1,14 @@
-export interface Group {
+export interface IGroup {
   id: string;
+  users: IUser[];
+  name?: string;
 }
 
 export interface IUser {
   name: string;
   email: string;
   id: string;
-  groups: Group[];
+  groups: IGroup[];
 }
 
 export interface IGroupOperation {
@@ -27,5 +29,5 @@ export type TMovement = IPayment & IPurchase;
 export interface IProduct {
   price: string;
   name: string;
-  debtors?: Partial<IUser>[];
+  debtors?: IUser["id"][];
 }

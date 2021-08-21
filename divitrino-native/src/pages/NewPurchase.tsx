@@ -1,14 +1,17 @@
-import React, { useCallback, useState } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import React, { useCallback, useRef, useState } from "react";
 import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "../components/atoms/Button";
 import Text from "../components/atoms/Text";
+import AssignModal from "../components/organisms/NewPurchase/AssignModal";
 import Product from "../components/organisms/NewPurchase/Product";
 import ProductInput from "../components/organisms/NewPurchase/ProductInput";
 import Toolbar from "../components/organisms/NewPurchase/Toolbar";
 import { colors, unit } from "../constants/ui";
+import { IProduct, IUser } from "../interfaces";
 import { getPurchaseProducts } from "../store";
 import * as purchaseActions from "../store/purchaseSlice";
 
@@ -24,6 +27,8 @@ const NewPurchase = () => {
   const prods = useSelector(getPurchaseProducts);
   const [selectedProdsIndexes, setSelectedProdsIndexes] =
     useState<TSelectedProds>({});
+  const assignSheet = useRef<BottomSheetModal>(null);
+  const recapSheet = useRef<BottomSheetModal>(null);
 
   const onProductPress = useCallback(
     (idx) => {
@@ -49,20 +54,42 @@ const NewPurchase = () => {
   const onDelete = () => {
     dispatch(
       purchaseActions.delProds(
-        Object.keys(selectedProdsIndexes)
-          .filter((index) => selectedProdsIndexes[index])
-          .map((index) => parseInt(index, 10))
+        Object.keys(selectedProdsIndexes).filter(
+          (index) => selectedProdsIndexes[index]
+        )
       )
     );
     setSelectedProdsIndexes({});
   };
 
   const onAssign = () => {
-    // TODO open bottomsheet
+    const someIsSelected = Object.values(selectedProdsIndexes).some(
+      (selected) => selected
+    );
+    if (someIsSelected) {
+      assignSheet.current?.present();
+    }
+  };
+
+  const onAssignDone = (selectedPeople: IUser["id"][]) => {
+    const editedProds = Object.keys(selectedProdsIndexes).reduce<
+      Record<string, IProduct>
+    >((acc, idxString) => {
+      const idx = parseInt(idxString, 10);
+      acc[idx] = {
+        ...prods[idx],
+        debtors: selectedPeople,
+      };
+
+      return acc;
+    }, {});
+    dispatch(purchaseActions.editProds(editedProds));
+    assignSheet.current?.dismiss();
+    setSelectedProdsIndexes({});
   };
 
   const openRecap = async () => {
-    // TODO open bottomsheet and post to server
+    recapSheet.current?.present();
   };
 
   return (
@@ -104,6 +131,7 @@ const NewPurchase = () => {
         onPress={openRecap}
         style={{ marginVertical: unit * 2, marginHorizontal: unit * 5 }}
       />
+      <AssignModal sheetRef={assignSheet} onDone={onAssignDone} />
     </SafeAreaView>
   );
 };

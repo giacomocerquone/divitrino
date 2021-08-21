@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import BottomSheetHeader from "../components/organisms/BottomSheetHeader";
 import { colors, unit } from "../constants/ui";
@@ -7,11 +7,12 @@ import { colors, unit } from "../constants/ui";
 const BottomSheetContent: FunctionComponent<Props> = ({
   headerTitle,
   children,
+  contentContainerStyle,
 }) => {
   return (
     <View style={styles.root}>
       <BottomSheetHeader title={headerTitle} />
-      <View>{children}</View>
+      <View style={contentContainerStyle}>{children}</View>
     </View>
   );
 };
@@ -28,4 +29,5 @@ const styles = StyleSheet.create({
 interface Props {
   headerTitle: string;
   children: ReactNode;
+  contentContainerStyle?: ViewStyle;
 }

@@ -7,7 +7,7 @@ import Button from "../components/atoms/Button";
 import Text from "../components/atoms/Text";
 import { colors, unit } from "../constants/ui";
 import useFetchGroupUsers from "../hooks/useFetchGroupUsers";
-import { getGroupId } from "../store";
+import { getActiveGroupId } from "../store";
 
 const User: FunctionComponent<Props> = ({ item }) => {
   return (
@@ -22,7 +22,7 @@ const User: FunctionComponent<Props> = ({ item }) => {
 
 const Group = () => {
   const { navigate } = useNavigation();
-  const groupId = useSelector(getGroupId);
+  const groupId = useSelector(getActiveGroupId);
   const users = useFetchGroupUsers(groupId);
 
   return (

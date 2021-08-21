@@ -1,18 +1,21 @@
-import React from "react";
-import { FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { FunctionComponent } from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+
 import { colors, unit } from "../../constants/ui";
 import Text from "./Text";
 
-const Chip: FunctionComponent<Props> = ({ text, active }) => {
+const Chip: FunctionComponent<Props> = ({ text, active, onPress }) => {
   return (
-    <View style={[styles.root, active && styles.rootActive]}>
+    <TouchableOpacity
+      style={[styles.root, active && styles.rootActive]}
+      onPress={onPress}
+    >
       <Text
         text={text}
         size="xs"
         color={active ? colors.white : colors.black}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -35,4 +38,5 @@ const styles = StyleSheet.create({
 interface Props {
   text: string;
   active?: boolean;
+  onPress: () => void;
 }

@@ -1,10 +1,17 @@
 import React, { FunctionComponent } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 
 import { colors, unit } from "../../../constants/ui";
-import { IProduct } from "../../../interfaces";
+import { IProduct, IUser } from "../../../interfaces";
+import { getActiveGroupUsers } from "../../../store";
 import Text from "../../atoms/Text";
 import VerticalLine from "../../atoms/VerticalLine";
+
+const debtorsNames = (debtors: IProduct["debtors"], people?: IUser[]) =>
+  debtors
+    ?.map((debtorId) => people?.find((person) => person.id === debtorId)?.name)
+    .join(", ");
 
 const SelectedRibbon = () => {
   return (
@@ -23,15 +30,25 @@ const SelectedRibbon = () => {
   );
 };
 
-const ProductInput: FunctionComponent<Props> = ({
+const Product: FunctionComponent<Props> = ({
   product,
   onPress,
   selected,
   index,
 }) => {
+  const people = useSelector(getActiveGroupUsers);
+
   return (
     <TouchableOpacity style={styles.root} onPress={() => onPress(index)}>
-      <Text style={styles.name} size="s" text={product.name} />
+      <View style={styles.description}>
+        <Text size="s" text={product.name} />
+        {!!product.debtors?.length && (
+          <Text
+            text={`Di: ${debtorsNames(product.debtors, people)}`}
+            size="xs"
+          />
+        )}
+      </View>
       <VerticalLine />
       <Text size="s" text={product.price} style={styles.price} />
       {selected && <SelectedRibbon />}
@@ -39,7 +56,7 @@ const ProductInput: FunctionComponent<Props> = ({
   );
 };
 
-export default React.memo(ProductInput);
+export default React.memo(Product);
 
 const styles = StyleSheet.create({
   root: {
@@ -48,11 +65,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: unit * 2,
     alignItems: "center",
-    paddingVertical: unit * 3,
+    height: 54,
     paddingHorizontal: unit * 2,
     marginBottom: unit * 3,
   },
-  name: { flex: 4 },
+  description: { flex: 4 },
   price: {
     flex: 1,
     position: "relative",
