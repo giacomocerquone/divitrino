@@ -6,12 +6,14 @@ export interface UserState {
   token: string;
   user: Partial<IUser>;
   activeGroupId: string;
+  groups: IGroup[];
 }
 
 const initialState: UserState = {
   token: "",
   user: {},
   activeGroupId: "",
+  groups: [],
 };
 
 export const userSlice = createSlice({
@@ -25,23 +27,27 @@ export const userSlice = createSlice({
         user: IUser & { groups: IGroup[] };
       }>
     ) {
+      const { groups, ...user } = action.payload.user;
       state.token = action.payload.token;
-      state.user = action.payload.user;
+      state.user = user;
+      state.groups = groups;
       state.activeGroupId = action.payload.user?.groups?.[0]?.id;
     },
-    logout(state) {
-      state.token = "";
+    logout() {
+      return initialState;
+    },
+    groupsReceived(state, action: PayloadAction<IGroup[]>) {
+      state.groups = action.payload;
     },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, groupsReceived } = userSlice.actions;
 
 export default userSlice.reducer;
 
 export const getToken = (state: UserState) => state.token;
 export const getActiveGroupId = (state: UserState) => state.activeGroupId;
-// export const getActiveGroupUsersMap = (state: UserState) =>
-//   state.groups[state.activeGroupId]?.users;
+export const getGroups = (state: UserState) => state.groups;
 export const getActiveGroupUsers = (state: UserState) =>
-  state.user.groups?.find((group) => group.id === state.activeGroupId)?.users;
+  state.groups?.find((group) => group.id === state.activeGroupId)?.users;

@@ -9,6 +9,7 @@ import Text from "../components/atoms/Text";
 import AssignModal from "../components/organisms/NewPurchase/AssignModal";
 import Product from "../components/organisms/NewPurchase/Product";
 import ProductInput from "../components/organisms/NewPurchase/ProductInput";
+import RecapModal from "../components/organisms/NewPurchase/RecapModal";
 import Toolbar from "../components/organisms/NewPurchase/Toolbar";
 import { colors, unit } from "../constants/ui";
 import { IProduct, IUser } from "../interfaces";
@@ -92,12 +93,17 @@ const NewPurchase = () => {
     recapSheet.current?.present();
   };
 
+  const onSubmit = () => {
+    // TODO submit new purchase to server
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/* @ts-ignore waiting on https://github.com/facebook/react-native/pull/26422 */}
       <FlatList
         {...keyboardDismissProp}
         data={prods}
+        keyboardShouldPersistTaps="handled"
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
           <View style={styles.header}>
@@ -132,6 +138,7 @@ const NewPurchase = () => {
         style={{ marginVertical: unit * 2, marginHorizontal: unit * 5 }}
       />
       <AssignModal sheetRef={assignSheet} onDone={onAssignDone} />
+      <RecapModal sheetRef={recapSheet} onDone={onSubmit} />
     </SafeAreaView>
   );
 };

@@ -46,6 +46,7 @@ export const getActiveGroupId = (state: RootState) =>
   fromUser.getActiveGroupId(state.user);
 export const getActiveGroupUsers = (state: RootState) =>
   fromUser.getActiveGroupUsers(state.user);
+export const getGroups = (state: RootState) => fromUser.getGroups(state.user);
 
 export const getPurchaseProducts = (state: RootState) =>
   fromPurchase.getPurchaseProducts(state.purchase);

@@ -1,13 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { FunctionComponent } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { useSelector } from "react-redux";
 
 import Button from "../components/atoms/Button";
 import Text from "../components/atoms/Text";
 import { colors, unit } from "../constants/ui";
-import useFetchGroupUsers from "../hooks/useFetchGroupUsers";
-import { getActiveGroupId } from "../store";
+import useFetchGroups from "../hooks/useFetchGroups";
 
 const User: FunctionComponent<Props> = ({ item }) => {
   return (
@@ -22,13 +20,12 @@ const User: FunctionComponent<Props> = ({ item }) => {
 
 const Group = () => {
   const { navigate } = useNavigation();
-  const groupId = useSelector(getActiveGroupId);
-  const users = useFetchGroupUsers(groupId);
+  const { activeGroupUsers } = useFetchGroups();
 
   return (
     <FlatList
       contentContainerStyle={styles.root}
-      data={users}
+      data={activeGroupUsers}
       ListHeaderComponent={
         <Text size="xl" weight="normal" text="Gruppo" style={styles.title} />
       }

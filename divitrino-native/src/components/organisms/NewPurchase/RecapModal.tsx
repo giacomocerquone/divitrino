@@ -7,11 +7,12 @@ import usePeopleSelection from "../../../hooks/usePeopleSelection";
 import { IUser } from "../../../interfaces";
 import BottomSheetContent from "../../../templates/BottomSheetContent";
 import Button from "../../atoms/Button";
+import Text from "../../atoms/Text";
 import PeopleSelector from "../PeopleSelector";
 
-const AssignModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
+const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
   const snapPoints = useMemo(() => ["30%"], []);
-  const { onPersonPress, selectedPeople } = usePeopleSelection(true);
+  const { onPersonPress, selectedPeople } = usePeopleSelection(false);
 
   return (
     <BottomSheetModal
@@ -26,25 +27,39 @@ const AssignModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
       index={0}
       snapPoints={snapPoints}
     >
-      <BottomSheetContent headerTitle="Seleziona">
+      <BottomSheetContent headerTitle="Spesa">
+        <Text size="s" style={styles.paragraph}>
+          <Text text="Totale " />
+          <Text text={`€ da calcolare`} weight="bold" />
+          {/* TODO */}
+        </Text>
+
         <PeopleSelector
           onPersonPress={onPersonPress}
           selectedPeople={selectedPeople}
         />
 
+        <Text size="s" style={styles.paragraph} text="Data" />
+        {/* TODO */}
+
         <Button
-          label="fatto"
+          label="Aggiungi"
           onPress={() => onDone(selectedPeople)}
-          style={{ marginTop: unit * 5 }}
+          style={styles.button}
         />
       </BottomSheetContent>
     </BottomSheetModal>
   );
 };
 
-export default AssignModal;
+export default RecapModal;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  paragraph: {
+    marginVertical: unit,
+  },
+  button: { marginTop: unit * 5 },
+});
 
 interface Props {
   sheetRef: Ref<BottomSheetModal>;

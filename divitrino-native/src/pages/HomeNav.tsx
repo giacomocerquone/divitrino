@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import BottomBar from "../components/organisms/Home/BottomBar";
 import { colors } from "../constants/ui";
+import useFetchGroups from "../hooks/useFetchGroups";
 import * as userActions from "../store/userSlice";
 import Balance from "./Balance";
 import Groups from "./Group";
@@ -21,6 +22,9 @@ const Tabs: TabsMap = {
 const HomeNav = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState<TabsNames>("Movements");
+  // fetching groups and relative users since it's a crucial information
+  // for all the features
+  useFetchGroups();
 
   const onLogout = () => {
     Alert.alert("Sei sicuro?", "Vuoi davvero effettuare il logout?", [

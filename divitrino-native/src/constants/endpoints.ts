@@ -1,6 +1,9 @@
-export const balance = "/balance";
+// Relative to user
 export const login = "/login";
 export const signup = "/signup";
-export const users = "/users";
-export const profile = "/profile";
+
+export const groups = "/groups";
+export const balance = "/balance";
+
+// Relative to group
 export const movements = "/movements";
