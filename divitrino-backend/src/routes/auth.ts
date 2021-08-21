@@ -31,6 +31,17 @@ export default async function (app: FastifyInstance) {
           },
         },
       },
+      select: {
+        name: true,
+        email: true,
+        id: true,
+        groups: {
+          select: {
+            id: true,
+            users: true,
+          },
+        },
+      },
     });
 
     try {
@@ -58,6 +69,7 @@ export default async function (app: FastifyInstance) {
         groups: {
           select: {
             id: true,
+            users: true,
           },
         },
       },

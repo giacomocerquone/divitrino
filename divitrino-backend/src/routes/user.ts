@@ -38,6 +38,7 @@ export default async function (app: FastifyInstance) {
       res.send(movements);
     }
   );
+
   app.get<{ Querystring: IUsersGroupQueryString }>(
     "/users",
     async (req, res) => {
