@@ -17,6 +17,7 @@ const PeopleSelector: FunctionComponent<Props> = ({
     <View style={styles.root}>
       {(people || []).map((person) => (
         <Chip
+          key={person.id}
           text={person.name}
           onPress={() => onPersonPress(person.id)}
           active={selectedPeople.includes(person.id)}

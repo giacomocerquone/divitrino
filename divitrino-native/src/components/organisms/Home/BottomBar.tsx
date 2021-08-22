@@ -21,11 +21,13 @@ const BottomBar: FunctionComponent<Props> = ({
   return (
     <View style={styles.root}>
       <IconButton
+        size={40}
         name="list"
         bgColor={activeTab === "Movements" ? colors.purple : colors.lightPurple}
         onPress={() => setActiveTab("Movements")}
       />
       <IconButton
+        size={40}
         name="cash"
         bgColor={activeTab === "Balance" ? colors.purple : colors.lightPurple}
         onPress={() => setActiveTab("Balance")}
@@ -36,11 +38,17 @@ const BottomBar: FunctionComponent<Props> = ({
         style={{ position: "relative", top: -unit * 6 }}
       />
       <IconButton
+        size={40}
         name="people"
         bgColor={activeTab === "Groups" ? colors.purple : colors.lightPurple}
         onPress={() => setActiveTab("Groups")}
       />
-      <IconButton name="exit" onPress={onLogout} bgColor={colors.lightPurple} />
+      <IconButton
+        size={40}
+        name="exit"
+        onPress={onLogout}
+        bgColor={colors.lightPurple}
+      />
     </View>
   );
 };

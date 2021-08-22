@@ -32,7 +32,7 @@ const Movements = () => {
         sections={movs}
         contentContainerStyle={styles.root}
         renderItem={({ item }) => <Movement item={item} onPress={onMovPress} />}
-        renderSectionHeader={({ section: { createdAt } }) => (
+        renderSectionHeader={({ section: { createdAtFmt } }) => (
           <Text
             size="xs"
             transform="uppercase"
@@ -40,9 +40,10 @@ const Movements = () => {
             color={colors.purple}
             style={{ marginBottom: unit * 3 }}
           >
-            {format(new Date(createdAt), "dd MMMM", { locale: it })}
+            {createdAtFmt}
           </Text>
         )}
+        keyExtractor={(item) => item.id}
       />
       <BottomSheetModal
         backdropComponent={(props) => (

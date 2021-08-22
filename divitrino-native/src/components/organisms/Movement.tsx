@@ -6,15 +6,31 @@ import { colors, unit } from "../../constants/ui";
 import { IPayment, IPurchase, TMovement } from "../../interfaces";
 import Text from "../atoms/Text";
 
-// TODO need to check for payments UI
 const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
   return (
     <TouchableOpacity style={styles.root} onPress={() => onPress(item)}>
-      <View>
-        {!!item.description && <Text size="s" text={item.description} />}
-        <Text size="xs">
-          Pagato da <Text weight="bold" size="xs" text={item.payer.name} />
-        </Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Ionicons
+          name={item.payee ? "arrow-forward" : "receipt-outline"}
+          color={colors.black}
+          size={20}
+          style={{ marginHorizontal: unit * 4 }}
+        />
+        {item.payee ? (
+          <View>
+            <Text size="xs">
+              <Text weight="bold" size="xs" text={item.payer.name} /> ha pagato{" "}
+              <Text weight="bold" size="xs" text={item.payee.name} />
+            </Text>
+          </View>
+        ) : (
+          <View>
+            {!!item.description && <Text size="s" text={item.description} />}
+            <Text size="xs">
+              Pagato da <Text weight="bold" size="xs" text={item.payer.name} />
+            </Text>
+          </View>
+        )}
       </View>
 
       <Ionicons name="open" color={colors.purple} size={unit * 4} />
@@ -29,7 +45,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     borderRadius: unit * 2,
-    paddingLeft: unit * 14,
     paddingRight: unit * 6,
     paddingVertical: unit * 4,
     alignItems: "center",

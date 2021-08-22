@@ -27,6 +27,7 @@ export default {
   androidStatusBar: {
     barStyle: "dark-content",
     backgroundColor: "#F9F9F9",
+    translucent: true,
   },
   web: {
     favicon: "./assets/favicon.png",

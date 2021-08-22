@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
 
 import { colors, unit } from "../../../constants/ui";
@@ -21,6 +22,13 @@ const ProductInput: FunctionComponent<Props> = () => {
   const onEnter = async () => {
     if (focusedInputIdx < 1) {
       return setFocusedInputIdx((idx) => idx + 1);
+    }
+
+    if (!product.name || !product.price) {
+      return showMessage({
+        message: "Devi inserire un nome e un prezzo per aggiungere un prodotto",
+        type: "danger",
+      });
     }
 
     dispatch(purchaseActions.addProds([product]));

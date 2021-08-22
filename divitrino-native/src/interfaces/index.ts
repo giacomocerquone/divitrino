@@ -12,6 +12,7 @@ export interface IUser {
 }
 
 export interface IGroupOperation {
+  id: string;
   payer: IUser;
   createdAt: string;
   amount: number;

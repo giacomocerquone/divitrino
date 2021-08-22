@@ -18,15 +18,24 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
   }
 
   return (
-    <BottomSheetContent headerTitle={movement.description}>
+    <BottomSheetContent
+      headerTitle={
+        movement.payee
+          ? `${movement.payer.name} ha pagato ${movement.payee.name}`
+          : movement.description
+      }
+    >
       <Text size="s" style={styles.paragraph}>
         <Text text="Totale " />
         <Text text={`€ ${movement.amount}`} weight="bold" />
       </Text>
-      <Text size="s" style={styles.paragraph}>
-        <Text text="Pagato da " />
-        <Text text={movement.payer.name} weight="bold" />
-      </Text>
+      {!movement.payee && (
+        <Text size="s" style={styles.paragraph}>
+          <Text text="Pagato da " />
+          <Text text={movement.payer.name} weight="bold" />
+        </Text>
+      )}
+
       <Text size="s" style={styles.paragraph}>
         <Text text="Data " />
         <Text

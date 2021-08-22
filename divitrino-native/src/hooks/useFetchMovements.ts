@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { format } from "date-fns";
+import { it } from "date-fns/locale";
+import { useCallback, useState } from "react";
 
 import * as endpoints from "../constants/endpoints";
 import { IPayment, IPurchase } from "../interfaces";
@@ -7,53 +10,58 @@ import client from "../services/client";
 const useFetchMovements = (groupId: string) => {
   const [movs, setMovs] = useState<
     {
-      createdAt: string;
+      createdAtFmt: string;
       data: (IPurchase & IPayment)[];
     }[]
   >([]);
 
-  useEffect(() => {
-    const fetchMovements = async () => {
-      try {
-        const { data } = await client.get<{
-          purchases?: IPurchase[];
-          payments?: IPayment[];
-        }>(endpoints.movements, {
-          params: {
-            groupId,
-          },
-        });
+  useFocusEffect(
+    useCallback(() => {
+      const fetchMovements = async () => {
+        try {
+          const { data } = await client.get<{
+            purchases?: IPurchase[];
+            payments?: IPayment[];
+          }>(endpoints.movements, {
+            params: {
+              groupId,
+            },
+          });
 
-        const groupedByCreatedAt = [
-          ...(data?.purchases || []),
-          ...(data?.payments || []),
-        ].reduce<Record<string, (IPurchase & IPayment)[]>>(
-          (sects, mov: any) => {
-            // TODO replace mov: any typing
-            if (sects[mov.createdAt]) {
-              sects[mov.createdAt].push(mov);
-            } else {
-              sects[mov.createdAt] = [mov];
-            }
+          const groupedByCreatedAt = [
+            ...(data?.purchases || []),
+            ...(data?.payments || []),
+          ].reduce<Record<string, (IPurchase & IPayment)[]>>(
+            (sects, mov: any) => {
+              // TODO replace mov: any typing
+              const createdAtFmt = format(new Date(mov.createdAt), "dd MMMM", {
+                locale: it,
+              });
+              if (sects[createdAtFmt]) {
+                sects[createdAtFmt].push(mov);
+              } else {
+                sects[createdAtFmt] = [mov];
+              }
 
-            return sects;
-          },
-          {}
-        );
+              return sects;
+            },
+            {}
+          );
 
-        const sectionedMovs = Object.keys(groupedByCreatedAt).map((date) => ({
-          createdAt: date,
-          data: groupedByCreatedAt[date],
-        }));
+          const sectionedMovs = Object.keys(groupedByCreatedAt).map((date) => ({
+            createdAtFmt: date,
+            data: groupedByCreatedAt[date],
+          }));
 
-        setMovs(sectionedMovs);
-      } catch (e) {
-        console.log("error fetching movements", e);
-      }
-    };
+          setMovs(sectionedMovs);
+        } catch (e) {
+          console.log("error fetching movements", e);
+        }
+      };
 
-    fetchMovements();
-  }, [groupId]);
+      fetchMovements();
+    }, [groupId])
+  );
 
   return movs;
 };
