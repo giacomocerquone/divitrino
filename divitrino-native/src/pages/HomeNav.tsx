@@ -41,7 +41,7 @@ const HomeNav = () => {
   const TabComponent = Tabs[activeTab];
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.root}>
+    <SafeAreaView style={styles.root}>
       <View style={{ flex: 1 }}>
         {/* TODO WTF */}
         <TabComponent />

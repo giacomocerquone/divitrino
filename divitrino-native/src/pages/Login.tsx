@@ -40,7 +40,7 @@ const Login = () => {
       title="Benvenuto"
       description={`Gestisci le finanze del tuo gruppo
 e dividi le spese con loro
-scansionando gli scontrini`}
+fotografando gli scontrini`}
       onPrimary={onSubmit}
       onSecondary={goToSignup}
       primaryText="Accedi"

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
 
 import Input from "../components/atoms/Input";
 import Centered from "../templates/Centered";
@@ -12,9 +11,9 @@ const Invite = () => {
   return (
     <Centered
       title="Invita"
-      description={`Invita un tuo conoscente
+      description={`Invita chi vuoi
 a dividere le spese con te
-inserendo la sua mail di seguito`}
+inserendo una mail`}
       onPrimary={onSubmit}
       primaryText="Fatto"
     >
@@ -29,5 +28,3 @@ inserendo la sua mail di seguito`}
 };
 
 export default Invite;
-
-const styles = StyleSheet.create({});

@@ -26,7 +26,9 @@ const ProductInput: FunctionComponent<Props> = () => {
 
     if (!product.name || !product.price) {
       return showMessage({
-        message: "Devi inserire un nome e un prezzo per aggiungere un prodotto",
+        description:
+          "Devi inserire un nome e un prezzo per aggiungere un prodotto",
+        message: "Errore",
         type: "danger",
       });
     }

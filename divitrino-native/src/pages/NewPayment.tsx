@@ -47,7 +47,11 @@ const NewPurchase = () => {
       goBack();
     } catch (e) {
       console.log("error adding payment", e?.response?.data);
-      showMessage({ type: "danger", message: "Errore aggiunta pagamento" });
+      showMessage({
+        type: "danger",
+        message: "Errore",
+        description: "Errore aggiunta pagamento",
+      });
     }
   };
 
