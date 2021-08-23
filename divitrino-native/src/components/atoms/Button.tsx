@@ -8,7 +8,13 @@ import Text from "./Text";
 const Button: FunctionComponent<Props> = (props) => {
   return (
     <TouchableOpacity
-      style={[styles.root, props.style]}
+      style={[
+        styles.root,
+        props.disabled && {
+          backgroundColor: colors.lightPurple,
+        },
+        props.style,
+      ]}
       onPress={props.onPress}
       disabled={props.disabled}
     >

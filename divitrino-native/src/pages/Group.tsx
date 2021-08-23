@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 import Button from "../components/atoms/Button";
 import Text from "../components/atoms/Text";
+import PageHeader from "../components/organisms/PageHeader";
 import { colors, unit } from "../constants/ui";
 import useFetchGroups from "../hooks/useFetchGroups";
 
@@ -26,9 +27,7 @@ const Group = () => {
     <FlatList
       contentContainerStyle={styles.root}
       data={activeGroupUsers}
-      ListHeaderComponent={
-        <Text size="xl" weight="normal" text="Gruppo" style={styles.title} />
-      }
+      ListHeaderComponent={<PageHeader title="Gruppo" />}
       renderItem={({ item }) => <User item={item} />}
       ListFooterComponent={
         <Button
@@ -46,7 +45,6 @@ export default Group;
 
 const styles = StyleSheet.create({
   root: { paddingHorizontal: unit * 5 },
-  title: { marginTop: unit * 6, marginBottom: unit * 4 },
   user: {
     flexDirection: "row",
     alignItems: "center",
@@ -55,12 +53,12 @@ const styles = StyleSheet.create({
     borderRadius: unit * 2,
     width: "100%",
     backgroundColor: colors.white,
-    marginVertical: unit * 2,
+    marginBottom: unit * 4,
   },
   inviteButton: {
     alignSelf: "center",
     paddingHorizontal: unit * 8,
-    marginTop: unit * 4,
+    marginTop: unit * 2,
   },
 });
 

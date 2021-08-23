@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 import Text from "../components/atoms/Text";
+import PageHeader from "../components/organisms/PageHeader";
 import { unit } from "../constants/ui";
 
 const UserDebts: FunctionComponent<Props> = () => {
@@ -13,14 +14,7 @@ const Balance = () => {
     <FlatList
       contentContainerStyle={styles.root}
       data={[]}
-      ListHeaderComponent={
-        <Text
-          size="xl"
-          weight="normal"
-          text="Bilancio"
-          style={{ marginVertical: 24 }}
-        />
-      }
+      ListHeaderComponent={<PageHeader title="Bilancio" />}
       renderItem={({ item }) => <UserDebts item={item} />}
     />
   );

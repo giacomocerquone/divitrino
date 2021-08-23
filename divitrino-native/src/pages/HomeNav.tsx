@@ -20,37 +20,20 @@ const Tabs: TabsMap = {
 };
 
 const HomeNav = () => {
-  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState<TabsNames>("Movements");
   // fetching groups and relative users since it's a crucial information
   // for all the features
   useFetchGroups();
 
-  const onLogout = () => {
-    Alert.alert("Sei sicuro?", "Vuoi davvero effettuare il logout?", [
-      {
-        text: "Esci",
-        onPress: () => dispatch(userActions.logout()),
-      },
-      {
-        text: "Annulla",
-      },
-    ]);
-  };
-
-  const TabComponent = Tabs[activeTab];
+  const Scene = Tabs[activeTab];
 
   return (
     <SafeAreaView style={styles.root}>
       <View style={{ flex: 1 }}>
         {/* TODO WTF */}
-        <TabComponent />
+        <Scene />
       </View>
-      <BottomBar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onLogout={onLogout}
-      />
+      <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </SafeAreaView>
   );
 };

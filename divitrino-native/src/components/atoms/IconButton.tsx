@@ -12,6 +12,7 @@ const IconButton: FunctionComponent<Props> = ({
   fontSize,
   size,
   bgColor,
+  fontColor,
 }) => {
   return (
     <TouchableOpacity
@@ -27,7 +28,11 @@ const IconButton: FunctionComponent<Props> = ({
       ]}
       onPress={onPress}
     >
-      <Ionicons color={colors.white} name={name} size={fontSize || unit * 5} />
+      <Ionicons
+        color={fontColor || colors.white}
+        name={name}
+        size={fontSize || unit * 5}
+      />
     </TouchableOpacity>
   );
 };
@@ -44,6 +49,7 @@ const styles = StyleSheet.create({
 interface Props {
   style?: ViewStyle;
   bgColor?: string;
+  fontColor?: string;
   name: ComponentProps<typeof Ionicons.Button>["name"];
   onPress: ComponentProps<typeof TouchableOpacity>["onPress"];
   size?: number;

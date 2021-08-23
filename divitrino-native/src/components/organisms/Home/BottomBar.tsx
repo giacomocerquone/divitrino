@@ -1,42 +1,13 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { colors, unit } from "../../../constants/ui";
 import { TabsNames } from "../../../pages/HomeNav";
-import AddButton from "../../atoms/AddButton";
 import IconButton from "../../atoms/IconButton";
-import AddBox from "./AddBox";
 
-const BottomBar: FunctionComponent<Props> = ({
-  activeTab,
-  setActiveTab,
-  onLogout,
-}) => {
-  const [addBoxVisible, setAddBoxVisible] = useState(false);
-
-  const onAdd = () => {
-    setAddBoxVisible((v) => !v);
-  };
-
+const BottomBar: FunctionComponent<Props> = ({ activeTab, setActiveTab }) => {
   return (
     <View style={styles.root}>
-      <IconButton
-        size={40}
-        name="list"
-        bgColor={activeTab === "Movements" ? colors.purple : colors.lightPurple}
-        onPress={() => setActiveTab("Movements")}
-      />
-      <IconButton
-        size={40}
-        name="cash"
-        bgColor={activeTab === "Balance" ? colors.purple : colors.lightPurple}
-        onPress={() => setActiveTab("Balance")}
-      />
-      {addBoxVisible && <AddBox />}
-      <AddButton
-        onPress={onAdd}
-        style={{ position: "relative", top: -unit * 6 }}
-      />
       <IconButton
         size={40}
         name="people"
@@ -44,10 +15,23 @@ const BottomBar: FunctionComponent<Props> = ({
         onPress={() => setActiveTab("Groups")}
       />
       <IconButton
+        fontSize={unit * 10}
+        size={unit * 20}
+        name="list"
+        onPress={() => setActiveTab("Movements")}
+        bgColor={activeTab === "Movements" ? colors.purple : colors.lightPurple}
+        style={{
+          borderWidth: 8,
+          borderColor: colors.darkerWhite,
+          position: "relative",
+          top: -unit * 6,
+        }}
+      />
+      <IconButton
         size={40}
-        name="exit"
-        onPress={onLogout}
-        bgColor={colors.lightPurple}
+        name="cash"
+        bgColor={activeTab === "Balance" ? colors.purple : colors.lightPurple}
+        onPress={() => setActiveTab("Balance")}
       />
     </View>
   );
@@ -58,7 +42,6 @@ export default BottomBar;
 interface Props {
   activeTab: TabsNames;
   setActiveTab: (name: TabsNames) => void;
-  onLogout: () => void;
 }
 
 const styles = StyleSheet.create({
@@ -67,7 +50,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: colors.white,
   },

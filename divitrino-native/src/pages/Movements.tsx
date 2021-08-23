@@ -1,9 +1,13 @@
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import { format } from "date-fns";
-import { it } from "date-fns/locale";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  TouchableOpacity,
+} from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { StyleSheet, SectionList } from "react-native";
-import { useSelector } from "react-redux";
+import { StyleSheet, SectionList, View, Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
 import Movement from "../components/organisms/Movement";
@@ -12,11 +16,14 @@ import { colors, unit } from "../constants/ui";
 import useFetchMovements from "../hooks/useFetchMovements";
 import { TMovement } from "../interfaces";
 import { getActiveGroupId } from "../store";
+import * as userActions from "../store/userSlice";
 
 const Movements = () => {
   const groupId = useSelector(getActiveGroupId);
   const movs = useFetchMovements(groupId);
   const [activeMov, setActiveMov] = useState<TMovement>();
+  const { navigate } = useNavigation();
+  const dispatch = useDispatch();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["30%"], []);
@@ -26,12 +33,40 @@ const Movements = () => {
     setActiveMov(movement);
   }, []);
 
+  const onLogout = () => {
+    Alert.alert("Sei sicuro?", "Vuoi davvero effettuare il logout?", [
+      {
+        text: "Esci",
+
+        onPress: () => dispatch(userActions.logout()),
+      },
+      {
+        text: "Annulla",
+      },
+    ]);
+  };
+
   return (
     <>
       <SectionList
         sections={movs}
         contentContainerStyle={styles.root}
         renderItem={({ item }) => <Movement item={item} onPress={onMovPress} />}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <TouchableOpacity onPress={onLogout}>
+              <Ionicons
+                name="log-out-outline"
+                color={colors.black}
+                size={unit * 6}
+              />
+            </TouchableOpacity>
+            <Text size="m" weight="normal" text="Movimenti" align="center" />
+            <TouchableOpacity onPress={() => navigate("NewMovement")}>
+              <Ionicons name="add" color={colors.black} size={unit * 6} />
+            </TouchableOpacity>
+          </View>
+        }
         renderSectionHeader={({ section: { createdAtFmt } }) => (
           <Text
             size="xs"
@@ -66,5 +101,11 @@ const Movements = () => {
 export default Movements;
 
 const styles = StyleSheet.create({
-  root: { paddingHorizontal: unit * 5, paddingTop: unit * 6 },
+  root: { paddingHorizontal: unit * 5 },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: unit * 6,
+  },
 });

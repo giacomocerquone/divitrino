@@ -1,11 +1,9 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useCallback, useRef, useState } from "react";
 import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "../components/atoms/Button";
-import Text from "../components/atoms/Text";
 import AssignModal from "../components/organisms/NewPurchase/AssignModal";
 import Product from "../components/organisms/NewPurchase/Product";
 import ProductInput from "../components/organisms/NewPurchase/ProductInput";
@@ -98,7 +96,7 @@ const NewPurchase = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <>
       {/* @ts-ignore waiting on https://github.com/facebook/react-native/pull/26422 */}
       <FlatList
         {...keyboardDismissProp}
@@ -106,13 +104,13 @@ const NewPurchase = () => {
         keyboardShouldPersistTaps="handled"
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
-          <View style={styles.header}>
-            <Text
-              size="m"
-              weight="normal"
-              text="Nuovo acquisto"
-              style={styles.headerTitle}
-            />
+          <View
+            style={{
+              alignItems: "center",
+              backgroundColor: colors.darkerWhite,
+              paddingBottom: unit * 6,
+            }}
+          >
             <Toolbar
               onAssign={onAssign}
               onSelectAll={onSelectAll}
@@ -133,28 +131,21 @@ const NewPurchase = () => {
         keyExtractor={(_, index) => index.toString()}
       />
       <Button
+        disabled={
+          !(prods.length && prods.every((prod) => prod?.debtors?.length))
+        }
         label="Aggiungi"
         onPress={openRecap}
-        style={{ marginVertical: unit * 2, marginHorizontal: unit * 5 }}
+        style={{ marginVertical: unit * 2 }}
       />
       <AssignModal sheetRef={assignSheet} onDone={onAssignDone} />
       <RecapModal sheetRef={recapSheet} onDone={onSubmit} />
-    </SafeAreaView>
+    </>
   );
 };
 
 export default NewPurchase;
 
 const styles = StyleSheet.create({
-  root: { paddingHorizontal: unit * 5, paddingBottom: unit * 4 },
-  header: {
-    backgroundColor: colors.darkerWhite,
-    alignItems: "center",
-    paddingTop: unit * 6,
-    paddingBottom: unit * 2,
-    marginBottom: unit * 4,
-  },
-  headerTitle: {
-    marginBottom: unit * 2,
-  },
+  root: { paddingBottom: unit * 4 },
 });
