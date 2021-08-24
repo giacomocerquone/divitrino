@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactNode } from "react";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
+import hello from "../../assets/hello.png";
 import Button from "../components/atoms/Button";
 import Link from "../components/atoms/Link";
 import Text from "../components/atoms/Text";
@@ -18,7 +19,11 @@ const Centered: FunctionComponent<Props> = ({
 }) => {
   return (
     <View style={styles.root}>
-      {/* TODO image */}
+      <Image
+        source={hello}
+        style={{ height: unit * 60 }}
+        resizeMode="contain"
+      />
       <Text size="xl" weight="normal" text={title} />
       <Text align="center" style={styles.description}>
         {description}

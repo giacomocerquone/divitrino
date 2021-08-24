@@ -13,7 +13,7 @@ const User: FunctionComponent<Props> = ({ item }) => {
     <View style={styles.user}>
       <View>
         <Text text={item.name} size="xs" />
-        <Text text={item.email} size="xxs" />
+        <Text text={item.email} size="xs" />
       </View>
     </View>
   );

@@ -13,13 +13,16 @@ const IconButton: FunctionComponent<Props> = ({
   size,
   bgColor,
   fontColor,
+  disabled,
 }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[
         styles.root,
         {
-          backgroundColor: bgColor || colors.purple,
+          backgroundColor:
+            bgColor || (disabled ? colors.lightPurple : colors.purple),
           borderRadius: size || unit * 8,
           width: size || unit * 8,
           height: size || unit * 8,
@@ -54,4 +57,5 @@ interface Props {
   onPress: ComponentProps<typeof TouchableOpacity>["onPress"];
   size?: number;
   fontSize?: number;
+  disabled?: boolean;
 }

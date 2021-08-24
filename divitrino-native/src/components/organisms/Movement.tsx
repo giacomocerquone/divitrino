@@ -25,9 +25,8 @@ const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
           </View>
         ) : (
           <View>
-            {!!item.description && <Text size="s" text={item.description} />}
             <Text size="xs">
-              Pagato da <Text weight="bold" size="xs" text={item.payer.name} />
+              Spesa pagata da <Text weight="bold" text={item.payer.name} />
             </Text>
           </View>
         )}

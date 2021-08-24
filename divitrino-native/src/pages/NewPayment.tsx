@@ -22,17 +22,19 @@ const NewPayment = () => {
   const groupId = useSelector(getActiveGroupId);
   const { goBack } = useNavigation();
 
+  const [submitting, setSubmitting] = useState(false);
   const [amount, setAmount] = useState("");
-
   const [payerId] = selectedFromPeople;
   const [payeeId] = selectedToPeople;
 
   const onSubmit = async () => {
     try {
+      setSubmitting(true);
       if (payerId === payeeId) {
         return showMessage({
           type: "warning",
-          message: "Un pagamento deve avere creditore e debitore diverso",
+          message: "Attenzione",
+          description: "Un pagamento deve avere creditore e debitore diversi",
         });
       }
 
@@ -51,6 +53,8 @@ const NewPayment = () => {
         message: "Errore",
         description: "Errore aggiunta pagamento",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -58,7 +62,12 @@ const NewPayment = () => {
     <>
       <View style={{ flex: 1 }}>
         <Text text="Importo" size="m" />
-        <Input onChangeText={setAmount} placeholder="67.50" value={amount} />
+        <Input
+          onChangeText={setAmount}
+          placeholder="67.50"
+          value={amount}
+          keyboardType="decimal-pad"
+        />
 
         <Text text="Chi dà" size="m" style={styles.section} />
         <PeopleSelector
@@ -74,6 +83,7 @@ const NewPayment = () => {
       </View>
 
       <Button
+        disabled={submitting || !payerId || !payeeId || !amount}
         label="Aggiungi"
         onPress={onSubmit}
         style={{ marginVertical: unit * 2 }}

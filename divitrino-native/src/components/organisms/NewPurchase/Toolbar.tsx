@@ -14,6 +14,13 @@ const Toolbar: FunctionComponent<Props> = ({
       <IconButton
         style={styles.button}
         size={32}
+        name="camera"
+        disabled
+        onPress={() => null}
+      />
+      <IconButton
+        style={styles.button}
+        size={32}
         name="checkmark-done"
         onPress={onSelectAll}
       />

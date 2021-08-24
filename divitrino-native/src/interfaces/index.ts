@@ -11,6 +11,8 @@ export interface IUser {
   groups: IGroup[];
 }
 
+export type TBalance = Record<IUser["id"], Record<IUser["id"], number>>;
+
 export interface IGroupOperation {
   id: string;
   payer: IUser;

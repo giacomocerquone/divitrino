@@ -24,6 +24,7 @@ const Tab: FunctionComponent<{
         onPress={onPress}
       >
         <Text
+          weight={active ? "normal" : "light"}
           text={name}
           color={active ? colors.purple : undefined}
           style={{ paddingBottom: unit * 3 }}

@@ -19,7 +19,7 @@ const useFetchGroups = () => {
 
         dispatch(userActions.groupsReceived(data));
       } catch (e) {
-        console.log("error fetching users");
+        console.log("error fetching users", e);
       }
     };
 
