@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
 
 import Input from "../components/atoms/Input";
@@ -19,6 +20,13 @@ const Login = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async () => {
+    if (!email || !pwd) {
+      return showMessage({
+        type: "warning",
+        description: "Devi inserire un username e una password",
+        message: "Attenzione",
+      });
+    }
     try {
       setSubmitting(true);
       const {
@@ -28,6 +36,13 @@ const Login = () => {
       dispatch(userActions.login({ token, user }));
     } catch (e) {
       setSubmitting(false);
+      if (e?.response?.data?.message) {
+        showMessage({
+          type: "danger",
+          description: e?.response?.data?.message,
+          message: "Errore",
+        });
+      }
       console.log("login error", e?.response?.data?.message || e);
     }
   };

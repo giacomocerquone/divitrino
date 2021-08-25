@@ -28,7 +28,7 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
       </View>
 
       {Object.keys(currentUserCredits).map((debtorId) => (
-        <Row>
+        <Row key={debtorId}>
           <Text text="Ricevi" weight="bold" size="s" />
           <Text text={peopleMap[debtorId].name} />
           <Text text={currentUserCredits[debtorId].toString()} size="s" />
@@ -36,7 +36,7 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
       ))}
 
       {currentUserDebts.map((creditorId) => (
-        <Row>
+        <Row key={creditorId}>
           <Text text="Devi" weight="bold" size="s" />
           <Text text={peopleMap[creditorId].name} />
           {user.id && (
