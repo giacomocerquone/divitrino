@@ -47,6 +47,7 @@ export const { login, logout, groupsReceived } = userSlice.actions;
 export default userSlice.reducer;
 
 export const getToken = (state: UserState) => state.token;
+export const getUser = (state: UserState) => state.user;
 export const getActiveGroupId = (state: UserState) => state.activeGroupId;
 export const getGroups = (state: UserState) => state.groups;
 export const getActiveGroupUsers = (state: UserState) =>
