@@ -140,11 +140,11 @@ export default async function (app: FastifyInstance) {
 
       const balance: TBalance = {};
 
-      for (const payer of usersGroup?.users || []) {
-        balance[payer.id] = {};
+      for (const creditor of usersGroup?.users || []) {
+        balance[creditor.id] = {};
 
         for (const debtor of usersGroup?.users || []) {
-          if (payer.id === debtor.id) continue;
+          if (creditor.id === debtor.id) continue;
           const aggregatePurchases = await prisma.product.aggregate({
             _sum: {
               pricePerDebtor: true,
@@ -152,7 +152,7 @@ export default async function (app: FastifyInstance) {
             where: {
               purchase: {
                 groupId: req.query.groupId,
-                payerId: payer.id,
+                payerId: creditor.id,
               },
               debtors: {
                 some: {
@@ -167,12 +167,12 @@ export default async function (app: FastifyInstance) {
             },
             where: {
               groupId: req.query.groupId,
-              payerId: payer.id,
+              payerId: creditor.id,
               payeeId: debtor.id,
             },
           });
 
-          const reversedUsersDebts = balance[debtor.id]?.[payer.id];
+          const reversedUsersDebts = balance[debtor.id]?.[creditor.id];
           const debts =
             (aggregatePurchases?._sum?.pricePerDebtor || 0) +
             (aggregatePayments?._sum?.amount || 0);
@@ -180,14 +180,14 @@ export default async function (app: FastifyInstance) {
           if (debts) {
             if (reversedUsersDebts) {
               if (debts <= reversedUsersDebts) {
-                balance[debtor.id][payer.id] = reversedUsersDebts - debts;
-                balance[payer.id][debtor.id] = 0; // set to 0
+                balance[debtor.id][creditor.id] = reversedUsersDebts - debts;
+                balance[creditor.id][debtor.id] = 0; // set to 0
               } else {
-                balance[debtor.id][payer.id] = 0; // set to 0
-                balance[payer.id][debtor.id] = debts - reversedUsersDebts;
+                balance[debtor.id][creditor.id] = 0; // set to 0
+                balance[creditor.id][debtor.id] = debts - reversedUsersDebts;
               }
             } else {
-              balance[payer.id][debtor.id] = debts;
+              balance[creditor.id][debtor.id] = debts;
             }
           }
         }
