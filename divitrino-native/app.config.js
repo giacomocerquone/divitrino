@@ -33,4 +33,5 @@ export default {
   extra: {
     baseApi: process.env.BASE_API,
   },
+  userInterfaceStyle: "automatic",
 };

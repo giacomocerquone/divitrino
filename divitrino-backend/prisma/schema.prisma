@@ -18,6 +18,7 @@ model User {
   paymentsAsPayee Payment[]  @relation("payee")
   purchaseAsPayer Purchase[]
   products        Product[]
+  invites         Invite[]
 }
 
 model Group {
@@ -28,6 +29,7 @@ model Group {
   users     User[]
   purchases Purchase[]
   payments  Payment[]
+  invites   Invite[]
 }
 
 model Purchase {
@@ -35,12 +37,13 @@ model Purchase {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   amount      Int
-  description String?
+  description String
   products    Product[]
   group       Group     @relation(fields: [groupId], references: [id])
   groupId     String
   payer       User      @relation(fields: [payerId], references: [id])
   payerId     String
+  date        DateTime
 }
 
 model Product {
@@ -65,4 +68,14 @@ model Payment {
   payeeId   String
   payer     User     @relation("payer", fields: [payerId], references: [id])
   payee     User     @relation("payee", fields: [payeeId], references: [id])
+}
+
+model Invite {
+  id               Int     @id @default(autoincrement())
+  invitedUserEmail String
+  accepted         Boolean @default(false)
+  invitedBy        User    @relation(fields: [invitedByUserId], references: [id])
+  invitedByUserId  String
+  group            Group   @relation(fields: [groupId], references: [id])
+  groupId          String
 }

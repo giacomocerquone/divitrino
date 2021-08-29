@@ -11,17 +11,15 @@ import Centered from "../templates/Centered";
 const Signup = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [{ email, pwd, group, name }, setData] = useState({
+  const [{ email, pwd, name }, setData] = useState({
     email: "",
     pwd: "",
-    group: "",
     name: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async () => {
     try {
-      // todo distinguish groupid with groupname
       setSubmitting(true);
       const {
         data: { accessToken: token, user },
@@ -29,7 +27,6 @@ const Signup = () => {
         name,
         email,
         pwd,
-        groupName: group,
       });
 
       dispatch(userActions.login({ token, user }));
@@ -73,12 +70,6 @@ fotografando gli scontrini`}
         placeholder="Password"
         value={pwd}
         onChangeText={(text) => setData((d) => ({ ...d, pwd: text }))}
-      />
-      <Input
-        autoCapitalize="none"
-        placeholder="Nome gruppo o Id gruppo"
-        value={group}
-        onChangeText={(text) => setData((d) => ({ ...d, group: text }))}
       />
     </Centered>
   );

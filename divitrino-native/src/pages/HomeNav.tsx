@@ -6,9 +6,8 @@ import { useDispatch } from "react-redux";
 import BottomBar from "../components/organisms/Home/BottomBar";
 import { colors } from "../constants/ui";
 import useFetchGroups from "../hooks/useFetchGroups";
-import * as userActions from "../store/userSlice";
 import Balance from "./Balance";
-import Groups from "./Group";
+import Groups from "./Groups";
 import Movements from "./Movements";
 
 export type TabsNames = "Movements" | "Balance" | "Groups";

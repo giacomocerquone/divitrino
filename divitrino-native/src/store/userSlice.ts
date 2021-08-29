@@ -39,10 +39,14 @@ export const userSlice = createSlice({
     groupsReceived(state, action: PayloadAction<IGroup[]>) {
       state.groups = action.payload;
     },
+    setActiveGroupId(state, action: PayloadAction<IGroup["id"]>) {
+      state.activeGroupId = action.payload;
+    },
   },
 });
 
-export const { login, logout, groupsReceived } = userSlice.actions;
+export const { login, logout, groupsReceived, setActiveGroupId } =
+  userSlice.actions;
 
 export default userSlice.reducer;
 

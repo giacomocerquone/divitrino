@@ -32,5 +32,11 @@ export type TMovement = IPayment & IPurchase;
 export interface IProduct {
   price: string;
   name: string;
-  debtors?: IUser["id"][];
+  debtors: IUser["id"][];
+}
+
+export interface IAPIProduct {
+  name: string;
+  pricePerDebtor: number;
+  debtors: string[];
 }

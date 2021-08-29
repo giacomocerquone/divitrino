@@ -13,6 +13,7 @@ import { unit } from "../constants/ui";
 import usePeopleSelection from "../hooks/usePeopleSelection";
 import client from "../services/client";
 import { getActiveGroupId } from "../store";
+import { convertToCents } from "../utils";
 
 const NewPayment = () => {
   const { onPersonPress: onFromPress, selectedPeople: selectedFromPeople } =
@@ -38,8 +39,8 @@ const NewPayment = () => {
         });
       }
 
-      await client.post(endpoints.payments, {
-        amount: parseInt(amount, 10),
+      await client.post(endpoints.payment, {
+        amount: convertToCents(amount),
         payerId,
         payeeId,
         groupId,

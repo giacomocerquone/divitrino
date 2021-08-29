@@ -2,6 +2,12 @@ import { FastifyInstance } from "fastify";
 import httpErrors from "http-errors";
 
 import { prisma } from "../";
+import {
+  IBalanceQueryString,
+  IMovementsQueryString,
+  IPaymentBody,
+  IPurchaseBody,
+} from "../interfaces";
 
 export default async function (app: FastifyInstance) {
   // @ts-ignore
@@ -57,10 +63,76 @@ export default async function (app: FastifyInstance) {
     );
   });
 
+  app.post<{ Body: { groupName: string } }>("/group", async (req, res) => {
+    if (!req.body.groupName) {
+      return res.send(new httpErrors.BadRequest("A group name is needed"));
+    }
+
+    const group = await prisma.group.create({
+      data: {
+        name: req.body.groupName,
+        users: {
+          connect: {
+            // @ts-ignore
+            id: req.user.id,
+          },
+        },
+      },
+    });
+
+    return res.send(group);
+  });
+
+  app.post<{ Body: { invitedUserEmail: string; groupId: string } }>(
+    "/invite",
+    async (req, res) => {
+      const { groupId, invitedUserEmail } = req.body;
+      if (!invitedUserEmail || !groupId) {
+        return res.send(
+          new httpErrors.BadRequest("An email and a groupId is needed")
+        );
+      }
+
+      const invitedUser = await prisma.user.findUnique({
+        where: {
+          email: invitedUserEmail,
+        },
+      });
+
+      if (invitedUser) {
+        // todo will be removed when in-app invites will be added
+        const group = await prisma.group.update({
+          where: {
+            id: groupId,
+          },
+          data: {
+            users: {
+              connect: {
+                // @ts-ignore
+                id: req.user.id,
+              },
+            },
+          },
+        });
+        return res.send(group);
+      } else {
+        const invite = await prisma.invite.create({
+          data: {
+            invitedUserEmail,
+            groupId,
+            // @ts-ignore
+            invitedByUserId: req.user.id,
+          },
+        });
+        return res.send(invite);
+      }
+    }
+  );
+
   app.post<{
     Body: IPurchaseBody;
   }>(`/purchase`, async (req, res) => {
-    const { description, payerId, products, groupId } = req.body;
+    const { description, payerId, products, groupId, date } = req.body;
 
     const amount = products.reduce((tot, prod) => {
       return tot + prod.pricePerDebtor;
@@ -90,6 +162,7 @@ export default async function (app: FastifyInstance) {
         payerId,
         amount,
         description,
+        date,
         products: {
           create: prodsToCreate,
         },
@@ -196,35 +269,4 @@ export default async function (app: FastifyInstance) {
       return res.send(balance);
     }
   );
-}
-
-type TUserId = string;
-type TBalance = Record<TUserId, Record<TUserId, number | null>>;
-
-type TProduct = {
-  name: string;
-  pricePerDebtor: number;
-  debtors: string[];
-};
-
-interface IPaymentBody {
-  amount: number;
-  payerId: string;
-  payeeId: string;
-  groupId: string;
-}
-
-interface IPurchaseBody {
-  description: string;
-  amount: number;
-  payerId: string;
-  products: TProduct[];
-  groupId: string;
-}
-
-interface IBalanceQueryString {
-  groupId: string;
-}
-interface IMovementsQueryString {
-  groupId: string;
 }

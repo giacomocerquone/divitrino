@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { IProduct } from "../interfaces";
+import { IProduct, IUser } from "../interfaces";
 
 export interface PurchaseState {
   prods: IProduct[];
@@ -40,6 +40,3 @@ export const { addProds, setProds, delProds, editProds } =
   purchaseSlice.actions;
 
 export default purchaseSlice.reducer;
-
-export const getPurchaseProducts = (state: PurchaseState): IProduct[] =>
-  state.prods;

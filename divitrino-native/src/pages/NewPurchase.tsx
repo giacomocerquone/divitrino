@@ -9,10 +9,13 @@ import Product from "../components/organisms/NewPurchase/Product";
 import ProductInput from "../components/organisms/NewPurchase/ProductInput";
 import RecapModal from "../components/organisms/NewPurchase/RecapModal";
 import Toolbar from "../components/organisms/NewPurchase/Toolbar";
+import * as endpoints from "../constants/endpoints";
 import { colors, unit } from "../constants/ui";
-import { IProduct, IUser } from "../interfaces";
-import { getPurchaseProducts } from "../store";
+import { IAPIProduct, IProduct, IUser } from "../interfaces";
+import client from "../services/client";
+import { getActiveGroupId, getPurchaseState } from "../store";
 import * as purchaseActions from "../store/purchaseSlice";
+import { convertToCents } from "../utils";
 
 type TSelectedProds = Record<string, boolean>;
 
@@ -23,7 +26,8 @@ const keyboardDismissProp =
 
 const NewPurchase = () => {
   const dispatch = useDispatch();
-  const prods = useSelector(getPurchaseProducts);
+  const { prods } = useSelector(getPurchaseState);
+  const groupId = useSelector(getActiveGroupId);
   const [selectedProdsIndexes, setSelectedProdsIndexes] =
     useState<TSelectedProds>({});
   const assignSheet = useRef<BottomSheetModal>(null);
@@ -91,8 +95,28 @@ const NewPurchase = () => {
     recapSheet.current?.present();
   };
 
-  const onSubmit = () => {
-    // TODO submit new purchase to server
+  const onSubmit = async (selectedPeople: IUser["id"][], date: Date) => {
+    const transformedProds: IAPIProduct[] = prods.map((prod) => ({
+      pricePerDebtor: Math.round(
+        convertToCents(prod.price) / prod.debtors.length // todo
+      ),
+      debtors: prod.debtors,
+      name: prod.name,
+    }));
+
+    try {
+      const { data } = await client.post(endpoints.purchase, {
+        description: "Spesa", // todo
+        payerId: selectedPeople[0],
+        products: transformedProds,
+        groupId,
+        date,
+      });
+
+      console.log(data);
+    } catch (e) {
+      console.log("error adding purchase on server", e);
+    }
   };
 
   return (

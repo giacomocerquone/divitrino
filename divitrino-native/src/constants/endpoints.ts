@@ -7,4 +7,5 @@ export const balance = "/balance";
 
 // Relative to group
 export const movements = "/movements";
-export const payments = "/payment";
+export const payment = "/payment";
+export const purchase = "/purchase";

@@ -1,7 +1,9 @@
 const convertToCents = (amount: string | number) => {
   const castedAmount =
     typeof amount === "string" ? parseFloat(amount.replace(",", ".")) : amount;
-  return Math.round(castedAmount * 100);
+  const cents = castedAmount * 100;
+
+  return Math.round(cents);
 };
 
 export default convertToCents;

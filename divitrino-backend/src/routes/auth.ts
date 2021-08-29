@@ -8,12 +8,20 @@ export default async function (app: FastifyInstance) {
   app.post<{
     Body: ISignupBody;
   }>(`/signup`, async (req, res) => {
-    const { name, email, password, groupId, groupName } = req.body;
+    const { name, email, password } = req.body;
     const cryptedPwd = bcrypt.hashSync(password, 8);
 
-    if (!name || (!groupName && !groupId) || !email || !password) {
+    if (!name || !email || !password) {
       return res.send(new httpErrors.BadRequest("Missing signup data"));
     }
+
+    // todo remove this code when in-app invites will be added
+    const groupInvites = await prisma.invite.findMany({
+      where: {
+        accepted: false,
+        invitedUserEmail: email,
+      },
+    });
 
     const result = await prisma.user.create({
       data: {
@@ -21,14 +29,7 @@ export default async function (app: FastifyInstance) {
         email,
         password: cryptedPwd,
         groups: {
-          connectOrCreate: {
-            where: {
-              id: groupId || "",
-            },
-            create: {
-              name: groupName || "",
-            },
-          },
+          connect: groupInvites.map((invite) => ({ id: invite.groupId })),
         },
       },
       select: {
@@ -41,6 +42,18 @@ export default async function (app: FastifyInstance) {
             users: true,
           },
         },
+      },
+    });
+
+    // todo remove this code when in-app invites will be added
+    await prisma.invite.updateMany({
+      where: {
+        id: {
+          in: groupInvites.map((invite) => invite.id),
+        },
+      },
+      data: {
+        accepted: true,
       },
     });
 
@@ -95,8 +108,6 @@ interface ISignupBody {
   name: string;
   email: string;
   password: string;
-  groupId: string;
-  groupName: string;
 }
 
 interface ILoginBody {

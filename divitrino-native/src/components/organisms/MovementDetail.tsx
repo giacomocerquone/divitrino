@@ -1,14 +1,26 @@
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
-import React, { FunctionComponent } from "react";
+import { dinero } from "dinero.js";
+import { EUR } from "@dinero.js/currencies";
+import React, { FunctionComponent, useMemo } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 import { colors, unit } from "../../constants/ui";
 import { TMovement } from "../../interfaces";
 import BottomSheetContent from "../../templates/BottomSheetContent";
+import { formatMoney } from "../../utils";
 import Text from "../atoms/Text";
 
 const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
+  const amount = useMemo(() => {
+    if (movement?.amount) {
+      const dAmount = dinero({ amount: movement.amount, currency: EUR });
+      return formatMoney(dAmount);
+    }
+
+    return "0";
+  }, [movement?.amount]);
+
   if (!movement) {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
@@ -27,7 +39,7 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
     >
       <Text size="s" style={styles.paragraph}>
         <Text text="Totale " />
-        <Text text={`€ ${movement.amount}`} weight="bold" />
+        <Text text={amount} weight="bold" />
       </Text>
       {!movement.payee && (
         <Text size="s" style={styles.paragraph}>
