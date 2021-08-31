@@ -79,9 +79,9 @@ app.after(() => {
       // and also a text to invite users to download the app
       // with a redirect countdown
 
-      res.redirect(
-        `divitrino://join?groupId=${groupId}&code=${code}&inviteId=${inviteId}`
-      );
+      res.type("text/html").send(`<html><body>
+        <a href="exp://192.168.1.73:19000/--/join?groupId=${groupId}&code=${code}&inviteId=${inviteId}">Apri divitrino</a>
+        </body></html> `);
     }
   );
 });
