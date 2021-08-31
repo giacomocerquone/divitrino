@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 
 import { store, getToken } from "../store";
 
-const baseURL = Constants?.manifest?.extra?.baseApi;
+export const baseURL = Constants?.manifest?.extra?.baseApi;
 
 const client = axios.create({
   baseURL,

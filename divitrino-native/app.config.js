@@ -3,6 +3,7 @@ import "dotenv/config";
 export default {
   name: "divitrino",
   slug: "divitrino",
+  scheme: "divitrino",
   version: "0.0.1",
   orientation: "portrait",
   icon: "./assets/icon.png",

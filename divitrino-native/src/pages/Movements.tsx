@@ -67,7 +67,7 @@ const Movements = () => {
             </TouchableOpacity>
           </View>
         }
-        renderSectionHeader={({ section: { createdAtFmt } }) => (
+        renderSectionHeader={({ section: { dateFmt } }) => (
           <Text
             size="xs"
             transform="uppercase"
@@ -75,7 +75,7 @@ const Movements = () => {
             color={colors.purple}
             style={{ marginBottom: unit * 3 }}
           >
-            {createdAtFmt}
+            {dateFmt}
           </Text>
         )}
         keyExtractor={(item) => item.id}

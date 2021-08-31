@@ -10,7 +10,7 @@ import client from "../services/client";
 const useFetchMovements = (groupId: string) => {
   const [movs, setMovs] = useState<
     {
-      createdAtFmt: string;
+      dateFmt: string;
       data: (IPurchase & IPayment)[];
     }[]
   >([]);
@@ -34,13 +34,13 @@ const useFetchMovements = (groupId: string) => {
           ].reduce<Record<string, (IPurchase & IPayment)[]>>(
             (sects, mov: any) => {
               // TODO replace mov: any typing
-              const createdAtFmt = format(new Date(mov.createdAt), "dd MMMM", {
+              const dateFmt = format(new Date(mov.date), "dd MMMM", {
                 locale: it,
               });
-              if (sects[createdAtFmt]) {
-                sects[createdAtFmt].push(mov);
+              if (sects[dateFmt]) {
+                sects[dateFmt].push(mov);
               } else {
-                sects[createdAtFmt] = [mov];
+                sects[dateFmt] = [mov];
               }
 
               return sects;
@@ -49,7 +49,7 @@ const useFetchMovements = (groupId: string) => {
           );
 
           const sectionedMovs = Object.keys(groupedByCreatedAt).map((date) => ({
-            createdAtFmt: date,
+            dateFmt: date,
             data: groupedByCreatedAt[date],
           }));
 
