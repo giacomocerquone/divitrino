@@ -8,6 +8,7 @@ import { colors } from "./src/constants/ui";
 import HomeNav from "./src/pages/HomeNav";
 import Invite from "./src/pages/Invite";
 import Login from "./src/pages/Login";
+import NewGroup from "./src/pages/NewGroup";
 import NewMovement from "./src/pages/NewMovement";
 import NewPayment from "./src/pages/NewPayment";
 import NewPurchase from "./src/pages/NewPurchase";
@@ -38,6 +39,7 @@ const RootNav = () => {
             <Stack.Screen name="NewMovement" component={NewMovement} />
             <Stack.Screen name="NewPayment" component={NewPayment} />
             <Stack.Screen name="NewPurchase" component={NewPurchase} />
+            <Stack.Screen name="NewGroup" component={NewGroup} />
           </>
         ) : (
           <>

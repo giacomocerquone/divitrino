@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Button from "../components/atoms/Button";
 import Input from "../components/atoms/Input";
 import Text from "../components/atoms/Text";
+import DatePicker from "../components/organisms/DatePicker";
 import PeopleSelector from "../components/organisms/PeopleSelector";
 import * as endpoints from "../constants/endpoints";
 import { unit } from "../constants/ui";
@@ -25,8 +26,13 @@ const NewPayment = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [amount, setAmount] = useState("");
+  const [date, setDate] = useState(new Date());
   const [payerId] = selectedFromPeople;
   const [payeeId] = selectedToPeople;
+
+  const handleConfirm = (date: Date) => {
+    setDate(date);
+  };
 
   const onSubmit = async () => {
     try {
@@ -44,6 +50,7 @@ const NewPayment = () => {
         payerId,
         payeeId,
         groupId,
+        date,
       });
 
       goBack();
@@ -81,6 +88,8 @@ const NewPayment = () => {
           onPersonPress={onToPress}
           selectedPeople={selectedToPeople}
         />
+
+        <DatePicker onConfirm={handleConfirm} date={date} />
       </View>
 
       <Button

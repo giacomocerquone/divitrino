@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { FunctionComponent } from "react";
-import { FlatList, StyleSheet, TouchableHighlight, View } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "../components/atoms/Button";
@@ -28,17 +28,20 @@ const Group: FunctionComponent<Props> = ({ item }) => {
   const { navigate } = useNavigation();
 
   return (
-    <TouchableHighlight
-      style={styles.group}
-      onPress={() => dispatch(userActions.setActiveGroupId(item.id))}
-    >
-      <View style={styles.groupItemHeader}>
-        <Text text={item.name} size="s" />
-        <IconButton name="add" onPress={() => navigate("Invite")} />
-      </View>
+    <View style={styles.group}>
+      <TouchableOpacity
+        style={styles.groupItemHeader}
+        onPress={() => dispatch(userActions.setActiveGroupId(item.id))}
+      >
+        <>
+          <Text text={item.name} size="s" />
+          <IconButton name="link-outline" onPress={() => navigate("Invite")} />
+        </>
+      </TouchableOpacity>
+
       {activeGroupId === item.id &&
-        item.users.map((user) => <User item={user} />)}
-    </TouchableHighlight>
+        item.users.map((user) => <User key={user.id} item={user} />)}
+    </View>
   );
 };
 
@@ -50,7 +53,7 @@ const Groups = () => {
     <FlatList
       contentContainerStyle={styles.root}
       data={groups}
-      ListHeaderComponent={<PageHeader title="Gruppo" />}
+      ListHeaderComponent={<PageHeader title="Gruppi" />}
       renderItem={({ item }) => <Group item={item} />}
       ListFooterComponent={
         <Button
@@ -68,11 +71,6 @@ export default Groups;
 const styles = StyleSheet.create({
   root: { paddingHorizontal: unit * 5 },
   group: {
-    alignItems: "center",
-    paddingVertical: unit * 4,
-    borderRadius: unit * 2,
-    width: "100%",
-    backgroundColor: colors.white,
     marginBottom: unit * 3,
   },
   groupItemHeader: {
@@ -81,14 +79,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: unit * 4,
     marginBottom: unit * 3,
+    backgroundColor: colors.white,
+    width: "100%",
+    paddingVertical: unit * 4,
+    borderRadius: unit * 2,
   },
   user: {
-    alignItems: "center",
     paddingVertical: unit * 4,
     paddingLeft: unit * 4,
     borderRadius: unit * 2,
     marginLeft: unit * 9,
-    width: "100%",
     backgroundColor: colors.white,
     marginBottom: unit * 3,
   },

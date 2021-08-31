@@ -1,4 +1,5 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useRef, useState } from "react";
 import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +26,7 @@ const keyboardDismissProp =
     : { onScrollEndDrag: Keyboard.dismiss };
 
 const NewPurchase = () => {
+  const { goBack } = useNavigation();
   const dispatch = useDispatch();
   const { prods } = useSelector(getPurchaseState);
   const groupId = useSelector(getActiveGroupId);
@@ -109,7 +111,7 @@ const NewPurchase = () => {
     }));
 
     try {
-      const { data } = await client.post(endpoints.purchase, {
+      await client.post(endpoints.purchase, {
         description,
         payerId: selectedPeople[0],
         products: transformedProds,
@@ -117,7 +119,8 @@ const NewPurchase = () => {
         date,
       });
 
-      console.log(data);
+      goBack();
+      dispatch(purchaseActions.setProds([]));
     } catch (e) {
       console.log("error adding purchase on server", e);
     }

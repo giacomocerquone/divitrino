@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Input from "../components/atoms/Input";
 import Centered from "../templates/Centered";
 
-const Invite = () => {
+const NewGroup = () => {
   const [groupName, setGroupName] = useState("");
 
   const onSubmit = () => {};
@@ -26,4 +26,4 @@ poter iniziare a dividere le spese`}
   );
 };
 
-export default Invite;
+export default NewGroup;

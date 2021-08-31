@@ -51,7 +51,7 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
       <Text size="s" style={styles.paragraph}>
         <Text text="Data " />
         <Text
-          text={format(new Date(movement.createdAt), "dd MMMM", { locale: it })}
+          text={format(new Date(movement.date), "dd MMMM", { locale: it })}
           weight="bold"
         />
       </Text>

@@ -17,6 +17,7 @@ export interface IGroupOperation {
   id: string;
   payer: IUser;
   createdAt: string;
+  date: string;
   amount: number;
 }
 
