@@ -72,14 +72,14 @@ const Group: FunctionComponent<Props> = ({ item }) => {
   const askCreateInvite = () => {
     Alert.alert(
       "Vuoi creare un invito?",
-      "Ogni invito che crei può essere utilizzato da una sola persona. Vuoi crearlo?",
+      "Ogni invito che crei può essere utilizzato da una sola persona.",
       [
         {
-          text: "Si",
+          text: "Ok",
           onPress: createInvite,
         },
         {
-          text: "No",
+          text: "Annulla",
         },
       ]
     );

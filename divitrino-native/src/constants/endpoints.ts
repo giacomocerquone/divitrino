@@ -10,3 +10,4 @@ export const movements = "/movements";
 export const payment = "/payment";
 export const purchase = "/purchase";
 export const invite = "/invite";
+export const join = "/join";
