@@ -101,6 +101,10 @@ export default async function (app: FastifyInstance) {
     async (req, res) => {
       const { groupId, code, inviteId } = req.query;
 
+      // TODO add html page with metadata to make a nicer preview for crawlers
+      // and also a text to invite users to download the app
+      // with a redirect countdown
+
       res.redirect(
         `divitrino://join?groupId=${groupId}&code=${code}&inviteId=${inviteId}`
       );
@@ -134,6 +138,16 @@ export default async function (app: FastifyInstance) {
             id: groupId,
           },
           data: {
+            invites: {
+              update: {
+                where: {
+                  id: invite.id,
+                },
+                data: {
+                  used: true,
+                },
+              },
+            },
             users: {
               connect: {
                 // @ts-ignore
@@ -174,7 +188,7 @@ export default async function (app: FastifyInstance) {
   }>(`/purchase`, async (req, res) => {
     const { description, payerId, products, groupId, date } = req.body;
 
-    if (!date || !payerId || !description || products?.length || !groupId) {
+    if (!date || !payerId || !description || !products?.length || !groupId) {
       return res.send(new httpErrors.BadRequest("Stuff is needed bro"));
     }
 
