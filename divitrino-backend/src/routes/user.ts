@@ -96,21 +96,6 @@ export default async function (app: FastifyInstance) {
     return res.send(group);
   });
 
-  app.get<{ Querystring: { groupId: string; code: string; inviteId: string } }>(
-    "/open-invite",
-    async (req, res) => {
-      const { groupId, code, inviteId } = req.query;
-
-      // TODO add html page with metadata to make a nicer preview for crawlers
-      // and also a text to invite users to download the app
-      // with a redirect countdown
-
-      res.redirect(
-        `divitrino://join?groupId=${groupId}&code=${code}&inviteId=${inviteId}`
-      );
-    }
-  );
-
   app.post<{ Body: { code: string; groupId: string; inviteId: number } }>(
     "/join",
     async (req, res) => {

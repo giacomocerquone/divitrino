@@ -70,23 +70,20 @@ app
   .register(userRouter);
 
 app.after(() => {
-  app.get("/purchases", async (req, res) => {
-    return res.send(
-      await prisma.purchase.findMany({
-        include: {
-          products: {
-            include: {
-              debtors: true,
-            },
-          },
-        },
-      })
-    );
-  });
-  app.delete("/purchases", async (req, res) => {
-    await prisma.product.deleteMany();
-    return res.send(await prisma.purchase.deleteMany());
-  });
+  app.get<{ Querystring: { groupId: string; code: string; inviteId: string } }>(
+    "/open-invite",
+    async (req, res) => {
+      const { groupId, code, inviteId } = req.query;
+
+      // TODO add html page with metadata to make a nicer preview for crawlers
+      // and also a text to invite users to download the app
+      // with a redirect countdown
+
+      res.redirect(
+        `divitrino://join?groupId=${groupId}&code=${code}&inviteId=${inviteId}`
+      );
+    }
+  );
 });
 
 app.listen(process.env.PORT || 3000, process.env.IP || "localhost", (err) => {
