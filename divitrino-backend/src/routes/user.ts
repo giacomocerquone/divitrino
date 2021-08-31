@@ -36,7 +36,7 @@ export default async function (app: FastifyInstance) {
         include: {
           payments: {
             orderBy: {
-              createdAt: "desc",
+              date: "desc",
             },
             include: {
               payer: true,
@@ -45,7 +45,7 @@ export default async function (app: FastifyInstance) {
           },
           purchases: {
             orderBy: {
-              createdAt: "desc",
+              date: "desc",
             },
             include: {
               payer: true,
@@ -174,6 +174,10 @@ export default async function (app: FastifyInstance) {
   }>(`/purchase`, async (req, res) => {
     const { description, payerId, products, groupId, date } = req.body;
 
+    if (!date || !payerId || !description || products?.length || !groupId) {
+      return res.send(new httpErrors.BadRequest("Stuff is needed bro"));
+    }
+
     const amount = products.reduce((tot, prod) => {
       return tot + prod.pricePerDebtor;
     }, 0);
@@ -215,11 +219,13 @@ export default async function (app: FastifyInstance) {
   app.post<{
     Body: IPaymentBody;
   }>(`/payment`, async (req, res) => {
-    const { amount, payerId, payeeId, groupId } = req.body;
+    const { amount, payerId, payeeId, groupId, date } = req.body;
 
-    if (!payerId || !payeeId || !amount) {
+    if (!payerId || !payeeId || !amount || !date || !groupId) {
       return res.send(
-        new httpErrors.BadRequest("amount, payerId and payeeId are needed")
+        new httpErrors.BadRequest(
+          "amount, payerId, payeeId and date are needed"
+        )
       );
     }
 
@@ -229,6 +235,7 @@ export default async function (app: FastifyInstance) {
         payerId,
         payeeId,
         groupId,
+        date,
       },
     });
 

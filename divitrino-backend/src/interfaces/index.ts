@@ -12,6 +12,7 @@ export interface IPaymentBody {
   payerId: string;
   payeeId: string;
   groupId: string;
+  date: string;
 }
 
 export interface IPurchaseBody {

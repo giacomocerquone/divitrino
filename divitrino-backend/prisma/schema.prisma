@@ -68,6 +68,7 @@ model Payment {
   payeeId   String
   payer     User     @relation("payer", fields: [payerId], references: [id])
   payee     User     @relation("payee", fields: [payeeId], references: [id])
+  date      DateTime
 }
 
 model Invite {
