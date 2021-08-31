@@ -1,30 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { FunctionComponent } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Share,
-  Alert,
-} from "react-native";
-import { showMessage } from "react-native-flash-message";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "../components/atoms/Button";
 import IconButton from "../components/atoms/IconButton";
 import Text from "../components/atoms/Text";
 import PageHeader from "../components/organisms/PageHeader";
-import * as endpoints from "../constants/endpoints";
 import { colors, unit } from "../constants/ui";
 import useFetchGroups from "../hooks/useFetchGroups";
 import { IGroup, IUser } from "../interfaces";
-import client, { baseURL } from "../services/client";
 import { getActiveGroupId } from "../store";
 import * as userActions from "../store/userSlice";
-
-const forgeInviteLink = (groupId: string, code: string, inviteId: number) =>
-  `${baseURL}/open-invite?groupId=${groupId}&code=${code}&inviteId=${inviteId}`;
 
 const User: FunctionComponent<UserProps> = ({ item }) => {
   return (
@@ -38,52 +25,7 @@ const User: FunctionComponent<UserProps> = ({ item }) => {
 const Group: FunctionComponent<Props> = ({ item }) => {
   const activeGroupId = useSelector(getActiveGroupId);
   const dispatch = useDispatch();
-
-  const createInvite = async () => {
-    try {
-      const {
-        data: { code, id: inviteId },
-      } = await client.post(endpoints.invite, {
-        groupId: item.id,
-      });
-
-      const inviteLink = forgeInviteLink(item.id, code, inviteId);
-
-      const content = {
-        message: `Entra nel mio gruppo ${item.name} e dividiamo insieme le spese con divitrino: ${inviteLink}`,
-        url: inviteLink,
-      };
-      const options = {
-        dialogTitle: "Invita",
-        tintColor: colors.purple,
-      };
-      Share.share(content, options);
-    } catch (e) {
-      showMessage({
-        description:
-          "Non sono riuscito a generare un link d'invito. Riprova più tardi!",
-        message: "Errore",
-        type: "danger",
-      });
-      console.log("error creating invite", e);
-    }
-  };
-
-  const askCreateInvite = () => {
-    Alert.alert(
-      "Vuoi creare un invito?",
-      "Ogni invito che crei può essere utilizzato da una sola persona.",
-      [
-        {
-          text: "Ok",
-          onPress: createInvite,
-        },
-        {
-          text: "Annulla",
-        },
-      ]
-    );
-  };
+  const { navigate } = useNavigation();
 
   return (
     <View style={styles.group}>
@@ -93,7 +35,10 @@ const Group: FunctionComponent<Props> = ({ item }) => {
       >
         <>
           <Text text={item.name} size="s" />
-          <IconButton name="share-social-outline" onPress={askCreateInvite} />
+          <IconButton
+            name="share-social-outline"
+            onPress={() => navigate("Invite", { item })}
+          />
         </>
       </TouchableOpacity>
 

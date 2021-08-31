@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   disabled?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
   title: string;
   description: string;
   onPrimary: () => void;
