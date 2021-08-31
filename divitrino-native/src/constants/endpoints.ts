@@ -2,6 +2,7 @@
 export const login = "/login";
 export const signup = "/signup";
 
+export const group = "/group";
 export const groups = "/groups";
 export const balance = "/balance";
 

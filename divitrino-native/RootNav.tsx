@@ -28,8 +28,9 @@ const RootNav = () => {
   useEffect(() => {
     const handleUrl = ({ url }: { url: string }) => {
       const parsedUrl = Linking.parse(url);
-      console.log(parsedUrl);
-      setDeepLink(parsedUrl);
+      if (parsedUrl?.path === "join") {
+        setDeepLink(parsedUrl);
+      }
     };
 
     Linking.addEventListener("url", handleUrl);
@@ -59,12 +60,18 @@ const RootNav = () => {
     const joinGroup = async () => {
       try {
         await client.post(endpoints.join, {
-          groupId: deepLink.queryParams.gropuId,
-          inviteId: deepLink.queryParams.inviteId,
+          groupId: deepLink.queryParams.groupId,
+          inviteId: +deepLink.queryParams.inviteId,
           code: deepLink.queryParams.code,
         });
 
         setDeepLink(undefined);
+        showMessage({
+          type: "success",
+          description: "Ti sei unito al gruppo con successo",
+          message: "Grandioso!",
+        });
+        // navigate to groups
       } catch (e) {
         setDeepLink(undefined); // are we sure?
         showMessage({

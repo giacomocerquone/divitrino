@@ -26,7 +26,7 @@ const Signup = () => {
       } = await client.post(signup, {
         name,
         email,
-        pwd,
+        password: pwd,
       });
 
       dispatch(userActions.login({ token, user }));

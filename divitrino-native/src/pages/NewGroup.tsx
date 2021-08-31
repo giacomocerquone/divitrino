@@ -1,12 +1,31 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+import { showMessage } from "react-native-flash-message";
 
 import Input from "../components/atoms/Input";
+import * as endpoints from "../constants/endpoints";
+import client from "../services/client";
 import Centered from "../templates/Centered";
 
 const NewGroup = () => {
+  const { goBack } = useNavigation();
   const [groupName, setGroupName] = useState("");
 
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    try {
+      await client.post(endpoints.group, {
+        groupName,
+      });
+      goBack();
+    } catch (e) {
+      showMessage({
+        type: "danger",
+        description:
+          "Ci sono stati problemi nel creare il gruppo. Riprova più tardi",
+        message: "Errore",
+      });
+    }
+  };
 
   return (
     <Centered

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 
 import * as endpoints from "../constants/endpoints";
@@ -10,20 +11,22 @@ const useFetchGroupBalance = () => {
   const [balance, setBalance] = useState<TBalance>();
   const groupId = useSelector(getActiveGroupId);
 
-  useEffect(() => {
-    const fetchBalance = async () => {
-      try {
-        const { data } = await client.get(endpoints.balance, {
-          params: { groupId },
-        });
-        setBalance(data);
-      } catch (e) {
-        console.log("error fetching balance", e);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchBalance = async () => {
+        try {
+          const { data } = await client.get(endpoints.balance, {
+            params: { groupId },
+          });
+          setBalance(data);
+        } catch (e) {
+          console.log("error fetching balance", e);
+        }
+      };
 
-    fetchBalance();
-  }, [groupId]);
+      fetchBalance();
+    }, [groupId])
+  );
 
   return balance;
 };

@@ -35,15 +35,13 @@ const Group: FunctionComponent<Props> = ({ item }) => {
       >
         <>
           <Text text={item.name} size="s" />
-          <IconButton
-            name="share-social-outline"
-            onPress={() => navigate("Invite", { item })}
-          />
+          <IconButton name="add" onPress={() => navigate("Invite", { item })} />
         </>
       </TouchableOpacity>
 
       {activeGroupId === item.id &&
         item.users.map((user) => <User key={user.id} item={user} />)}
+      {activeGroupId === item.id && <View style={styles.selectionIndicator} />}
     </View>
   );
 };
@@ -99,6 +97,16 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingHorizontal: unit * 8,
     marginTop: unit * 2,
+  },
+  selectionIndicator: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    borderTopLeftRadius: unit * 2,
+    borderTopRightRadius: unit * 2,
+    backgroundColor: colors.purple,
+    height: unit * 2,
   },
 });
 

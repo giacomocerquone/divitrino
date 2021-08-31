@@ -31,7 +31,7 @@ const Balance = () => {
       <Text
         size="m"
         weight="normal"
-        text="Altro"
+        text="Altro (coming)"
         style={styles.otherTitle}
         align="center"
       />

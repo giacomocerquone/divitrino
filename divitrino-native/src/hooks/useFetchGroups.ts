@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as endpoints from "../constants/endpoints";
@@ -12,19 +13,21 @@ const useFetchGroups = () => {
   const activeGroupUsers = useSelector(getActiveGroupUsers);
   const groups = useSelector(getGroups);
 
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const { data } = await client.get<IGroup[]>(endpoints.groups);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchGroups = async () => {
+        try {
+          const { data } = await client.get<IGroup[]>(endpoints.groups);
 
-        dispatch(userActions.groupsReceived(data));
-      } catch (e) {
-        console.log("error fetching users", e);
-      }
-    };
+          dispatch(userActions.groupsReceived(data));
+        } catch (e) {
+          console.log("error fetching users", e);
+        }
+      };
 
-    fetchGroups();
-  }, [dispatch]);
+      fetchGroups();
+    }, [dispatch])
+  );
 
   return {
     groups,

@@ -12,6 +12,7 @@ import Text from "../../atoms/Text";
 import Row from "./Row";
 
 const generateDineroObject = (amount: number) => {
+  if (!amount) return "€ 0";
   const dAmount = dinero({ amount, currency: EUR });
   return formatMoney(dAmount);
 };
@@ -24,7 +25,10 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
   const currentUserCredits = balance[user.id];
   const currentUserDebts = Object.keys(balance).filter(
     (creditorId) =>
-      user.id && creditorId !== user.id && balance[creditorId][user.id] !== 0
+      user.id &&
+      creditorId !== user.id &&
+      balance[creditorId][user.id] &&
+      balance[creditorId][user.id] !== 0
   );
 
   return (
