@@ -15,22 +15,11 @@ export default async function (app: FastifyInstance) {
       return res.send(new httpErrors.BadRequest("Missing signup data"));
     }
 
-    // todo remove this code when in-app invites will be added
-    const groupInvites = await prisma.invite.findMany({
-      where: {
-        accepted: false,
-        invitedUserEmail: email,
-      },
-    });
-
     const result = await prisma.user.create({
       data: {
         name,
         email,
         password: cryptedPwd,
-        groups: {
-          connect: groupInvites.map((invite) => ({ id: invite.groupId })),
-        },
       },
       select: {
         name: true,
@@ -42,18 +31,6 @@ export default async function (app: FastifyInstance) {
             users: true,
           },
         },
-      },
-    });
-
-    // todo remove this code when in-app invites will be added
-    await prisma.invite.updateMany({
-      where: {
-        id: {
-          in: groupInvites.map((invite) => invite.id),
-        },
-      },
-      data: {
-        accepted: true,
       },
     });
 

@@ -7,7 +7,20 @@ import {
   IMovementsQueryString,
   IPaymentBody,
   IPurchaseBody,
+  TBalance,
 } from "../interfaces";
+
+function generateInviteCode(strLength: number = 5) {
+  const result = [];
+  const charSet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  while (--strLength) {
+    result.push(charSet.charAt(Math.floor(Math.random() * charSet.length)));
+  }
+
+  return result.join("");
+}
 
 export default async function (app: FastifyInstance) {
   // @ts-ignore
@@ -83,24 +96,39 @@ export default async function (app: FastifyInstance) {
     return res.send(group);
   });
 
-  app.post<{ Body: { invitedUserEmail: string; groupId: string } }>(
-    "/invite",
+  app.get<{ Querystring: { groupId: string; code: string; inviteId: string } }>(
+    "/open-invite",
     async (req, res) => {
-      const { groupId, invitedUserEmail } = req.body;
-      if (!invitedUserEmail || !groupId) {
+      const { groupId, code, inviteId } = req.query;
+
+      res.redirect(
+        `divitrino://join?groupId=${groupId}&code=${code}&inviteId=${inviteId}`
+      );
+    }
+  );
+
+  app.post<{ Body: { code: string; groupId: string; inviteId: number } }>(
+    "/join",
+    async (req, res) => {
+      const { groupId, code, inviteId } = req.body;
+      if (!code || !groupId || !inviteId) {
         return res.send(
-          new httpErrors.BadRequest("An email and a groupId is needed")
+          new httpErrors.BadRequest(
+            "A code, a groupId and an inviteId is needed"
+          )
         );
       }
 
-      const invitedUser = await prisma.user.findUnique({
+      const invite = await prisma.invite.findFirst({
         where: {
-          email: invitedUserEmail,
+          code,
+          groupId,
+          id: inviteId,
+          used: false,
         },
       });
 
-      if (invitedUser) {
-        // todo will be removed when in-app invites will be added
+      if (invite) {
         const group = await prisma.group.update({
           where: {
             id: groupId,
@@ -115,19 +143,31 @@ export default async function (app: FastifyInstance) {
           },
         });
         return res.send(group);
-      } else {
-        const invite = await prisma.invite.create({
-          data: {
-            invitedUserEmail,
-            groupId,
-            // @ts-ignore
-            invitedByUserId: req.user.id,
-          },
-        });
-        return res.send(invite);
       }
+
+      return res.send(new httpErrors.BadRequest("No invite has been found"));
     }
   );
+
+  app.post<{ Body: { groupId: string } }>("/invite", async (req, res) => {
+    const { groupId } = req.body;
+    if (!groupId) {
+      return res.send(
+        new httpErrors.BadRequest("An email and a groupId is needed")
+      );
+    }
+
+    const invite = await prisma.invite.create({
+      data: {
+        code: generateInviteCode(),
+        groupId,
+        // @ts-ignore
+        invitedByUserId: req.user.id,
+      },
+    });
+
+    return res.send(invite);
+  });
 
   app.post<{
     Body: IPurchaseBody;

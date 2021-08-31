@@ -51,6 +51,7 @@ async function main() {
         groupId: group.id,
         description: "Spesa conad pagata da Giacomo",
         createdAt: new Date(),
+        date: new Date(),
         products: {
           create: [
             {

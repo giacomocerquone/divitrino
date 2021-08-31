@@ -71,11 +71,12 @@ model Payment {
 }
 
 model Invite {
-  id               Int     @id @default(autoincrement())
-  invitedUserEmail String
-  accepted         Boolean @default(false)
-  invitedBy        User    @relation(fields: [invitedByUserId], references: [id])
-  invitedByUserId  String
-  group            Group   @relation(fields: [groupId], references: [id])
-  groupId          String
+  id              Int    @id @default(autoincrement())
+  invitedBy       User   @relation(fields: [invitedByUserId], references: [id])
+  invitedByUserId String
+  group           Group  @relation(fields: [groupId], references: [id])
+  groupId         String
+
+  used Boolean @default(false)
+  code String
 }
