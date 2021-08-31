@@ -95,10 +95,14 @@ const NewPurchase = () => {
     recapSheet.current?.present();
   };
 
-  const onSubmit = async (selectedPeople: IUser["id"][], date: Date) => {
+  const onSubmit = async (
+    selectedPeople: IUser["id"][],
+    date: Date,
+    description: string
+  ) => {
     const transformedProds: IAPIProduct[] = prods.map((prod) => ({
       pricePerDebtor: Math.round(
-        convertToCents(prod.price) / prod.debtors.length // todo
+        convertToCents(prod.price) / prod.debtors.length // todo use dinero.allocate maybe?
       ),
       debtors: prod.debtors,
       name: prod.name,
@@ -106,7 +110,7 @@ const NewPurchase = () => {
 
     try {
       const { data } = await client.post(endpoints.purchase, {
-        description: "Spesa", // todo
+        description,
         payerId: selectedPeople[0],
         products: transformedProds,
         groupId,

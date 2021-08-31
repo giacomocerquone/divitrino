@@ -1,3 +1,5 @@
+import { EUR } from "@dinero.js/currencies";
+import { dinero } from "dinero.js";
 import React, { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -5,8 +7,14 @@ import { useSelector } from "react-redux";
 import { unit } from "../../../constants/ui";
 import { IUser, TBalance } from "../../../interfaces";
 import { getUser } from "../../../store";
+import { formatMoney } from "../../../utils";
 import Text from "../../atoms/Text";
 import Row from "./Row";
+
+const generateDineroObject = (amount: number) => {
+  const dAmount = dinero({ amount, currency: EUR });
+  return formatMoney(dAmount);
+};
 
 const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
   const user = useSelector(getUser);
@@ -31,7 +39,10 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
         <Row key={debtorId}>
           <Text text="Ricevi" weight="bold" size="s" />
           <Text text={peopleMap[debtorId].name} />
-          <Text text={currentUserCredits[debtorId].toString()} size="s" />
+          <Text
+            text={generateDineroObject(currentUserCredits[debtorId])}
+            size="s"
+          />
         </Row>
       ))}
 
@@ -40,7 +51,10 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
           <Text text="Devi" weight="bold" size="s" />
           <Text text={peopleMap[creditorId].name} />
           {user.id && (
-            <Text text={balance[creditorId][user.id].toString()} size="s" />
+            <Text
+              text={generateDineroObject(balance[creditorId][user.id])}
+              size="s"
+            />
           )}
         </Row>
       ))}

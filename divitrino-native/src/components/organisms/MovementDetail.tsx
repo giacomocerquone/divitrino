@@ -1,7 +1,7 @@
+import { EUR } from "@dinero.js/currencies";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { dinero } from "dinero.js";
-import { EUR } from "@dinero.js/currencies";
 import React, { FunctionComponent, useMemo } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 

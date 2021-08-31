@@ -14,6 +14,7 @@ import { getPurchaseState } from "../../../store";
 import BottomSheetContent from "../../../templates/BottomSheetContent";
 import { convertToCents, formatMoney } from "../../../utils";
 import Button from "../../atoms/Button";
+import Input from "../../atoms/Input";
 import Text from "../../atoms/Text";
 import PeopleSelector from "../PeopleSelector";
 
@@ -22,6 +23,7 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
   const { onPersonPress, selectedPeople } = usePeopleSelection(false);
   const { prods } = useSelector(getPurchaseState);
   const [date, setDate] = useState(new Date());
+  const [description, setDescription] = useState("");
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -64,7 +66,15 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
       index={0}
       snapPoints={snapPoints}
     >
-      <BottomSheetContent headerTitle="Spesa">
+      <BottomSheetContent headerTitle="Nuova spesa">
+        <Input
+          style={styles.paragraph}
+          autoCapitalize="sentences"
+          placeholder="Descrizione"
+          value={description}
+          onChangeText={setDescription}
+        />
+
         <Text size="s" style={styles.paragraph}>
           <Text text="Totale " />
           <Text text={total} weight="bold" />
@@ -85,7 +95,7 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
         <Button
           label="Finito"
           disabled={!selectedPeople[0]}
-          onPress={() => onDone(selectedPeople, date)}
+          onPress={() => onDone(selectedPeople, date, description)}
           style={styles.button}
         />
 
@@ -115,5 +125,9 @@ const styles = StyleSheet.create({
 
 interface Props {
   sheetRef: Ref<BottomSheetModal>;
-  onDone: (selectedPeople: IUser["id"][], date: Date) => void;
+  onDone: (
+    selectedPeople: IUser["id"][],
+    date: Date,
+    description: string
+  ) => void;
 }
