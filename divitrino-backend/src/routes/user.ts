@@ -96,22 +96,19 @@ export default async function (app: FastifyInstance) {
     return res.send(group);
   });
 
-  app.post<{ Body: { code: string; groupId: string; inviteId: number } }>(
+  app.post<{ Body: { code: string; inviteId: number } }>(
     "/join",
     async (req, res) => {
-      const { groupId, code, inviteId } = req.body;
-      if (!code || !groupId || !inviteId) {
+      const { code, inviteId } = req.body;
+      if (!code || !inviteId) {
         return res.send(
-          new httpErrors.BadRequest(
-            "A code, a groupId and an inviteId is needed"
-          )
+          new httpErrors.BadRequest("A code and an inviteId is needed")
         );
       }
 
       const invite = await prisma.invite.findFirst({
         where: {
           code,
-          groupId,
           id: inviteId,
           used: false,
         },
@@ -120,7 +117,7 @@ export default async function (app: FastifyInstance) {
       if (invite) {
         const group = await prisma.group.update({
           where: {
-            id: groupId,
+            id: invite.groupId,
           },
           data: {
             invites: {

@@ -10,8 +10,8 @@ import { IGroup } from "../interfaces";
 import client, { baseURL } from "../services/client";
 import Centered from "../templates/Centered";
 
-const forgeInviteLink = (groupId: string, code: string, inviteId: number) =>
-  `${baseURL}/open-invite?groupId=${groupId}&code=${code}&inviteId=${inviteId}`;
+const forgeInviteLink = (code: string, inviteId: number) =>
+  `${baseURL}/open-invite?&code=${code}&inviteId=${inviteId}`;
 
 type RootStackParamList = {
   Invite: { item: IGroup };
@@ -34,9 +34,9 @@ const Invite = () => {
         groupId: item.id,
       });
 
-      const inviteLink = forgeInviteLink(item.id, code, inviteId);
+      const inviteLink = forgeInviteLink(code, inviteId);
       const content = {
-        message: `Entra nel mio gruppo ${item.name} e dividiamo insieme le spese con divitrino: ${inviteLink}`,
+        message: `Entra in ${item.name} e dividiamo insieme le spese con Divitrino: ${inviteLink}`,
         url: inviteLink,
       };
       const options = {

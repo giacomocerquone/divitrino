@@ -20,8 +20,6 @@ const Balance = () => {
   }, [people]);
   const balance = useFetchGroupBalance();
 
-  console.log(balance);
-
   return (
     <ScrollView contentContainerStyle={styles.root} stickyHeaderIndices={[0]}>
       <PageHeader title="Bilancio" />

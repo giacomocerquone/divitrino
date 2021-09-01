@@ -60,7 +60,6 @@ const RootNav = () => {
     const joinGroup = async () => {
       try {
         await client.post(endpoints.join, {
-          groupId: deepLink.queryParams.groupId,
           inviteId: +deepLink.queryParams.inviteId,
           code: deepLink.queryParams.code,
         });
