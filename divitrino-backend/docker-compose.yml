@@ -10,8 +10,6 @@ services:
   rest_api:
     env_file:
       - .env
-    build:
-      context: .
     depends_on:
       - postgres
     ports:

@@ -6,3 +6,4 @@ services:
 
   rest_api:
     command: bash -c "npm run db:push && ./node_modules/.bin/pm2-runtime ./dist/index.js"
+    image: giacomocerquone/divitrino

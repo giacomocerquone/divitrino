@@ -38,18 +38,15 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Deploy Container to Digitalocean
+      - name: Pull image from the droplet
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
 
-        # script: |
-        #   docker pull $IMAGE_ID:$VERSION
-        #   docker stop $(docker ps -a -q) || true
-        #   docker rm $(docker ps -a -q) || true
-        #   docker run -d --restart unless-stopped -p 80:3000 --name divitrino-backend $IMAGE_ID:$VERSION
+        script: |
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
   # pull-and-compose-image:
   #   runs-on: ubuntu-latest
