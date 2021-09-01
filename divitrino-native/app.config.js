@@ -3,7 +3,7 @@ const devVars = {
 };
 
 const prodVars = {
-  baseApi: "http://192.168.1.73:3000",
+  baseApi: "http://188.166.104.61:3000",
 };
 
 export default {
