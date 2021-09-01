@@ -10,7 +10,7 @@ import {
   TBalance,
 } from "../interfaces";
 
-function generateInviteCode(strLength: number = 5) {
+function generateInviteCode(strLength: number = 6) {
   const result = [];
   const charSet =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

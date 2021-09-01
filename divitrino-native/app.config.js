@@ -1,10 +1,16 @@
-import "dotenv/config";
+const devVars = {
+  baseApi: "http://192.168.1.73:3000",
+};
+
+const prodVars = {
+  baseApi: "http://192.168.1.73:3000",
+};
 
 export default {
-  name: "divitrino",
+  name: "Divitrino",
   slug: "divitrino",
   scheme: "divitrino",
-  version: "0.0.1",
+  version: "0.5.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   splash: {
@@ -17,13 +23,17 @@ export default {
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    supportsTablet: true,
+    supportsTablet: false,
+    bundleIdentifier: "com.gc.divitrino",
+    buildNumber: "0.5.0",
   },
   android: {
     adaptiveIcon: {
       // foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#FFFFFF",
     },
+    package: "com.gc.divitrino",
+    versionCode: 1,
   },
   androidStatusBar: {
     barStyle: "dark-content",
@@ -31,8 +41,6 @@ export default {
   web: {
     favicon: "./assets/favicon.png",
   },
-  extra: {
-    baseApi: process.env.BASE_API,
-  },
+  extra: process.env.APP_ENV === "prod" ? prodVars : devVars,
   userInterfaceStyle: "automatic",
 };
