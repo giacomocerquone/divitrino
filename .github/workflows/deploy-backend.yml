@@ -8,8 +8,6 @@ on:
 jobs:
   build-push-pull-compose-image:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./divitrino-backend
     permissions:
       contents: read
       packages: write
@@ -38,5 +36,12 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOST }}
+
       - name: Compose image in the droplet
+        working-directory: ./divitrino-backend
         run: DOCKER_HOST=ssh://${{ secrets.USERNAME }}@${{secrets.HOST}} docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
