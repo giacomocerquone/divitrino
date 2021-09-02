@@ -48,4 +48,7 @@ jobs:
 
       - name: Compose image in the droplet
         working-directory: ./divitrino-backend
-        run: DOCKER_HOST=ssh://${{ secrets.USERNAME }}@${{secrets.HOST}} docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+        run: |
+        docker context create remote --docker host=ssh://${{ secrets.USERNAME }}@${{secrets.HOST}}
+        docker-compose --context remote -f docker-compose.yml -f docker-compose.prod.yml down
+        docker-compose --context remote -f docker-compose.yml -f docker-compose.prod.yml up -d
