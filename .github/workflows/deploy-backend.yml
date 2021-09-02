@@ -36,19 +36,40 @@ jobs:
       #     tags: ${{ steps.meta.outputs.tags }}
       #     labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOST }}
-
       - name: Write down env file
         working-directory: ./divitrino-backend
         run: echo ${{ secrets.ENV }} >> .env
 
+      - name: Copy compose files on droplet
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: "divitrino-backend/docker-compose.yml,divitrino-backend/docker-compose.prod.yml,divitrino-backend/.env"
+          target: "root"
+          overwrite: true
+
       - name: Compose image in the droplet
-        working-directory: ./divitrino-backend
-        run: |
-          docker context create remote --docker host=ssh://${{ secrets.USERNAME }}@${{secrets.HOST}}
-          docker-compose --context remote -f docker-compose.yml -f docker-compose.prod.yml down
-          docker-compose --context remote -f docker-compose.yml -f docker-compose.prod.yml up -d
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            pwd
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+      # - name: Install SSH Key
+      #   uses: shimataro/ssh-key-action@v2
+      #   with:
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     known_hosts: ${{ secrets.KNOWN_HOST }}
+
+      # - name: Compose image in the droplet
+      #   working-directory: ./divitrino-backend
+      #   run: |
+      #     docker context create remote --docker host=ssh://${{ secrets.USERNAME }}@${{secrets.HOST}}
+      #     docker-compose --context remote -f docker-compose.yml -f docker-compose.prod.yml down
+      #     docker-compose --context remote -f docker-compose.yml -f docker-compose.prod.yml up -d
