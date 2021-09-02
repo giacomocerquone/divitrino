@@ -42,6 +42,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOST }}
 
+      - name: Write down env file
+        run: echo ${{ secrets.ENV }} >> .env
+
       - name: Compose image in the droplet
         working-directory: ./divitrino-backend
         run: DOCKER_HOST=ssh://${{ secrets.USERNAME }}@${{secrets.HOST}} docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
