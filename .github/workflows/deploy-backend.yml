@@ -38,41 +38,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Pull image from the droplet
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          script: |
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-
-  # pull-and-compose-image:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Deploy Container to Digitalocean
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.HOST }}
-  #         username: ${{ secrets.USERNAME }}
-  #         password: ${{ secrets.PASSWORD }}
-
-  #         script: |
-  #           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-  #           IMAGE_ID=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-  #           # Change all uppercase to lowercase
-  #           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-  #           # Strip git ref prefix from version
-  #           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-  #           # Strip "v" prefix from tag name
-  #           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-  #           # Use Docker `latest` tag convention
-  #           [ "$VERSION" == "main" ] && VERSION=latest
-  #           echo IMAGE_ID=$IMAGE_ID
-  #           echo VERSION=$VERSION
-
-  #           docker pull $IMAGE_ID:$VERSION
-  #           docker update --restart=no nextjs-blog || true
-  #           docker stop $(docker ps -a -q) || true
-  #           docker rm $(docker ps -a -q) || true
-  #           docker run -d --restart unless-stopped -p 3000:3000 --name nextjs-blog $IMAGE_ID:$VERSION
+      - name: Compose image in the droplet
+        run: DOCKER_HOST=ssh://${{ secrets.USERNAME }}@${{secrets.HOST}} docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
