@@ -43,6 +43,7 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOST }}
 
       - name: Write down env file
+        working-directory: ./divitrino-backend
         run: echo ${{ secrets.ENV }} >> .env
 
       - name: Compose image in the droplet
