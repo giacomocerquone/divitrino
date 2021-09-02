@@ -7,7 +7,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "build:prod": "APP_ENV=prod expo build --release-channel prod",
+    "build:prod": "APP_ENV=prod expo build:android --release-channel prod",
     "publish:prod": "APP_ENV=prod expo publish --release-channel prod"
   },
   "dependencies": {
