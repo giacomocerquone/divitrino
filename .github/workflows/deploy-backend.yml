@@ -61,7 +61,7 @@ jobs:
             cd root/divitrino-backend
             mv *.* ../../
             cd ../../
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
       # - name: Install SSH Key

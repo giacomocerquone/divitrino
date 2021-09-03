@@ -12,7 +12,7 @@ const BackButton = () => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.backButtonContainer, { top: insets.top }]}>
+    <View style={[styles.backButtonContainer, { top: insets.top + unit * 5 }]}>
       <TouchableOpacity onPress={goBack} style={styles.backButton}>
         <IconButton name="arrow-back" />
         <Text text="Indietro" style={{ marginLeft: unit * 2 }} />
