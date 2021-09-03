@@ -17,6 +17,7 @@ const Centered: FunctionComponent<Props> = ({
   primaryText,
   secondaryText,
   disabled,
+  hideBack,
 }) => {
   return (
     <View
@@ -57,7 +58,7 @@ const Centered: FunctionComponent<Props> = ({
           )}
         </View>
       </View>
-      <BackButton />
+      {hideBack && <BackButton />}
     </View>
   );
 };
@@ -86,4 +87,5 @@ interface Props {
   onSecondary?: () => void;
   primaryText: string;
   secondaryText?: string;
+  hideBack?: boolean;
 }

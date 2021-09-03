@@ -42,6 +42,7 @@ const Signup = () => {
 
   return (
     <Centered
+      hideBack
       title="Benvenuto"
       description={`Gestisci le finanze del tuo gruppo
 e dividi le spese con loro
