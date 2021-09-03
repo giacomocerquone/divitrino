@@ -11,7 +11,7 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import purchaseSlice, * as fromPurchase from "./purchaseSlice";
+import purchaseSlice from "./purchaseSlice";
 import userSlice, * as fromUser from "./userSlice";
 
 const rootReducer = combineReducers({

@@ -54,7 +54,7 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
       index={0}
       snapPoints={snapPoints}
     >
-      <BottomSheetContent headerTitle="Nuova spesa">
+      <BottomSheetContent headerTitle="Salva acquisto">
         <Input
           style={styles.paragraph}
           autoCapitalize="sentences"
@@ -77,6 +77,8 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
         </View>
 
         <DatePicker onConfirm={handleConfirm} date={date} />
+
+        {/* TODO aggiungere in quale gruppo si sta aggiungendo la spesa */}
 
         <Button
           label="Finito"

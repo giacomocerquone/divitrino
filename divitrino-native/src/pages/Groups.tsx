@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/atoms/Button";
 import IconButton from "../components/atoms/IconButton";
 import Text from "../components/atoms/Text";
+import EmptyList from "../components/organisms/EmptyList";
 import PageHeader from "../components/organisms/PageHeader";
 import { colors, unit } from "../constants/ui";
 import useFetchGroups from "../hooks/useFetchGroups";
@@ -56,6 +57,7 @@ const Groups = () => {
       data={groups}
       ListHeaderComponent={<PageHeader title="Gruppi" />}
       renderItem={({ item }) => <Group item={item} />}
+      ListEmptyComponent={<EmptyList resourceName="gruppo" />}
       ListFooterComponent={
         <Button
           label="Crea"

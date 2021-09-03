@@ -5,11 +5,11 @@ import { dinero } from "dinero.js";
 import React, { FunctionComponent, useMemo } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
-import { colors, unit } from "../../constants/ui";
-import { TMovement } from "../../interfaces";
-import BottomSheetContent from "../../templates/BottomSheetContent";
-import { formatMoney } from "../../utils";
-import Text from "../atoms/Text";
+import { colors, unit } from "../../../constants/ui";
+import { TMovement } from "../../../interfaces";
+import BottomSheetContent from "../../../templates/BottomSheetContent";
+import { formatMoney } from "../../../utils";
+import Text from "../../atoms/Text";
 
 const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
   const amount = useMemo(() => {

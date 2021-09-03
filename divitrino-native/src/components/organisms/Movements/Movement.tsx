@@ -2,9 +2,9 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { FunctionComponent } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
-import { colors, unit } from "../../constants/ui";
-import { IPayment, IPurchase, TMovement } from "../../interfaces";
-import Text from "../atoms/Text";
+import { colors, unit } from "../../../constants/ui";
+import { IPayment, IPurchase, TMovement } from "../../../interfaces";
+import Text from "../../atoms/Text";
 
 const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
   return (

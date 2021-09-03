@@ -34,6 +34,9 @@ const NewPurchase = () => {
     useState<TSelectedProds>({});
   const assignSheet = useRef<BottomSheetModal>(null);
   const recapSheet = useRef<BottomSheetModal>(null);
+  const someIsSelected = Object.values(selectedProdsIndexes).some(
+    (selected) => selected
+  );
 
   const onProductPress = useCallback(
     (idx) => {
@@ -68,9 +71,6 @@ const NewPurchase = () => {
   };
 
   const onAssign = () => {
-    const someIsSelected = Object.values(selectedProdsIndexes).some(
-      (selected) => selected
-    );
     if (someIsSelected) {
       assignSheet.current?.present();
     }
@@ -146,6 +146,9 @@ const NewPurchase = () => {
               onAssign={onAssign}
               onSelectAll={onSelectAll}
               onDelete={onDelete}
+              deleteDisabled={someIsSelected}
+              assignDisabled={someIsSelected}
+              selectDisabled={!prods.length}
             />
           </View>
         }
@@ -165,7 +168,7 @@ const NewPurchase = () => {
         disabled={
           !(prods.length && prods.every((prod) => prod?.debtors?.length))
         }
-        label="Aggiungi"
+        label="Salva"
         onPress={openRecap}
         style={{ marginVertical: unit * 2 }}
       />

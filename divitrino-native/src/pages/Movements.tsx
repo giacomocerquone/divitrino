@@ -10,8 +10,10 @@ import { StyleSheet, SectionList, View, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
-import Movement from "../components/organisms/Movement";
-import MovementDetail from "../components/organisms/MovementDetail";
+import EmptyList from "../components/organisms/EmptyList";
+import Movement from "../components/organisms/Movements/Movement";
+import MovementDetail from "../components/organisms/Movements/MovementDetail";
+import Toolbar from "../components/organisms/Movements/Toolbar";
 import { colors, unit } from "../constants/ui";
 import useFetchMovements from "../hooks/useFetchMovements";
 import { TMovement } from "../interfaces";
@@ -53,20 +55,24 @@ const Movements = () => {
         contentContainerStyle={styles.root}
         renderItem={({ item }) => <Movement item={item} onPress={onMovPress} />}
         ListHeaderComponent={
-          <View style={styles.header}>
-            <TouchableOpacity onPress={onLogout}>
-              <Ionicons
-                name="log-out-outline"
-                color={colors.black}
-                size={unit * 6}
-              />
-            </TouchableOpacity>
-            <Text size="m" weight="normal" text="Movimenti" align="center" />
-            <TouchableOpacity onPress={() => navigate("NewMovement")}>
-              <Ionicons name="add" color={colors.black} size={unit * 6} />
-            </TouchableOpacity>
+          <View>
+            <View style={styles.header}>
+              <TouchableOpacity onPress={onLogout}>
+                <Ionicons
+                  name="log-out-outline"
+                  color={colors.black}
+                  size={unit * 6}
+                />
+              </TouchableOpacity>
+              <Text size="m" weight="normal" text="Movimenti" align="center" />
+              <TouchableOpacity onPress={() => navigate("NewMovement")}>
+                <Ionicons name="add" color={colors.black} size={unit * 6} />
+              </TouchableOpacity>
+            </View>
+            <Toolbar onDelete={() => null} />
           </View>
         }
+        ListEmptyComponent={<EmptyList resourceName="movimento" />}
         renderSectionHeader={({ section: { dateFmt } }) => (
           <Text
             size="xs"
