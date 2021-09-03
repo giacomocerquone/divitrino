@@ -1,17 +1,23 @@
 import { EUR } from "@dinero.js/currencies";
+import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { dinero } from "dinero.js";
 import React, { FunctionComponent, useMemo } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 
+import * as endpoints from "../../../constants/endpoints";
 import { colors, unit } from "../../../constants/ui";
 import { TMovement } from "../../../interfaces";
+import client from "../../../services/client";
 import BottomSheetContent from "../../../templates/BottomSheetContent";
 import { formatMoney } from "../../../utils";
+import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
 
-const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
+const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
+  const { dismissAll } = useBottomSheetModal();
+
   const amount = useMemo(() => {
     if (movement?.amount) {
       const dAmount = dinero({ amount: movement.amount, currency: EUR });
@@ -20,6 +26,39 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
 
     return "0";
   }, [movement?.amount]);
+
+  const onPressDelete = () => {
+    Alert.alert("Sei sicuro?", "Vuoi davvero eliminare il movimento?", [
+      {
+        text: "Elimina",
+        onPress: onDelete,
+      },
+      {
+        text: "Annulla",
+      },
+    ]);
+  };
+
+  const onDelete = async () => {
+    try {
+      if (movement?.payee) {
+        // it's a payment
+        await client.delete(endpoints.payment, {
+          params: { paymentId: movement.id },
+        });
+        dismissAll();
+      } else if (movement) {
+        // it's a purchase
+        await client.delete(endpoints.purchase, {
+          params: { purchaseId: movement.id },
+        });
+      }
+      await refetch();
+      dismissAll();
+    } catch (e) {
+      console.log("error deleting movement", e);
+    }
+  };
 
   if (!movement) {
     return (
@@ -31,6 +70,7 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
 
   return (
     <BottomSheetContent
+      contentContainerStyle={{ alignItems: "flex-start" }}
       headerTitle={
         movement.payee
           ? `${movement.payer.name} ha pagato ${movement.payee.name}`
@@ -55,6 +95,11 @@ const MovementDetail: FunctionComponent<Props> = ({ movement }) => {
           weight="bold"
         />
       </Text>
+      <Button
+        label="Elimina"
+        onPress={onPressDelete}
+        style={styles.deleteButton}
+      />
     </BottomSheetContent>
   );
 };
@@ -65,8 +110,16 @@ const styles = StyleSheet.create({
   paragraph: {
     marginVertical: unit,
   },
+  deleteButton: {
+    marginVertical: unit * 3,
+    width: "auto",
+    backgroundColor: colors.red,
+    paddingHorizontal: unit * 2,
+    paddingVertical: unit,
+  },
 });
 
 interface Props {
   movement?: TMovement;
+  refetch: () => Promise<void>;
 }

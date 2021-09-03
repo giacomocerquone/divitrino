@@ -7,7 +7,10 @@ import Text from "../atoms/Text";
 const EmptyList: FunctionComponent<Props> = ({ resourceName }) => {
   return (
     <View style={styles.root}>
-      <Text text={`Nessun ${resourceName} da mostrare. Creane uno!`} />
+      <Text
+        text={`Nessun ${resourceName} da mostrare.\nCreane uno!`}
+        align="center"
+      />
     </View>
   );
 };

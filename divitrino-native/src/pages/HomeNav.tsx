@@ -26,7 +26,7 @@ const HomeNav = () => {
   const Scene = Tabs[activeTab];
 
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaView edges={["top"]} style={styles.root}>
       <View style={{ flex: 1 }}>
         {/* TODO WTF */}
         <Scene />

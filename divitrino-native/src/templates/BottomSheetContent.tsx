@@ -1,14 +1,22 @@
+import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { FunctionComponent, ReactNode } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import BottomSheetHeader from "../components/organisms/BottomSheetHeader";
 import { colors, unit } from "../constants/ui";
+import { useBackHandler } from "../hooks/useBackHandler";
 
 const BottomSheetContent: FunctionComponent<Props> = ({
   headerTitle,
   children,
   contentContainerStyle,
 }) => {
+  const { dismissAll } = useBottomSheetModal();
+  useBackHandler(() => {
+    dismissAll();
+    return true;
+  });
+
   return (
     <View style={styles.root}>
       <BottomSheetHeader title={headerTitle} />

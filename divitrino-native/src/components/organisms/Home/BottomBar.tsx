@@ -1,13 +1,16 @@
 import React, { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors, unit } from "../../../constants/ui";
 import { TabsNames } from "../../../pages/HomeNav";
 import IconButton from "../../atoms/IconButton";
 
 const BottomBar: FunctionComponent<Props> = ({ activeTab, setActiveTab }) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, { paddingBottom: insets.bottom }]}>
       <IconButton
         size={40}
         name="people"

@@ -13,7 +13,6 @@ import Text from "../components/atoms/Text";
 import EmptyList from "../components/organisms/EmptyList";
 import Movement from "../components/organisms/Movements/Movement";
 import MovementDetail from "../components/organisms/Movements/MovementDetail";
-import Toolbar from "../components/organisms/Movements/Toolbar";
 import { colors, unit } from "../constants/ui";
 import useFetchMovements from "../hooks/useFetchMovements";
 import { TMovement } from "../interfaces";
@@ -22,13 +21,13 @@ import * as userActions from "../store/userSlice";
 
 const Movements = () => {
   const groupId = useSelector(getActiveGroupId);
-  const movs = useFetchMovements(groupId);
+  const { movs, refetch } = useFetchMovements(groupId);
   const [activeMov, setActiveMov] = useState<TMovement>();
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["30%"], []);
+  const snapPoints = useMemo(() => ["35%"], []);
 
   const onMovPress = useCallback((movement) => {
     bottomSheetModalRef.current?.present();
@@ -55,21 +54,18 @@ const Movements = () => {
         contentContainerStyle={styles.root}
         renderItem={({ item }) => <Movement item={item} onPress={onMovPress} />}
         ListHeaderComponent={
-          <View>
-            <View style={styles.header}>
-              <TouchableOpacity onPress={onLogout}>
-                <Ionicons
-                  name="log-out-outline"
-                  color={colors.black}
-                  size={unit * 6}
-                />
-              </TouchableOpacity>
-              <Text size="m" weight="normal" text="Movimenti" align="center" />
-              <TouchableOpacity onPress={() => navigate("NewMovement")}>
-                <Ionicons name="add" color={colors.black} size={unit * 6} />
-              </TouchableOpacity>
-            </View>
-            <Toolbar onDelete={() => null} />
+          <View style={styles.header}>
+            <TouchableOpacity onPress={onLogout}>
+              <Ionicons
+                name="log-out-outline"
+                color={colors.black}
+                size={unit * 6}
+              />
+            </TouchableOpacity>
+            <Text size="m" weight="normal" text="Movimenti" align="center" />
+            <TouchableOpacity onPress={() => navigate("NewMovement")}>
+              <Ionicons name="add" color={colors.black} size={unit * 6} />
+            </TouchableOpacity>
           </View>
         }
         ListEmptyComponent={<EmptyList resourceName="movimento" />}
@@ -98,7 +94,7 @@ const Movements = () => {
         index={0}
         snapPoints={snapPoints}
       >
-        <MovementDetail movement={activeMov} />
+        <MovementDetail movement={activeMov} refetch={refetch} />
       </BottomSheetModal>
     </>
   );

@@ -8,8 +8,8 @@ const Toolbar: FunctionComponent<Props> = ({
   onSelectAll,
   onDelete,
   onAssign,
-  deleteDisabled,
-  assignDisabled,
+  deleteEnabled,
+  assignEnabled,
   selectDisabled,
 }) => {
   return (
@@ -33,15 +33,15 @@ const Toolbar: FunctionComponent<Props> = ({
         size={32}
         name="people"
         onPress={onAssign}
-        disabled={assignDisabled}
+        disabled={!assignEnabled}
       />
       <IconButton
         style={styles.button}
         size={32}
-        name="close"
+        name="trash"
         onPress={onDelete}
-        bgColor={colors.red}
-        disabled={deleteDisabled}
+        bgColor={!deleteEnabled ? colors.lightRed : colors.red}
+        disabled={!deleteEnabled}
       />
     </View>
   );
@@ -63,7 +63,7 @@ interface Props {
   onSelectAll: () => void;
   onDelete: () => void;
   onAssign: () => void;
-  deleteDisabled: boolean;
-  assignDisabled: boolean;
+  deleteEnabled: boolean;
+  assignEnabled: boolean;
   selectDisabled: boolean;
 }

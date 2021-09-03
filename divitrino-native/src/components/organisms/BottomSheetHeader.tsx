@@ -1,18 +1,16 @@
-import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { unit } from "../../constants/ui";
-import IconButton from "../atoms/IconButton";
 import Text from "../atoms/Text";
 
 const BottomSheetHeader: FunctionComponent<Props> = ({ title }) => {
-  const { dismissAll } = useBottomSheetModal();
+  // const { dismissAll } = useBottomSheetModal();
 
   return (
     <View style={styles.root}>
       <Text text={title} size="m" weight="normal" />
-      <IconButton name="close" onPress={dismissAll} />
+      {/* <IconButton name="close" onPress={dismissAll} /> */}
     </View>
   );
 };

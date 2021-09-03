@@ -7,6 +7,7 @@ export const colors = {
   darkerWhite: "#F9F9F9",
   pink: "#F6A7B8",
   red: "#CD3E72",
+  lightRed: "#d984a3",
 };
 
 export const unit = 4;

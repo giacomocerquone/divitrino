@@ -146,8 +146,8 @@ const NewPurchase = () => {
               onAssign={onAssign}
               onSelectAll={onSelectAll}
               onDelete={onDelete}
-              deleteDisabled={someIsSelected}
-              assignDisabled={someIsSelected}
+              deleteEnabled={someIsSelected}
+              assignEnabled={someIsSelected}
               selectDisabled={!prods.length}
             />
           </View>
