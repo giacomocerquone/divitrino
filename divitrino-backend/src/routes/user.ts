@@ -212,6 +212,46 @@ export default async function (app: FastifyInstance) {
     return res.send(result);
   });
 
+  app.delete<{ Querystring: { purchaseId: string } }>(
+    "/purchase",
+    async (req, res) => {
+      if (!req.query.purchaseId) {
+        return res.send(new httpErrors.BadRequest("A purchaseId is needed"));
+      }
+
+      const prodsDeletion = await prisma.product.deleteMany({
+        where: {
+          purchaseId: req.query.purchaseId,
+        },
+      });
+
+      const purchaseDeletion = await prisma.purchase.delete({
+        where: {
+          id: req.query.purchaseId,
+        },
+      });
+
+      return res.send({ prodsDeletion, purchaseDeletion });
+    }
+  );
+
+  app.delete<{ Querystring: { paymentId: string } }>(
+    "/payment",
+    async (req, res) => {
+      if (!req.query.paymentId) {
+        return res.send(new httpErrors.BadRequest("A paymentId is needed"));
+      }
+
+      const deletion = await prisma.payment.delete({
+        where: {
+          id: req.query.paymentId,
+        },
+      });
+
+      return res.send(deletion);
+    }
+  );
+
   app.post<{
     Body: IPaymentBody;
   }>(`/payment`, async (req, res) => {
