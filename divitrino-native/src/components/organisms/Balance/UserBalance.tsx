@@ -11,7 +11,7 @@ import { formatMoney } from "../../../utils";
 import Text from "../../atoms/Text";
 import Row from "./Row";
 
-const generateDineroObject = (amount: number) => {
+export const generateDineroObject = (amount: number) => {
   if (!amount) return "€ 0";
   const dAmount = dinero({ amount, currency: EUR });
   return formatMoney(dAmount);

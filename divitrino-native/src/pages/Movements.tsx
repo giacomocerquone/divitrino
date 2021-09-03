@@ -1,12 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  TouchableOpacity,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { StyleSheet, SectionList, View, Alert } from "react-native";
+import {
+  StyleSheet,
+  SectionList,
+  View,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
@@ -27,7 +29,7 @@ const Movements = () => {
   const dispatch = useDispatch();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["35%"], []);
+  const snapPoints = useMemo(() => ["80%"], []);
 
   const onMovPress = useCallback((movement) => {
     bottomSheetModalRef.current?.present();

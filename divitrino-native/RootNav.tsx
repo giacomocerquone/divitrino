@@ -112,8 +112,6 @@ const RootNav = () => {
             <Stack.Screen name="Home" component={HomeNav} />
             <Stack.Screen name="Invite" component={Invite} />
             <Stack.Screen name="NewMovement" component={NewMovement} />
-            <Stack.Screen name="NewPayment" component={NewPayment} />
-            <Stack.Screen name="NewPurchase" component={NewPurchase} />
             <Stack.Screen name="NewGroup" component={NewGroup} />
           </>
         ) : (

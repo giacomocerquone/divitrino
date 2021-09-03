@@ -2,6 +2,7 @@ import React, { FunctionComponent, ReactNode } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 import hello from "../../assets/hello.png";
+import BackButton from "../components/atoms/BackButton";
 import Button from "../components/atoms/Button";
 import Link from "../components/atoms/Link";
 import Text from "../components/atoms/Text";
@@ -18,38 +19,45 @@ const Centered: FunctionComponent<Props> = ({
   disabled,
 }) => {
   return (
-    <View style={styles.root}>
-      <Image
-        source={hello}
-        style={{ height: unit * 60 }}
-        resizeMode="contain"
-      />
-      <Text size="xl" weight="normal" text={title} />
-      <Text align="center" style={styles.description}>
-        {description}
-      </Text>
-      <View style={{ alignSelf: "stretch" }}>
-        {children}
-        <Button
-          onPress={onPrimary}
-          label={primaryText}
-          style={styles.button}
-          disabled={disabled}
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
+      <View style={styles.root}>
+        <Image
+          source={hello}
+          style={{ height: unit * 60 }}
+          resizeMode="contain"
         />
-        {onSecondary && secondaryText && (
-          <Link
+        <Text size="xl" weight="normal" text={title} />
+        <Text align="center" style={styles.description}>
+          {description}
+        </Text>
+        <View style={{ alignSelf: "stretch" }}>
+          {children}
+          <Button
+            onPress={onPrimary}
+            label={primaryText}
+            style={styles.button}
             disabled={disabled}
-            onPress={onSecondary}
-            label={secondaryText}
-            textProps={{
-              align: "center",
-              style: {
-                marginTop: unit,
-              },
-            }}
           />
-        )}
+          {onSecondary && secondaryText && (
+            <Link
+              disabled={disabled}
+              onPress={onSecondary}
+              label={secondaryText}
+              textProps={{
+                align: "center",
+                style: {
+                  marginTop: unit,
+                },
+              }}
+            />
+          )}
+        </View>
       </View>
+      <BackButton />
     </View>
   );
 };

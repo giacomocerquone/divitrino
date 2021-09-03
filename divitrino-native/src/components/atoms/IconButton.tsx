@@ -54,7 +54,7 @@ interface Props {
   bgColor?: string;
   fontColor?: string;
   name: ComponentProps<typeof Ionicons.Button>["name"];
-  onPress: ComponentProps<typeof TouchableOpacity>["onPress"];
+  onPress?: ComponentProps<typeof TouchableOpacity>["onPress"];
   size?: number;
   fontSize?: number;
   disabled?: boolean;

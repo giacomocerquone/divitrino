@@ -21,11 +21,13 @@ export interface IGroupOperation {
   amount: number;
 }
 
-export interface IPurchase extends IGroupOperation {}
+export interface IPurchase extends IGroupOperation {
+  description: string;
+  products: IProduct[];
+}
 
 export interface IPayment extends IGroupOperation {
   payee: IUser;
-  description: string; // TODO a payment doesn't have a description
 }
 
 export type TMovement = IPayment & IPurchase;
@@ -33,7 +35,7 @@ export type TMovement = IPayment & IPurchase;
 export interface IProduct {
   price: string;
   name: string;
-  debtors: IUser["id"][];
+  debtors: IUser["id"][] | IUser[];
 }
 
 export interface IAPIProduct {

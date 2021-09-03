@@ -1,8 +1,10 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { FunctionComponent, ReactNode, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import IconButton from "../components/atoms/IconButton";
 import Text from "../components/atoms/Text";
 import { colors, unit } from "../constants/ui";
 import NewPayment from "./NewPayment";
@@ -42,11 +44,18 @@ const TabsComponents: Record<TabsNames, ReactNode> = {
 
 const NewMovement = () => {
   const [activeTab, setActiveTab] = useState<TabsNames>("Purchase");
+  const { goBack } = useNavigation();
 
   const Scene = TabsComponents[activeTab];
 
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: unit * 5 }}>
+      <IconButton
+        name="close"
+        style={{ alignSelf: "flex-end" }}
+        onPress={goBack}
+      />
+
       <View style={styles.header}>
         <Tab
           name="Acquisto"
