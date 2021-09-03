@@ -30,3 +30,7 @@ export interface IBalanceQueryString {
 export interface IMovementsQueryString {
   groupId: string;
 }
+
+export interface IProductsPurchaseQueryString {
+  purchaseId: string;
+}

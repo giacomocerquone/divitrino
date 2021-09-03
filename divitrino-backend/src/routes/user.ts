@@ -6,6 +6,7 @@ import {
   IBalanceQueryString,
   IMovementsQueryString,
   IPaymentBody,
+  IProductsPurchaseQueryString,
   IPurchaseBody,
   TBalance,
 } from "../interfaces";
@@ -232,6 +233,26 @@ export default async function (app: FastifyInstance) {
       });
 
       return res.send({ prodsDeletion, purchaseDeletion });
+    }
+  );
+
+  app.get<{ Querystring: IProductsPurchaseQueryString }>(
+    "/purchase",
+    async (req, res) => {
+      const purchase = await prisma.purchase.findFirst({
+        where: {
+          id: req.query.purchaseId,
+        },
+        include: {
+          products: {
+            include: {
+              debtors: true,
+            },
+          },
+        },
+      });
+
+      res.send(purchase);
     }
   );
 
