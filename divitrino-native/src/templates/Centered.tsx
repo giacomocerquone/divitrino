@@ -58,7 +58,7 @@ const Centered: FunctionComponent<Props> = ({
           )}
         </View>
       </View>
-      {hideBack && <BackButton />}
+      {!hideBack && <BackButton />}
     </View>
   );
 };
