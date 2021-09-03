@@ -59,6 +59,8 @@ jobs:
           script: |
             pwd
             cd root/divitrino-backend
+            mv *.* ../../
+            cd ../../
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
