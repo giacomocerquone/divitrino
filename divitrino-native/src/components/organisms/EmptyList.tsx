@@ -1,14 +1,20 @@
 import React, { FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
+import empty from "../../../assets/empty.png";
 import { unit } from "../../constants/ui";
 import Text from "../atoms/Text";
 
-const EmptyList: FunctionComponent<Props> = ({ resourceName }) => {
+const EmptyList: FunctionComponent<Props> = ({ resourceName, message }) => {
   return (
     <View style={styles.root}>
+      <Image
+        source={empty}
+        style={{ height: unit * 60 }}
+        resizeMode="contain"
+      />
       <Text
-        text={`Nessun ${resourceName} da mostrare.\nCreane uno!`}
+        text={message || `Nessun ${resourceName} da mostrare.\nCreane uno!`}
         align="center"
       />
     </View>
@@ -26,5 +32,6 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  resourceName: string;
+  resourceName?: string;
+  message?: string;
 }

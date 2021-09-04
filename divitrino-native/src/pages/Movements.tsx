@@ -1,5 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetBackdrop,
+  BottomSheetFlatList,
+  BottomSheetModal,
+} from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
@@ -9,12 +13,14 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import { useDispatch, useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
 import EmptyList from "../components/organisms/EmptyList";
 import Movement from "../components/organisms/Movements/Movement";
 import MovementDetail from "../components/organisms/Movements/MovementDetail";
+import PurchaseList from "../components/organisms/Movements/PurchaseList";
 import { colors, unit } from "../constants/ui";
 import useFetchMovements from "../hooks/useFetchMovements";
 import { TMovement } from "../interfaces";
@@ -49,6 +55,19 @@ const Movements = () => {
     ]);
   };
 
+  const onAdd = async () => {
+    if (groupId) {
+      navigate("NewMovement");
+    } else {
+      showMessage({
+        type: "warning",
+        description:
+          "Non hai ancora un gruppo in cui aggiungere un movimento. Creane uno prima!",
+        message: "Attenzione",
+      });
+    }
+  };
+
   return (
     <>
       <SectionList
@@ -65,7 +84,7 @@ const Movements = () => {
               />
             </TouchableOpacity>
             <Text size="m" weight="normal" text="Movimenti" align="center" />
-            <TouchableOpacity onPress={() => navigate("NewMovement")}>
+            <TouchableOpacity onPress={onAdd}>
               <Ionicons name="add" color={colors.black} size={unit * 6} />
             </TouchableOpacity>
           </View>
@@ -97,6 +116,10 @@ const Movements = () => {
         snapPoints={snapPoints}
       >
         <MovementDetail movement={activeMov} refetch={refetch} />
+
+        {activeMov && !activeMov?.payee && (
+          <PurchaseList movement={activeMov} />
+        )}
       </BottomSheetModal>
     </>
   );

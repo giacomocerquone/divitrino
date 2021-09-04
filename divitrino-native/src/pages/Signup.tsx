@@ -22,22 +22,21 @@ const Signup = () => {
     try {
       setSubmitting(true);
       const {
-        data: { accessToken: token, user },
+        data: { accessToken: token, ...user },
       } = await client.post(signup, {
         name,
         email,
         password: pwd,
       });
 
+      setSubmitting(false);
       dispatch(userActions.login({ token, user }));
     } catch (e) {
-      console.log("signup error");
-    } finally {
       setSubmitting(false);
+      console.log("signup error");
     }
   };
 
-  // @ts-ignore
   const goToLogin = () => navigation.navigate("Login");
 
   return (

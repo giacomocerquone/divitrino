@@ -78,7 +78,7 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
 
         <DatePicker onConfirm={handleConfirm} date={date} />
 
-        {/* TODO aggiungere in quale gruppo si sta aggiungendo la spesa */}
+        {/* TODO aggiungere in quale gruppo si sta aggiungendo l'acquisto */}
 
         <Button
           label="Finito"

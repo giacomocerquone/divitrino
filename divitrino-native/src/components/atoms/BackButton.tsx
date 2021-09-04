@@ -1,10 +1,10 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { unit } from "../../constants/ui";
-import IconButton from "./IconButton";
+import { colors, unit } from "../../constants/ui";
 import Text from "./Text";
 
 const BackButton = () => {
@@ -14,8 +14,8 @@ const BackButton = () => {
   return (
     <View style={[styles.backButtonContainer, { top: insets.top + unit * 5 }]}>
       <TouchableOpacity onPress={goBack} style={styles.backButton}>
-        <IconButton name="arrow-back" />
-        <Text text="Indietro" style={{ marginLeft: unit * 2 }} />
+        <Ionicons color={colors.black} name="arrow-back" size={unit * 5} />
+        <Text text="Indietro" style={{ marginLeft: unit * 2 }} size="m" />
       </TouchableOpacity>
     </View>
   );

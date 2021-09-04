@@ -20,9 +20,7 @@ export const generateDineroObject = (amount: number) => {
 const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
   const user = useSelector(getUser);
 
-  if (!balance || !user.id) return null;
-
-  const currentUserCredits = balance[user.id];
+  const currentUserCredits = user.id ? balance[user.id] : {};
   const currentUserDebts = Object.keys(balance).filter(
     (creditorId) =>
       user.id &&
@@ -79,6 +77,6 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  balance?: TBalance;
+  balance: TBalance;
   peopleMap: Record<IUser["id"], IUser>;
 }

@@ -5,12 +5,9 @@ import { unit } from "../../constants/ui";
 import Text from "../atoms/Text";
 
 const BottomSheetHeader: FunctionComponent<Props> = ({ title }) => {
-  // const { dismissAll } = useBottomSheetModal();
-
   return (
     <View style={styles.root}>
       <Text text={title} size="m" weight="normal" />
-      {/* <IconButton name="close" onPress={dismissAll} /> */}
     </View>
   );
 };

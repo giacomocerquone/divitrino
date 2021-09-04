@@ -12,8 +12,6 @@ import Invite from "./src/pages/Invite";
 import Login from "./src/pages/Login";
 import NewGroup from "./src/pages/NewGroup";
 import NewMovement from "./src/pages/NewMovement";
-import NewPayment from "./src/pages/NewPayment";
-import NewPurchase from "./src/pages/NewPurchase";
 import Signup from "./src/pages/Signup";
 import client from "./src/services/client";
 import { getToken } from "./src/store";
