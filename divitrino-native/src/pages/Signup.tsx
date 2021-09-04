@@ -43,9 +43,7 @@ const Signup = () => {
     <Centered
       hideBack
       title="Benvenuto"
-      description={`Gestisci le finanze del tuo gruppo
-e dividi le spese con loro
-fotografando gli scontrini`}
+      description="Gestisci le finanze del tuo gruppo e dividi le spese con loro fotografando gli scontrini."
       onPrimary={onSubmit}
       onSecondary={goToLogin}
       primaryText="Registrati"

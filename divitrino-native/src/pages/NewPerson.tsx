@@ -60,10 +60,8 @@ const NewPerson = () => {
     <Centered
       imgSource={add}
       title="Invita"
-      description={`Invita chi vuoi
-a dividere le spese con te.
-Ogni link che crei può essere
-utilizzato da una sola persona.`}
+      description={`Invita chi vuoi a dividere le spese con te.
+Ogni link che crei può essere utilizzato da una sola persona.`}
       onPrimary={onSubmit}
       primaryText="Condividi"
     />

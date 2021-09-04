@@ -37,8 +37,7 @@ const NewGroup = () => {
     <Centered
       imgSource={group}
       title="Crea gruppo"
-      description={`Crea un gruppo con cui 
-poter iniziare a dividere le spese`}
+      description="Crea un gruppo con cui poter iniziare a dividere le spese."
       onPrimary={onSubmit}
       primaryText="Fatto"
     >

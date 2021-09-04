@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: unit * 10,
   },
-  description: { marginTop: unit * 4, marginBottom: unit * 8, maxWidth: 220 },
+  description: { marginTop: unit * 4, marginBottom: unit * 8 },
   button: {
     marginTop: unit * 4,
   },

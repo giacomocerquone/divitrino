@@ -60,7 +60,10 @@ const Group: FunctionComponent<Props> = ({ item }) => {
       >
         <>
           <Text text={item.name} size="s" />
-          <IconButton name="add" onPress={() => navigate("NewPerson")} />
+          <IconButton
+            name="link"
+            onPress={() => navigate("NewPerson", { item })}
+          />
         </>
       </TouchableOpacity>
 
