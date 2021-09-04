@@ -4,6 +4,7 @@ import React from "react";
 import { Share } from "react-native";
 import { showMessage } from "react-native-flash-message";
 
+import add from "../../assets/add.png";
 import * as endpoints from "../constants/endpoints";
 import { colors } from "../constants/ui";
 import { IGroup } from "../interfaces";
@@ -14,29 +15,30 @@ const forgeInviteLink = (code: string, inviteId: number) =>
   `${baseURL}/open-invite?&code=${code}&inviteId=${inviteId}`;
 
 type RootStackParamList = {
-  Invite: { item: IGroup };
+  ShareJoinLink: { group: IGroup; userName: string };
 };
-type Props = NativeStackScreenProps<RootStackParamList, "Invite">;
+type Props = NativeStackScreenProps<RootStackParamList, "ShareJoinLink">;
 
-const Invite = () => {
+const ShareJoinLink = () => {
   const { params } = useRoute<Props["route"]>();
-  if (!params?.item) {
+  if (!params.group || !params.userName) {
     return null;
   }
 
-  const item = params.item;
+  const group = params.group;
+  const userName = params.userName;
 
   const onSubmit = async () => {
     try {
       const {
         data: { code, id: inviteId },
       } = await client.post(endpoints.invite, {
-        groupId: item.id,
+        groupId: group.id,
       });
 
       const inviteLink = forgeInviteLink(code, inviteId);
       const content = {
-        message: `Entra in ${item.name} e dividiamo insieme le spese con Divitrino: ${inviteLink}`,
+        message: `Entra in ${group.name} e dividiamo insieme le spese con Divitrino: ${inviteLink}`,
         url: inviteLink,
       };
       const options = {
@@ -57,15 +59,13 @@ const Invite = () => {
 
   return (
     <Centered
-      title="Invita"
-      description={`Invita chi vuoi
-a dividere le spese con te.
-Ogni link che crei può essere
-utilizzato da una sola persona.`}
+      imgSource={add}
+      title="Condividi Link"
+      description={`Usa questo link per invitare ${userName} a far parte del tuo gruppo. Questo link può essere utilizzato una sola volta.`}
       onPrimary={onSubmit}
       primaryText="Condividi"
     />
   );
 };
 
-export default Invite;
+export default ShareJoinLink;

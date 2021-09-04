@@ -18,6 +18,7 @@ const Centered: FunctionComponent<Props> = ({
   secondaryText,
   disabled,
   hideBack,
+  imgSource,
 }) => {
   return (
     <View
@@ -27,7 +28,7 @@ const Centered: FunctionComponent<Props> = ({
     >
       <View style={styles.root}>
         <Image
-          source={hello}
+          source={imgSource || hello}
           style={{ height: unit * 60 }}
           resizeMode="contain"
         />
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: unit * 10,
   },
-  description: { marginTop: unit * 4, marginBottom: unit * 8 },
+  description: { marginTop: unit * 4, marginBottom: unit * 8, maxWidth: 220 },
   button: {
     marginTop: unit * 4,
   },
@@ -88,4 +89,5 @@ interface Props {
   primaryText: string;
   secondaryText?: string;
   hideBack?: boolean;
+  imgSource?: any;
 }

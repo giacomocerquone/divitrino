@@ -26,7 +26,6 @@ function generateInviteCode(strLength: number = 6) {
 const checkIfUserBelongsToGroup = async (userId: string, groupId: string) => {
   const userGroup = await prisma.user.findFirst({
     where: {
-      //@ts-ignore
       id: userId,
       groups: {
         some: {

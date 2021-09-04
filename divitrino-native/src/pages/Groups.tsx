@@ -11,14 +11,38 @@ import PageHeader from "../components/organisms/PageHeader";
 import { colors, unit } from "../constants/ui";
 import useFetchGroups from "../hooks/useFetchGroups";
 import { IGroup, IUser } from "../interfaces";
-import { getActiveGroupId } from "../store";
+import { getActiveGroupId, getUser } from "../store";
 import * as userActions from "../store/userSlice";
 
-const User: FunctionComponent<UserProps> = ({ item }) => {
+const User: FunctionComponent<UserProps> = ({ item, group }) => {
+  const { navigate } = useNavigation();
+  const loggedInUser = useSelector(getUser);
+
   return (
-    <View style={styles.user}>
-      <Text text={item.name} size="xs" />
-      <Text text={item.email} size="xs" />
+    <View
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        },
+        styles.user,
+      ]}
+    >
+      <View>
+        <Text text={item.name} size="xs" />
+        <Text text={item.email} size="xs" />
+      </View>
+
+      {/* TODO future groups architecture */}
+      {/* {(loggedInUser.id !== item.id || !item.email) && (
+        <IconButton
+          name="link-outline"
+          onPress={() =>
+            navigate("ShareJoinLink", { group, userName: item.name })
+          }
+        />
+      )} */}
     </View>
   );
 };
@@ -36,13 +60,18 @@ const Group: FunctionComponent<Props> = ({ item }) => {
       >
         <>
           <Text text={item.name} size="s" />
-          <IconButton name="add" onPress={() => navigate("Invite", { item })} />
+          <IconButton name="add" onPress={() => navigate("NewPerson")} />
         </>
       </TouchableOpacity>
 
-      {activeGroupId === item.id &&
-        item.users.map((user) => <User key={user.id} item={user} />)}
-      {activeGroupId === item.id && <View style={styles.selectionIndicator} />}
+      {activeGroupId === item.id && (
+        <>
+          {item.users.map((user) => (
+            <User key={user.id} item={user} group={item} />
+          ))}
+          <View style={styles.selectionIndicator} />
+        </>
+      )}
     </View>
   );
 };
@@ -89,7 +118,7 @@ const styles = StyleSheet.create({
   },
   user: {
     paddingVertical: unit * 4,
-    paddingLeft: unit * 4,
+    paddingHorizontal: unit * 4,
     borderRadius: unit * 2,
     marginLeft: unit * 9,
     backgroundColor: colors.white,
@@ -118,4 +147,5 @@ interface Props {
 
 interface UserProps {
   item: IUser;
+  group: IGroup;
 }

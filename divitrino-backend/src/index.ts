@@ -56,7 +56,7 @@ app.after(() => {
     async (req, res) => {
       const { code, inviteId } = req.query;
 
-      res.view("./open-invite.ejs", {
+      return res.view("./open-invite.ejs", {
         code,
         inviteId,
         appScheme: process.env.APP_SCHEME,

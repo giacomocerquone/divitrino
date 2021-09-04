@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
 
+import group from "../../assets/group.png";
 import Input from "../components/atoms/Input";
 import * as endpoints from "../constants/endpoints";
 import client from "../services/client";
@@ -34,6 +35,7 @@ const NewGroup = () => {
 
   return (
     <Centered
+      imgSource={group}
       title="Crea gruppo"
       description={`Crea un gruppo con cui 
 poter iniziare a dividere le spese`}

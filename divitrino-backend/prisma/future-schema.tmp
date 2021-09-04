@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String
+  invitesSent Invite[]
+  user        User[]
+}
+
+model User {
+  id              String     @id @default(uuid())
+  name            String
+  account         Account?   @relation(fields: [accountId], references: [id])
+  accountId       String?
+  group           Group?     @relation(fields: [groupId], references: [id])
+  groupId         String?
+  paymentsAsPayer Payment[]  @relation("payer")
+  paymentsAsPayee Payment[]  @relation("payee")
+  purchaseAsPayer Purchase[]
+  products        Product[]
+  invitesReceived Invite[]
+}
+
+model Group {
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  id        String     @id @default(uuid())
+  name      String
+  users     User[]
+  purchases Purchase[]
+  payments  Payment[]
+}
+
+model Purchase {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  amount      Int
+  description String
+  products    Product[]
+  group       Group     @relation(fields: [groupId], references: [id])
+  groupId     String
+  payer       User      @relation(fields: [payerId], references: [id])
+  payerId     String
+  date        DateTime
+}
+
+model Product {
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  id             String   @id @default(uuid())
+  name           String
+  pricePerDebtor Int
+  debtors        User[]
+  purchase       Purchase @relation(fields: [purchaseId], references: [id])
+  purchaseId     String
+}
+
+model Payment {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  id        String   @id @default(uuid())
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   String
+  amount    Int
+  payerId   String
+  payeeId   String
+  payer     User     @relation("payer", fields: [payerId], references: [id])
+  payee     User     @relation("payee", fields: [payeeId], references: [id])
+  date      DateTime
+}
+
+model Invite {
+  id                 Int     @id @default(autoincrement())
+  invitedBy          Account @relation(fields: [invitedByAccountId], references: [id])
+  invitedByAccountId String
+  invitedUser        User    @relation(fields: [invitedUserId], references: [id])
+  invitedUserId      String
+  used               Boolean @default(false)
+  code               String
+
+  // a group relation is needed here
+}
