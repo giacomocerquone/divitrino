@@ -116,7 +116,7 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-*.env
+*.env*
 node_modules/
 .expo/
 npm-debug.*

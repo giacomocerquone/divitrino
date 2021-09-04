@@ -23,6 +23,22 @@ function generateInviteCode(strLength: number = 6) {
   return result.join("");
 }
 
+const checkIfUserBelongsToGroup = async (userId: string, groupId: string) => {
+  const userGroup = await prisma.user.findFirst({
+    where: {
+      //@ts-ignore
+      id: userId,
+      groups: {
+        some: {
+          id: groupId,
+        },
+      },
+    },
+  });
+
+  return userGroup;
+};
+
 export default async function (app: FastifyInstance) {
   // @ts-ignore
   app.addHook("preHandler", app.auth([app.checkAuth]));
@@ -30,9 +46,19 @@ export default async function (app: FastifyInstance) {
   app.get<{ Querystring: IMovementsQueryString }>(
     "/movements",
     async (req, res) => {
+      if (!req.query.groupId) {
+        return res.send(new httpErrors.BadRequest("A group id is needed"));
+      }
+
       const movements = await prisma.group.findFirst({
         where: {
           id: req.query.groupId,
+          users: {
+            some: {
+              //@ts-ignore
+              id: req.user.id,
+            },
+          },
         },
         include: {
           payments: {
@@ -175,6 +201,15 @@ export default async function (app: FastifyInstance) {
       return res.send(new httpErrors.BadRequest("Stuff is needed bro"));
     }
 
+    //@ts-ignore
+    const userGroup = await checkIfUserBelongsToGroup(req.user.id, groupId);
+
+    if (!userGroup) {
+      return res.send(
+        new httpErrors.BadRequest("This is not a group of yours")
+      );
+    }
+
     const amount = products.reduce((tot, prod) => {
       return tot + prod.pricePerDebtor;
     }, 0);
@@ -223,6 +258,16 @@ export default async function (app: FastifyInstance) {
       const prodsDeletion = await prisma.product.deleteMany({
         where: {
           purchaseId: req.query.purchaseId,
+          purchase: {
+            group: {
+              users: {
+                some: {
+                  //@ts-ignore
+                  id: req.user.id,
+                },
+              },
+            },
+          },
         },
       });
 
@@ -242,6 +287,14 @@ export default async function (app: FastifyInstance) {
       const purchase = await prisma.purchase.findFirst({
         where: {
           id: req.query.purchaseId,
+          group: {
+            users: {
+              some: {
+                //@ts-ignore
+                id: req.user.id,
+              },
+            },
+          },
         },
         include: {
           products: {
@@ -286,6 +339,15 @@ export default async function (app: FastifyInstance) {
       );
     }
 
+    //@ts-ignore
+    const userGroup = await checkIfUserBelongsToGroup(req.user.id, groupId);
+
+    if (!userGroup) {
+      return res.send(
+        new httpErrors.BadRequest("This is not a group of yours")
+      );
+    }
+
     const result = await prisma.payment.create({
       data: {
         amount,
@@ -302,9 +364,15 @@ export default async function (app: FastifyInstance) {
   app.get<{ Querystring: IBalanceQueryString }>(
     "/balance",
     async (req, res) => {
-      const usersGroup = await prisma.group.findUnique({
+      const usersGroup = await prisma.group.findFirst({
         where: {
           id: req.query.groupId,
+          users: {
+            some: {
+              //@ts-ignore
+              id: req.user.id,
+            },
+          },
         },
         include: {
           users: {

@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import fastify from "fastify";
-
 import dotenv from "dotenv";
 import httpErrors from "http-errors";
 import fastifyAuth from "fastify-auth";
+import pointOfView from "point-of-view";
 import cors from "fastify-cors";
-import * as jwt from "./jwt";
+import ejs from "ejs";
+import path from "path";
 
+import * as jwt from "./jwt";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 
@@ -35,53 +37,30 @@ app
       throw new httpErrors.Unauthorized(e.message);
     }
   })
-  // .decorate("checkAdmin", async (req: any) => {
-  //   const { email } = req.user;
-
-  //   try {
-  //     const user = await prisma.user.findFirst({
-  //       where: {
-  //         email,
-  //         group: {
-  //           every: {
-  //             admin: true,
-  //           },
-  //         },
-  //       },
-  //       include: {
-  //         group: true,
-  //       },
-  //     });
-
-  //     if (user) {
-  //       return;
-  //     } else {
-  //       throw new httpErrors.Unauthorized();
-  //     }
-  //   } catch (e) {
-  //     throw new httpErrors.InternalServerError(e);
-  //   }
-  // })
   .register(fastifyAuth)
   .register(cors, {
     origin: false,
+  })
+  .register(pointOfView, {
+    root: path.join(__dirname, "templates"),
+    engine: {
+      ejs,
+    },
   })
   .register(authRouter)
   .register(userRouter);
 
 app.after(() => {
-  app.get<{ Querystring: { groupId: string; code: string; inviteId: string } }>(
+  app.get<{ Querystring: { code: string; inviteId: string } }>(
     "/open-invite",
     async (req, res) => {
-      const { groupId, code, inviteId } = req.query;
+      const { code, inviteId } = req.query;
 
-      // TODO add html page with metadata to make a nicer preview for crawlers
-      // and also a text to invite users to download the app
-      // with a redirect countdown
-
-      res.type("text/html").send(`<html><body>
-        <a href="exp://192.168.1.73:19000/--/join?groupId=${groupId}&code=${code}&inviteId=${inviteId}">Apri divitrino</a>
-        </body></html> `);
+      res.view("./open-invite.ejs", {
+        code,
+        inviteId,
+        appScheme: process.env.APP_SCHEME,
+      });
     }
   );
 });
