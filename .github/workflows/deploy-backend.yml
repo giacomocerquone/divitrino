@@ -25,7 +25,8 @@ jobs:
       - name: Write down env file
         working-directory: ./divitrino-backend
         run: |
-          ls
+          ls -a
+          cat .env
           echo ${{ secrets.ENV }} >> .env
 
       # - name: Extract metadata (tags, labels) for Docker
@@ -53,19 +54,15 @@ jobs:
           strip_components: 1
           overwrite: true
 
-      # - name: Compose image in the droplet
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.HOST }}
-      #     username: ${{ secrets.USERNAME }}
-      #     password: ${{ secrets.PASSWORD }}
-      #     script: |
-      #       pwd
-      #       mv *.* ../../
-      #       cd ../../
-      #       docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
-      #       docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
-      #       docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+      - name: Compose image in the droplet
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
       # - name: Install SSH Key
       #   uses: shimataro/ssh-key-action@v2
