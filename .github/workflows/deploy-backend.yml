@@ -22,12 +22,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Write down env file
-        working-directory: ./divitrino-backend
-        env:
-          MY_ENV: ${{ secrets.ENV }}
-        run: echo $MY_ENV >> .env
-
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v3
@@ -52,6 +46,12 @@ jobs:
           target: "/root"
           strip_components: 1
           overwrite: true
+
+      - name: Write down env file
+        working-directory: ./divitrino-backend
+        env:
+          MY_ENV: ${{ secrets.ENV }}
+        run: echo $MY_ENV | tr " " "\n" >> .env
 
       - name: Compose image in the droplet
         uses: appleboy/ssh-action@master
