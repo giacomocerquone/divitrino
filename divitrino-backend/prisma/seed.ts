@@ -57,7 +57,7 @@ async function main() {
     const purchasesToCreate = [
       {
         payerId: createdUsers?.[0]?.id,
-        amount: 250,
+        amount: 300,
         groupId: group.id,
         description: "Spesa conad pagata da Giacomo",
         createdAt: new Date(),
@@ -114,7 +114,7 @@ async function main() {
           create: [
             {
               name: "Prodotto diviso tra giovanni e capito",
-              pricePerDebtor: 3250,
+              pricePerDebtor: 1625,
               debtors: {
                 connect: [
                   {
@@ -142,8 +142,11 @@ async function main() {
       },
     ];
 
-    const purchases = await prisma.purchase.createMany({
-      data: purchasesToCreate,
+    const purchase1 = await prisma.purchase.create({
+      data: purchasesToCreate[0],
+    });
+    const purchase2 = await prisma.purchase.create({
+      data: purchasesToCreate[1],
     });
 
     console.log(
