@@ -26,24 +26,21 @@ jobs:
         working-directory: ./divitrino-backend
         env:
           MY_ENV: ${{ secrets.ENV }}
-        run: |
-          ls -a
-          echo $MY_ENV >> .env
-          cat .env
+        run: echo $MY_ENV >> .env
 
-      # - name: Extract metadata (tags, labels) for Docker
-      #   id: meta
-      #   uses: docker/metadata-action@v3
-      #   with:
-      #     images: giacomocerquone/divitrino
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: giacomocerquone/divitrino
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: ./divitrino-backend
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./divitrino-backend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Copy compose files on droplet
         uses: appleboy/scp-action@master
