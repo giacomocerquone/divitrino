@@ -18,7 +18,7 @@ export default async function (app: FastifyInstance) {
     const result = await prisma.user.create({
       data: {
         name,
-        email,
+        email: email.toLowerCase(),
         password: cryptedPwd,
       },
       select: {
@@ -49,7 +49,7 @@ export default async function (app: FastifyInstance) {
 
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        email: email.toLowerCase(),
       },
       select: {
         name: true,

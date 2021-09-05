@@ -77,7 +77,7 @@ const RootNav = () => {
             "Ci sono stati problemi nell'unirti al gruppo. Riprova più tardi",
           message: "Errore",
         });
-        console.log("error joining the group", e);
+        console.log("error joining the group", e?.response);
       }
     };
 
@@ -86,7 +86,7 @@ const RootNav = () => {
       return;
     }
 
-    return showMessage({
+    showMessage({
       type: "warning",
       description:
         "Per unirti al gruppo, accedi o registrati senza chiudere quest'app",

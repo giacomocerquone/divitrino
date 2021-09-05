@@ -38,6 +38,9 @@ export const userSlice = createSlice({
     },
     groupsReceived(state, action: PayloadAction<IGroup[]>) {
       state.groups = action.payload;
+      if (action.payload?.[0]) {
+        state.activeGroupId = action.payload?.[0].id;
+      }
     },
     setActiveGroupId(state, action: PayloadAction<IGroup["id"]>) {
       state.activeGroupId = action.payload;
