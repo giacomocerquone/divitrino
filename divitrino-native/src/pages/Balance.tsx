@@ -23,6 +23,8 @@ const Balance = () => {
   }, [people]);
   const balance = useFetchGroupBalance();
 
+  console.log("BGAL", balance);
+
   return (
     <ScrollView contentContainerStyle={styles.root} stickyHeaderIndices={[0]}>
       <PageHeader title="Bilancio" />
@@ -31,9 +33,27 @@ const Balance = () => {
       ) : (
         <>
           <View style={styles.tableHeader}>
-            <Text align="left" weight="light" text="Operazione" size="xs" />
-            <Text align="center" text="Utente" weight="light" size="xs" />
-            <Text align="right" weight="light" text="Quantità" size="xs" />
+            <Text
+              align="left"
+              weight="light"
+              text="Operazione"
+              size="xs"
+              style={{ flex: 1 }}
+            />
+            <Text
+              align="center"
+              text="Utente"
+              weight="light"
+              size="xs"
+              style={{ flex: 1 }}
+            />
+            <Text
+              align="right"
+              weight="light"
+              text="Quantità"
+              size="xs"
+              style={{ flex: 1 }}
+            />
           </View>
 
           <UserBalance peopleMap={peopleMap} balance={balance} />

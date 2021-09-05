@@ -54,7 +54,7 @@ async function main() {
       );
     }
 
-    const purchasesToCreate = [
+    const purchases = [
       {
         payerId: createdUsers?.[0]?.id,
         amount: 300,
@@ -140,14 +140,36 @@ async function main() {
           ],
         },
       },
+      {
+        payerId: createdUsers?.[3]?.id,
+        amount: 3000,
+        groupId: group.id,
+        description: "Spesa conad pagata da lelemanni",
+        createdAt: new Date(),
+        date: new Date(),
+        products: {
+          create: [
+            {
+              name: "Prodotto di capito",
+              pricePerDebtor: 3000,
+              debtors: {
+                connect: [
+                  {
+                    id: createdUsers?.[2]?.id,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
     ];
 
-    const purchase1 = await prisma.purchase.create({
-      data: purchasesToCreate[0],
-    });
-    const purchase2 = await prisma.purchase.create({
-      data: purchasesToCreate[1],
-    });
+    for (const purchase of purchases) {
+      await prisma.purchase.create({
+        data: purchase,
+      });
+    }
 
     console.log(
       `Purchase payed by user with id ${createdUsers?.[0]?.id} in group with id ${group.id} which contains three product: one divided, 

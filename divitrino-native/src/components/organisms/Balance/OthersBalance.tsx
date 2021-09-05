@@ -19,18 +19,20 @@ const OthersBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
     <View>
       {otherUsers.map((creditor) => (
         <>
-          {Object.keys(balance[creditor.id]).map((debtorId) => (
-            <Row key={creditor.id + debtorId}>
-              <Text text={peopleMap[debtorId].name} style={{ flex: 1 }} />
-              <Text text="Deve" weight="bold" size="s" style={{ flex: 1 }} />
-              <Text text={creditor.name} size="s" style={{ flex: 1 }} />
-              <Text
-                text={generateDineroObject(balance[creditor.id][debtorId])}
-                size="s"
-                style={{ flex: 0.5 }}
-              />
-            </Row>
-          ))}
+          {Object.keys(balance[creditor.id])
+            .filter((debtorId) => debtorId !== user.id)
+            .map((debtorId) => (
+              <Row key={creditor.id + debtorId}>
+                <Text text={peopleMap[debtorId].name} style={{ flex: 1 }} />
+                <Text text="Deve" weight="bold" size="s" style={{ flex: 1 }} />
+                <Text text={creditor.name} size="s" style={{ flex: 1 }} />
+                <Text
+                  text={generateDineroObject(balance[creditor.id][debtorId])}
+                  size="s"
+                  style={{ flex: 0.5 }}
+                />
+              </Row>
+            ))}
         </>
       ))}
     </View>
