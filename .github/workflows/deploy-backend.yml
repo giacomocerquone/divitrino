@@ -26,8 +26,8 @@ jobs:
         working-directory: ./divitrino-backend
         run: |
           ls -a
-          cat .env
           echo ${{ secrets.ENV }} >> .env
+          cat .env
 
       # - name: Extract metadata (tags, labels) for Docker
       #   id: meta
