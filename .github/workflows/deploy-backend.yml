@@ -24,9 +24,11 @@ jobs:
 
       - name: Write down env file
         working-directory: ./divitrino-backend
+        env:
+          MY_ENV: ${{ secrets.ENV }}
         run: |
           ls -a
-          echo ${{ secrets.ENV }} >> .env
+          'echo "$MY_ENV" > .env'
           cat .env
 
       # - name: Extract metadata (tags, labels) for Docker
