@@ -14,6 +14,16 @@ const userData: Prisma.UserCreateInput[] = [
     password: bcrypt.hashSync("password", 8),
     name: "Giovanni",
   },
+  {
+    email: "cpt@mail.com",
+    password: bcrypt.hashSync("password", 8),
+    name: "Capito",
+  },
+  {
+    email: "llm@mail.com",
+    password: bcrypt.hashSync("password", 8),
+    name: "Lelemanni",
+  },
 ];
 
 async function main() {
@@ -44,8 +54,8 @@ async function main() {
       );
     }
 
-    const purchase = await prisma.purchase.create({
-      data: {
+    const purchasesToCreate = [
+      {
         payerId: createdUsers?.[0]?.id,
         amount: 250,
         groupId: group.id,
@@ -93,6 +103,47 @@ async function main() {
           ],
         },
       },
+      {
+        payerId: createdUsers?.[1]?.id,
+        amount: 6500,
+        groupId: group.id,
+        description: "Spesa conad pagata da Giovanni",
+        createdAt: new Date(),
+        date: new Date(),
+        products: {
+          create: [
+            {
+              name: "Prodotto diviso tra giovanni e capito",
+              pricePerDebtor: 3250,
+              debtors: {
+                connect: [
+                  {
+                    id: createdUsers?.[1]?.id,
+                  },
+                  {
+                    id: createdUsers?.[2]?.id,
+                  },
+                ],
+              },
+            },
+            {
+              name: "Prodotto di Lelemanni",
+              pricePerDebtor: 3250,
+              debtors: {
+                connect: [
+                  {
+                    id: createdUsers?.[3]?.id,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    ];
+
+    const purchases = await prisma.purchase.createMany({
+      data: purchasesToCreate,
     });
 
     console.log(
