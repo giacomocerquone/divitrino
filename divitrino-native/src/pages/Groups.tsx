@@ -11,13 +11,10 @@ import PageHeader from "../components/organisms/PageHeader";
 import { colors, unit } from "../constants/ui";
 import useFetchGroups from "../hooks/useFetchGroups";
 import { IGroup, IUser } from "../interfaces";
-import { getActiveGroupId, getUser } from "../store";
+import { getActiveGroupId } from "../store";
 import * as userActions from "../store/userSlice";
 
 const User: FunctionComponent<UserProps> = ({ item, group }) => {
-  const { navigate } = useNavigation();
-  const loggedInUser = useSelector(getUser);
-
   return (
     <View
       style={[
@@ -33,16 +30,6 @@ const User: FunctionComponent<UserProps> = ({ item, group }) => {
         <Text text={item.name} size="xs" />
         <Text text={item.email} size="xs" />
       </View>
-
-      {/* TODO future groups architecture */}
-      {/* {(loggedInUser.id !== item.id || !item.email) && (
-        <IconButton
-          name="link-outline"
-          onPress={() =>
-            navigate("ShareJoinLink", { group, userName: item.name })
-          }
-        />
-      )} */}
     </View>
   );
 };
@@ -62,7 +49,7 @@ const Group: FunctionComponent<Props> = ({ item }) => {
           <Text text={item.name} size="s" />
           <IconButton
             name="link"
-            onPress={() => navigate("NewPerson", { item })}
+            onPress={() => navigate("Invite", { item })}
           />
         </>
       </TouchableOpacity>

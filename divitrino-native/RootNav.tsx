@@ -8,10 +8,10 @@ import { useSelector } from "react-redux";
 import * as endpoints from "./src/constants/endpoints";
 import { colors } from "./src/constants/ui";
 import HomeNav from "./src/pages/HomeNav";
+import Invite from "./src/pages/Invite";
 import Login from "./src/pages/Login";
 import NewGroup from "./src/pages/NewGroup";
 import NewMovement from "./src/pages/NewMovement";
-import NewPerson from "./src/pages/NewPerson";
 import Signup from "./src/pages/Signup";
 import client from "./src/services/client";
 import { getToken } from "./src/store";
@@ -108,8 +108,7 @@ const RootNav = () => {
         {token ? (
           <>
             <Stack.Screen name="Home" component={HomeNav} />
-            <Stack.Screen name="NewPerson" component={NewPerson} />
-            {/* TODO UNUSED FOR NOW <Stack.Screen name="ShareJoinLink" component={ShareJoinLink} /> */}
+            <Stack.Screen name="Invite" component={Invite} />
             <Stack.Screen name="NewMovement" component={NewMovement} />
             <Stack.Screen name="NewGroup" component={NewGroup} />
           </>

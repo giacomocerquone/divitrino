@@ -19,7 +19,7 @@ type RootStackParamList = {
 };
 type Props = NativeStackScreenProps<RootStackParamList, "Invite">;
 
-const NewPerson = () => {
+const Invite = () => {
   const { params } = useRoute<Props["route"]>();
   if (!params?.item) {
     return null;
@@ -68,4 +68,4 @@ Ogni link che crei può essere utilizzato da una sola persona.`}
   );
 };
 
-export default NewPerson;
+export default Invite;
