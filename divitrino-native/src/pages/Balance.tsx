@@ -1,16 +1,16 @@
 import React, { useMemo } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
+import OthersBalance from "../components/organisms/Balance/OthersBalance";
 import UserBalance from "../components/organisms/Balance/UserBalance";
 import EmptyList from "../components/organisms/EmptyList";
 import PageHeader from "../components/organisms/PageHeader";
 import { unit } from "../constants/ui";
 import useFetchGroupBalance from "../hooks/useFetchGroupBalance";
 import { IUser } from "../interfaces";
-import { getActiveGroupUsers } from "../store";
-import { getUser } from "../store/userSlice";
+import { getActiveGroupUsers, getUser } from "../store";
 
 const Balance = () => {
   const people = useSelector(getActiveGroupUsers);
@@ -30,6 +30,12 @@ const Balance = () => {
         <EmptyList message="Nessun bilancio da mostrare." />
       ) : (
         <>
+          <View style={styles.tableHeader}>
+            <Text align="left" weight="light" text="Operazione" size="xs" />
+            <Text align="center" text="Utente" weight="light" size="xs" />
+            <Text align="right" weight="light" text="Quantità" size="xs" />
+          </View>
+
           <UserBalance peopleMap={peopleMap} balance={balance} />
 
           <Text
@@ -39,6 +45,8 @@ const Balance = () => {
             style={styles.otherTitle}
             align="center"
           />
+
+          <OthersBalance peopleMap={peopleMap} balance={balance} />
         </>
       )}
     </ScrollView>
@@ -50,6 +58,14 @@ export default Balance;
 const styles = StyleSheet.create({
   root: { paddingHorizontal: unit * 5 },
   otherTitle: {
-    marginVertical: unit * 6,
+    marginTop: unit * 3,
+    marginBottom: unit * 6,
+  },
+  tableHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: unit * 4,
+    marginBottom: unit * 6,
+    justifyContent: "space-between",
   },
 });

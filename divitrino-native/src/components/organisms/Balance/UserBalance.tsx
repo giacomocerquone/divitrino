@@ -4,7 +4,6 @@ import React, { FunctionComponent } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
-import { unit } from "../../../constants/ui";
 import { IUser, TBalance } from "../../../interfaces";
 import { getUser } from "../../../store";
 import { formatMoney } from "../../../utils";
@@ -31,12 +30,6 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
 
   return (
     <View>
-      <View style={styles.tableHeader}>
-        <Text align="left" weight="light" text="Operazione" size="xs" />
-        <Text align="center" text="Utente" weight="light" size="xs" />
-        <Text align="right" weight="light" text="Quantità" size="xs" />
-      </View>
-
       {Object.keys(currentUserCredits).map((debtorId) => (
         <Row key={debtorId}>
           <Text text="Ricevi" weight="bold" size="s" />
@@ -66,15 +59,7 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
 
 export default UserBalance;
 
-const styles = StyleSheet.create({
-  tableHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: unit * 4,
-    marginBottom: unit * 6,
-    justifyContent: "space-between",
-  },
-});
+const styles = StyleSheet.create({});
 
 interface Props {
   balance: TBalance;

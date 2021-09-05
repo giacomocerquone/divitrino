@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   root: {
     paddingHorizontal: unit * 4,
     paddingVertical: unit * 6,
+    marginBottom: unit * 3,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
