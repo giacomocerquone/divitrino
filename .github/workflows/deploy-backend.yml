@@ -36,6 +36,12 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Write down env file
+        working-directory: ./divitrino-backend
+        env:
+          MY_ENV: ${{ secrets.ENV }}
+        run: echo $MY_ENV | tr " " "\n" >> .env
+
       - name: Copy compose files on droplet
         uses: appleboy/scp-action@master
         with:
@@ -46,12 +52,6 @@ jobs:
           target: "/root"
           strip_components: 1
           overwrite: true
-
-      - name: Write down env file
-        working-directory: ./divitrino-backend
-        env:
-          MY_ENV: ${{ secrets.ENV }}
-        run: echo $MY_ENV | tr " " "\n" >> .env
 
       - name: Compose image in the droplet
         uses: appleboy/ssh-action@master
