@@ -28,7 +28,7 @@ jobs:
           MY_ENV: ${{ secrets.ENV }}
         run: |
           ls -a
-          'echo "$MY_ENV" > .env'
+          echo $MY_ENV >> .env
           cat .env
 
       # - name: Extract metadata (tags, labels) for Docker
