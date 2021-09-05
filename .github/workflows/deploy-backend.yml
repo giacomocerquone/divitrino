@@ -49,24 +49,23 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           source: "divitrino-backend/docker-compose.yml,divitrino-backend/docker-compose.prod.yml,divitrino-backend/.env"
-          target: "."
+          target: "/root"
           strip_components: 1
           overwrite: true
 
-      - name: Compose image in the droplet
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          script: |
-            pwd
-            cd root/divitrino-backend
-            mv *.* ../../
-            cd ../../
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+      # - name: Compose image in the droplet
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     password: ${{ secrets.PASSWORD }}
+      #     script: |
+      #       pwd
+      #       mv *.* ../../
+      #       cd ../../
+      #       docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+      #       docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+      #       docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
       # - name: Install SSH Key
       #   uses: shimataro/ssh-key-action@v2
