@@ -2,6 +2,7 @@ import React, { FunctionComponent, ReactNode } from "react";
 import {
   Image,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   View,
@@ -29,6 +30,7 @@ const Centered: FunctionComponent<Props> = ({
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
           flex: 1,
         }}
@@ -39,10 +41,12 @@ const Centered: FunctionComponent<Props> = ({
             style={{ height: unit * 60 }}
             resizeMode="contain"
           />
-          <Text size="xl" weight="normal" text={title} />
-          <Text align="center" style={styles.description}>
-            {description}
-          </Text>
+          <View>
+            <Text size="xl" weight="normal" text={title} align="center" />
+            <Text align="center" style={styles.description}>
+              {description}
+            </Text>
+          </View>
           <View style={{ alignSelf: "stretch" }}>
             {children}
             <Button
