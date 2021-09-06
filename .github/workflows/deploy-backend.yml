@@ -60,7 +60,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull rest_api
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
       # - name: Install SSH Key
