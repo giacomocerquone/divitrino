@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
@@ -7,7 +7,7 @@ import OthersBalance from "../components/organisms/Balance/OthersBalance";
 import UserBalance from "../components/organisms/Balance/UserBalance";
 import EmptyList from "../components/organisms/EmptyList";
 import PageHeader from "../components/organisms/PageHeader";
-import { unit } from "../constants/ui";
+import { colors, unit } from "../constants/ui";
 import useFetchGroupBalance from "../hooks/useFetchGroupBalance";
 import { IUser } from "../interfaces";
 import { getActiveGroupUsers, getUser } from "../store";
@@ -21,50 +21,56 @@ const Balance = () => {
       return { ...map, [user.id]: user };
     }, {});
   }, [people]);
-  const balance = useFetchGroupBalance();
+  const { balance, loading, error } = useFetchGroupBalance();
 
   return (
     <ScrollView contentContainerStyle={styles.root} stickyHeaderIndices={[0]}>
       <PageHeader title="Bilancio" />
-      {!balance || !Object.keys(balance).length || !user.id ? (
-        <EmptyList message="Nessun bilancio da mostrare." />
-      ) : (
+      {loading && <ActivityIndicator size="large" color={colors.purple} />}
+
+      {!loading && !error && (
         <>
-          <View style={styles.tableHeader}>
-            <Text
-              align="left"
-              weight="light"
-              text="Operazione"
-              size="xs"
-              style={{ flex: 1 }}
-            />
-            <Text
-              align="center"
-              text="Utente"
-              weight="light"
-              size="xs"
-              style={{ flex: 1 }}
-            />
-            <Text
-              align="right"
-              weight="light"
-              text="Quantità"
-              size="xs"
-              style={{ flex: 1 }}
-            />
-          </View>
+          {!balance || !Object.keys(balance).length || !user.id ? (
+            <EmptyList message="Nessun bilancio da mostrare." />
+          ) : (
+            <>
+              <View style={styles.tableHeader}>
+                <Text
+                  align="left"
+                  weight="light"
+                  text="Operazione"
+                  size="xs"
+                  style={{ flex: 1 }}
+                />
+                <Text
+                  align="center"
+                  text="Utente"
+                  weight="light"
+                  size="xs"
+                  style={{ flex: 1 }}
+                />
+                <Text
+                  align="right"
+                  weight="light"
+                  text="Quantità"
+                  size="xs"
+                  style={{ flex: 1 }}
+                />
+              </View>
 
-          <UserBalance peopleMap={peopleMap} balance={balance} />
+              <UserBalance peopleMap={peopleMap} balance={balance} />
 
-          <Text
-            size="m"
-            weight="normal"
-            text="Altro"
-            style={styles.otherTitle}
-            align="center"
-          />
+              <Text
+                size="m"
+                weight="normal"
+                text="Altro"
+                style={styles.otherTitle}
+                align="center"
+              />
 
-          <OthersBalance peopleMap={peopleMap} balance={balance} />
+              <OthersBalance peopleMap={peopleMap} balance={balance} />
+            </>
+          )}
         </>
       )}
     </ScrollView>

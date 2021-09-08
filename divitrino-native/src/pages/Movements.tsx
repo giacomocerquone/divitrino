@@ -1,6 +1,6 @@
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { StyleSheet, SectionList, View } from "react-native";
+import { StyleSheet, SectionList, View, ActivityIndicator } from "react-native";
 import { SceneMap } from "react-native-tab-view";
 import { useSelector } from "react-redux";
 
@@ -17,8 +17,11 @@ import { getActiveGroupId } from "../store";
 
 const Movements = () => {
   const groupId = useSelector(getActiveGroupId);
-  const { movs, refetch } = useFetchMovements(groupId);
+  const { movs, refetch, loading, error } = useFetchMovements(groupId);
   const [activeMov, setActiveMov] = useState<TMovement>();
+  const [pulledToRefresh, setPulledToRefresh] = useState(false);
+
+  console.log(pulledToRefresh);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["80%"], []);
@@ -44,11 +47,23 @@ const Movements = () => {
   return (
     <>
       <SectionList
+        refreshing={loading && pulledToRefresh}
+        onRefresh={async () => {
+          setPulledToRefresh(true);
+          await refetch();
+          setPulledToRefresh(false);
+        }}
         sections={movs}
         contentContainerStyle={styles.root}
         renderItem={({ item }) => <Movement item={item} onPress={onMovPress} />}
         ListHeaderComponent={<Header />}
-        ListEmptyComponent={<EmptyList resourceName="movimento" />}
+        ListEmptyComponent={
+          loading ? (
+            <ActivityIndicator size="large" color={colors.purple} />
+          ) : !error ? (
+            <EmptyList resourceName="movimento" />
+          ) : null
+        }
         renderSectionHeader={({ section: { dateFmt } }) => (
           <Text
             size="xs"

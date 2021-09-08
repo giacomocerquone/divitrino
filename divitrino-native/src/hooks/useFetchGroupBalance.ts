@@ -9,17 +9,24 @@ import { getActiveGroupId } from "../store";
 
 const useFetchGroupBalance = () => {
   const [balance, setBalance] = useState<TBalance>();
+  const [error, setError] = useState<unknown>();
+  const [loading, setLoading] = useState(false);
   const groupId = useSelector(getActiveGroupId);
 
   useFocusEffect(
     useCallback(() => {
       const fetchBalance = async () => {
         try {
+          setError(undefined);
+          setLoading(true);
           const { data } = await client.get(endpoints.balance, {
             params: { groupId },
           });
           setBalance(data);
+          setLoading(false);
         } catch (e) {
+          setLoading(false);
+          setError(e);
           console.log("error fetching balance", e);
         }
       };
@@ -28,7 +35,7 @@ const useFetchGroupBalance = () => {
     }, [groupId])
   );
 
-  return balance;
+  return { balance, loading, error };
 };
 
 export default useFetchGroupBalance;

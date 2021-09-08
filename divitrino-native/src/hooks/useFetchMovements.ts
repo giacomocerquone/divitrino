@@ -15,15 +15,19 @@ interface ISectionedMovs {
 const useFetchMovements = (groupId: string) => {
   const [movs, setMovs] = useState<ISectionedMovs[]>([]);
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<unknown>();
 
   const fetchMovements = useCallback(
     async (size?: number) => {
       try {
+        setError(undefined);
+        setLoading(true);
         const { data } = await client.get<[]>(endpoints.movements, {
           params: {
             groupId,
             page,
-            size,
+            size: size || 20,
           },
         });
 
@@ -49,8 +53,11 @@ const useFetchMovements = (groupId: string) => {
         }));
 
         setMovs(sectionedMovs);
+        setLoading(false);
       } catch (e) {
         console.log("error fetching movements", e);
+        setLoading(false);
+        setError(e);
       }
     },
     [groupId, page]
@@ -74,6 +81,8 @@ const useFetchMovements = (groupId: string) => {
     movs,
     refetch: fetchMovements,
     nextPage: () => setPage((p) => p + 1),
+    loading,
+    error,
   };
 };
 
