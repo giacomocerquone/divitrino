@@ -253,6 +253,8 @@ export default async function (app: FastifyInstance) {
 
     const result = await prisma.purchase.create({
       data: {
+        // @ts-ignore
+        addedByUserId: req.user.id,
         groupId,
         payerId,
         amount,
@@ -369,6 +371,8 @@ export default async function (app: FastifyInstance) {
 
     const result = await prisma.payment.create({
       data: {
+        // @ts-ignore
+        addedByUserId: req.user.id,
         amount,
         payerId,
         payeeId,
