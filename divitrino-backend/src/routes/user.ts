@@ -49,35 +49,55 @@ export default async function (app: FastifyInstance) {
         return res.send(new httpErrors.BadRequest("A group id is needed"));
       }
 
-      const movements = await prisma.group.findFirst({
+      const purchases = await prisma.purchase.findMany({
         where: {
-          id: req.query.groupId,
-          users: {
-            some: {
-              //@ts-ignore
-              id: req.user.id,
+          group: {
+            id: req.query.groupId,
+            users: {
+              some: {
+                //@ts-ignore
+                id: req.user.id,
+              },
             },
           },
+        },
+        skip: req.query.page ? req.query.page * (req.query.size || 10) : 0,
+        take: req.query.size || 10,
+        orderBy: {
+          date: "desc",
         },
         include: {
-          payments: {
-            orderBy: {
-              date: "desc",
-            },
-            include: {
-              payer: true,
-              payee: true,
-            },
-          },
-          purchases: {
-            orderBy: {
-              date: "desc",
-            },
-            include: {
-              payer: true,
+          payer: true,
+        },
+      });
+
+      const payments = await prisma.payment.findMany({
+        where: {
+          group: {
+            id: req.query.groupId,
+            users: {
+              some: {
+                //@ts-ignore
+                id: req.user.id,
+              },
             },
           },
         },
+        skip: req.query.page ? req.query.page * (req.query.size || 10) : 0,
+        take: req.query.size || 10,
+        orderBy: {
+          date: "desc",
+        },
+        include: {
+          payer: true,
+          payee: true,
+        },
+      });
+
+      const movements: any[] = [...purchases, ...payments];
+
+      movements.sort((a, b) => {
+        return +new Date(b.date) - +new Date(a.date);
       });
 
       res.send(movements);

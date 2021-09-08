@@ -29,6 +29,8 @@ export interface IBalanceQueryString {
 
 export interface IMovementsQueryString {
   groupId: string;
+  size?: number;
+  page?: number;
 }
 
 export interface IProductsPurchaseQueryString {
