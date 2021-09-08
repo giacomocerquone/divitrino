@@ -19,6 +19,8 @@ model User {
   purchaseAsPayer Purchase[]
   products        Product[]
   invites         Invite[]
+  addedPurchases  Purchase[] @relation("purchaseAddedBy")
+  addedPayments   Payment[]  @relation("paymentAddedBy")
 }
 
 model Group {
@@ -33,17 +35,19 @@ model Group {
 }
 
 model Purchase {
-  id          String    @id @default(uuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  amount      Int
-  description String
-  products    Product[]
-  group       Group     @relation(fields: [groupId], references: [id])
-  groupId     String
-  payer       User      @relation(fields: [payerId], references: [id])
-  payerId     String
-  date        DateTime
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  amount        Int
+  description   String
+  products      Product[]
+  group         Group     @relation(fields: [groupId], references: [id])
+  groupId       String
+  payer         User      @relation(fields: [payerId], references: [id])
+  payerId       String
+  date          DateTime
+  addedBy       User      @relation("purchaseAddedBy", fields: [addedByUserId], references: [id])
+  addedByUserId String
 }
 
 model Product {
@@ -58,17 +62,19 @@ model Product {
 }
 
 model Payment {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  id        String   @id @default(uuid())
-  group     Group    @relation(fields: [groupId], references: [id])
-  groupId   String
-  amount    Int
-  payerId   String
-  payeeId   String
-  payer     User     @relation("payer", fields: [payerId], references: [id])
-  payee     User     @relation("payee", fields: [payeeId], references: [id])
-  date      DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  id            String   @id @default(uuid())
+  group         Group    @relation(fields: [groupId], references: [id])
+  groupId       String
+  amount        Int
+  payerId       String
+  payeeId       String
+  payer         User     @relation("payer", fields: [payerId], references: [id])
+  payee         User     @relation("payee", fields: [payeeId], references: [id])
+  date          DateTime
+  addedBy       User     @relation("paymentAddedBy", fields: [addedByUserId], references: [id])
+  addedByUserId String
 }
 
 model Invite {
