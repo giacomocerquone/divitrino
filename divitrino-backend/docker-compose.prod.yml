@@ -5,5 +5,5 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
 
   rest_api:
-    command: bash -c "npm run db:push && npm run db:migrate && ./node_modules/.bin/pm2-runtime ./dist/src/index.js"
+    command: bash -c "npm run db:migrate && ./node_modules/.bin/pm2-runtime ./dist/src/index.js"
     image: giacomocerquone/divitrino:master

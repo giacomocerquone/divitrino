@@ -46,8 +46,8 @@ model Purchase {
   payer         User      @relation(fields: [payerId], references: [id])
   payerId       String
   date          DateTime
-  addedBy       User      @relation("purchaseAddedBy", fields: [addedByUserId], references: [id])
-  addedByUserId String
+  addedBy       User?     @relation("purchaseAddedBy", fields: [addedByUserId], references: [id])
+  addedByUserId String?
 }
 
 model Product {
@@ -73,8 +73,8 @@ model Payment {
   payer         User     @relation("payer", fields: [payerId], references: [id])
   payee         User     @relation("payee", fields: [payeeId], references: [id])
   date          DateTime
-  addedBy       User     @relation("paymentAddedBy", fields: [addedByUserId], references: [id])
-  addedByUserId String
+  addedBy       User?    @relation("paymentAddedBy", fields: [addedByUserId], references: [id])
+  addedByUserId String?
 }
 
 model Invite {
