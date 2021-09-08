@@ -22,12 +22,14 @@ const Movement: FunctionComponent<Props> = ({ item, onPress }) => {
               <Text weight="bold" size="xs" text={item.payer.name} /> ha pagato{" "}
               <Text weight="bold" size="xs" text={item.payee.name} />
             </Text>
+            <Text size="xs" text={`aggiunto da ${item.addedBy?.name}`} />
           </View>
         ) : (
           <View>
             <Text size="xs">
               Acquisto pagato da <Text weight="bold" text={item.payer.name} />
             </Text>
+            <Text size="xs" text={`aggiunto da ${item.addedBy?.name}`} />
           </View>
         )}
       </View>

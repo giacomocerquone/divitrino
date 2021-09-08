@@ -19,6 +19,7 @@ export interface IGroupOperation {
   createdAt: string;
   date: string;
   amount: number;
+  addedBy: IUser;
 }
 
 export interface IPurchase extends IGroupOperation {

@@ -93,6 +93,10 @@ const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
           weight="bold"
         />
       </Text>
+      <Text size="s" style={styles.paragraph}>
+        <Text text="Aggiunto da " />
+        <Text text={movement.addedBy?.name} weight="bold" />
+      </Text>
       {!movement.payee && (
         <Text size="s" style={styles.paragraph}>
           <Text text="Pagato da " />
