@@ -62,6 +62,7 @@ async function main() {
         description: "Spesa conad pagata da Giacomo",
         createdAt: new Date(),
         date: new Date(),
+        addedByUserId: createdUsers?.[0]?.id,
         products: {
           create: [
             {
@@ -110,6 +111,7 @@ async function main() {
         description: "Spesa conad pagata da Giovanni",
         createdAt: new Date(),
         date: new Date(),
+        addedByUserId: createdUsers?.[0]?.id,
         products: {
           create: [
             {
@@ -146,6 +148,7 @@ async function main() {
         groupId: group.id,
         description: "Spesa conad pagata da lelemanni",
         createdAt: new Date(),
+        addedByUserId: createdUsers?.[0]?.id,
         date: new Date(),
         products: {
           create: [
