@@ -61,13 +61,14 @@ export default async function (app: FastifyInstance) {
             },
           },
         },
-        skip: req.query.page ? req.query.page * (req.query.size || 10) : 0,
-        take: req.query.size || 10,
+        skip: req.query.page ? +req.query.page * (req.query.size || 10) : 0,
+        take: req.query.size ? +req.query.size : 10,
         orderBy: {
           date: "desc",
         },
         include: {
           payer: true,
+          addedBy: true,
         },
       });
 
@@ -83,14 +84,15 @@ export default async function (app: FastifyInstance) {
             },
           },
         },
-        skip: req.query.page ? req.query.page * (req.query.size || 10) : 0,
-        take: req.query.size || 10,
+        skip: req.query.page ? +req.query.page * (req.query.size || 10) : 0,
+        take: req.query.size ? +req.query.size : 10,
         orderBy: {
           date: "desc",
         },
         include: {
           payer: true,
           payee: true,
+          addedBy: true,
         },
       });
 
