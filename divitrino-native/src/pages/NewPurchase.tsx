@@ -2,6 +2,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useRef, useState } from "react";
 import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "../components/atoms/Button";
@@ -122,6 +123,11 @@ const NewPurchase = () => {
       goBack();
       dispatch(purchaseActions.setProds([]));
     } catch (e) {
+      showMessage({
+        type: "danger",
+        message: "Errore",
+        description: "Errore aggiunta acquisto",
+      });
       console.log("error adding purchase on server", e);
     }
   };
