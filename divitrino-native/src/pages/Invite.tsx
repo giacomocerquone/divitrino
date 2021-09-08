@@ -4,12 +4,13 @@ import React from "react";
 import { Share } from "react-native";
 import { showMessage } from "react-native-flash-message";
 
-import add from "../../assets/add.png";
 import * as endpoints from "../constants/endpoints";
 import { colors } from "../constants/ui";
 import { IGroup } from "../interfaces";
 import client, { baseURL } from "../services/client";
 import Centered from "../templates/Centered";
+
+const add = require("../../assets/add.png");
 
 const forgeInviteLink = (code: string, inviteId: number) =>
   `${baseURL}/open-invite?&code=${code}&inviteId=${inviteId}`;

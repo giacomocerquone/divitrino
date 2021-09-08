@@ -12,6 +12,7 @@ import VerticalLine from "../../atoms/VerticalLine";
 const initialProdState = {
   name: "",
   price: "",
+  debtors: [],
 };
 
 const ProductInput: FunctionComponent<Props> = () => {

@@ -41,5 +41,5 @@ export interface IProduct {
 export interface IAPIProduct {
   name: string;
   pricePerDebtor: number;
-  debtors: string[];
+  debtors: IUser["id"][];
 }

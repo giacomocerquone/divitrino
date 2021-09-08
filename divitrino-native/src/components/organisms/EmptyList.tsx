@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
-import empty from "../../../assets/empty.png";
 import { unit } from "../../constants/ui";
 import Text from "../atoms/Text";
+
+const empty = require("../../../assets/empty.png");
 
 const EmptyList: FunctionComponent<Props> = ({ resourceName, message }) => {
   return (

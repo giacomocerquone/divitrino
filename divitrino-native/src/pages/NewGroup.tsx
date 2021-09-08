@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
 
-import group from "../../assets/group.png";
 import Input from "../components/atoms/Input";
 import * as endpoints from "../constants/endpoints";
 import client from "../services/client";
 import * as userActions from "../store/userSlice";
 import Centered from "../templates/Centered";
+
+const group = require("../../assets/group.png");
 
 const NewGroup = () => {
   const { goBack } = useNavigation();

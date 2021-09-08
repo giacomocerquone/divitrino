@@ -8,12 +8,13 @@ import {
   View,
 } from "react-native";
 
-import hello from "../../assets/hello.png";
 import BackButton from "../components/atoms/BackButton";
 import Button from "../components/atoms/Button";
 import Link from "../components/atoms/Link";
 import Text from "../components/atoms/Text";
 import { unit } from "../constants/ui";
+
+const hello = require("../../assets/hello.png");
 
 const Centered: FunctionComponent<Props> = ({
   title,

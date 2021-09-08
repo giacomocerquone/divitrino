@@ -107,7 +107,7 @@ const NewPurchase = () => {
       pricePerDebtor: Math.round(
         convertToCents(prod.price) / prod.debtors.length // todo use dinero.allocate maybe?
       ),
-      debtors: prod.debtors,
+      debtors: prod.debtors as string[],
       name: prod.name,
     }));
 
