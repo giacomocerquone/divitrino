@@ -23,13 +23,12 @@ const OthersBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
             .filter((debtorId) => debtorId !== user.id)
             .map((debtorId) => (
               <Row key={creditor.id + debtorId}>
-                <Text text={peopleMap[debtorId].name} style={{ flex: 1 }} />
-                <Text text="Deve" weight="bold" size="s" style={{ flex: 1 }} />
-                <Text text={creditor.name} size="s" style={{ flex: 1 }} />
+                <Text text={peopleMap[debtorId].name} />
+                <Text text="Deve" weight="bold" size="s" />
+                <Text text={creditor.name} size="s" />
                 <Text
                   text={generateDineroObject(balance[creditor.id][debtorId])}
                   size="s"
-                  style={{ flex: 0.5 }}
                 />
               </Row>
             ))}

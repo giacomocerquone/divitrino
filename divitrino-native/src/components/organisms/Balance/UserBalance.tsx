@@ -32,23 +32,35 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
     <View>
       {Object.keys(currentUserCredits).map((debtorId) => (
         <Row key={debtorId}>
-          <Text text="Ricevi" weight="bold" size="s" />
-          <Text text={peopleMap[debtorId].name} />
+          <Text text="Ricevi" weight="bold" size="s" style={{ flex: 1 }} />
           <Text
+            text={peopleMap[debtorId].name}
+            style={{ flex: 1 }}
+            align="center"
+          />
+          <Text
+            align="right"
             text={generateDineroObject(currentUserCredits[debtorId])}
             size="s"
+            style={{ flex: 1 }}
           />
         </Row>
       ))}
 
       {currentUserDebts.map((creditorId) => (
         <Row key={creditorId}>
-          <Text text="Devi" weight="bold" size="s" />
-          <Text text={peopleMap[creditorId].name} />
+          <Text text="Devi" weight="bold" size="s" style={{ flex: 1 }} />
+          <Text
+            text={peopleMap[creditorId].name}
+            style={{ flex: 1 }}
+            align="center"
+          />
           {user.id && (
             <Text
+              align="right"
               text={generateDineroObject(balance[creditorId][user.id])}
               size="s"
+              style={{ flex: 1 }}
             />
           )}
         </Row>
