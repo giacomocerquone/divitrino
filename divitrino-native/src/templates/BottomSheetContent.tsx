@@ -1,7 +1,6 @@
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { FunctionComponent, ReactNode } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import BottomSheetHeader from "../components/organisms/BottomSheetHeader";
 import { colors, unit } from "../constants/ui";
@@ -17,16 +16,11 @@ const BottomSheetContent: FunctionComponent<Props> = ({
     dismissAll();
     return true;
   });
-  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.root}>
       <BottomSheetHeader title={headerTitle} />
-      <View
-        style={[{ paddingBottom: insets.bottom * 10 }, contentContainerStyle]}
-      >
-        {children}
-      </View>
+      <View style={contentContainerStyle}>{children}</View>
     </View>
   );
 };

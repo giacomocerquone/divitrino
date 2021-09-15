@@ -1,6 +1,5 @@
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { FunctionComponent, Ref, useMemo } from "react";
-import { StyleSheet } from "react-native";
 
 import { unit } from "../../../constants/ui";
 import usePeopleSelection from "../../../hooks/usePeopleSelection";
@@ -43,8 +42,6 @@ const AssignModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
 };
 
 export default AssignModal;
-
-const styles = StyleSheet.create({});
 
 interface Props {
   sheetRef: Ref<BottomSheetModal>;
