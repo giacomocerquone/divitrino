@@ -10,10 +10,11 @@ import PeopleSelector from "../PeopleSelector";
 
 const AssignModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
   const snapPoints = useMemo(() => ["30%"], []);
-  const { onPersonPress, selectedPeople } = usePeopleSelection(true);
+  const { onPersonPress, selectedPeople, reset } = usePeopleSelection(true);
 
   return (
     <BottomSheetModal
+      onChange={(index) => index === 0 && reset()}
       backdropComponent={(props) => (
         <BottomSheetBackdrop
           disappearsOnIndex={-1}

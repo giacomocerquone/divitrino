@@ -23,6 +23,7 @@ const usePeopleSelection = (allowMultipleSelection: boolean) => {
   return {
     onPersonPress,
     selectedPeople,
+    reset: () => setSelectedPeople([]),
   };
 };
 
