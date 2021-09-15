@@ -30,22 +30,25 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
 
   return (
     <View>
-      {Object.keys(currentUserCredits).map((debtorId) => (
-        <Row key={debtorId}>
-          <Text text="Ricevi" weight="bold" size="s" style={{ flex: 1 }} />
-          <Text
-            text={peopleMap[debtorId].name}
-            style={{ flex: 1 }}
-            align="center"
-          />
-          <Text
-            align="right"
-            text={generateDineroObject(currentUserCredits[debtorId])}
-            size="s"
-            style={{ flex: 1 }}
-          />
-        </Row>
-      ))}
+      {Object.keys(currentUserCredits).map(
+        (debtorId) =>
+          currentUserCredits[debtorId] > 0 && (
+            <Row key={debtorId}>
+              <Text text="Ricevi" weight="bold" size="s" style={{ flex: 1 }} />
+              <Text
+                text={peopleMap[debtorId].name}
+                style={{ flex: 1 }}
+                align="center"
+              />
+              <Text
+                align="right"
+                text={generateDineroObject(currentUserCredits[debtorId])}
+                size="s"
+                style={{ flex: 1 }}
+              />
+            </Row>
+          )
+      )}
 
       {currentUserDebts.map(
         (creditorId) =>
