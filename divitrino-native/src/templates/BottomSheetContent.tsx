@@ -1,4 +1,7 @@
-import { useBottomSheetModal } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetScrollView,
+  useBottomSheetModal,
+} from "@gorhom/bottom-sheet";
 import React, { FunctionComponent, ReactNode } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
@@ -10,6 +13,7 @@ const BottomSheetContent: FunctionComponent<Props> = ({
   headerTitle,
   children,
   contentContainerStyle,
+  style,
 }) => {
   const { dismissAll } = useBottomSheetModal();
   useBackHandler(() => {
@@ -18,10 +22,13 @@ const BottomSheetContent: FunctionComponent<Props> = ({
   });
 
   return (
-    <View style={styles.root}>
+    <BottomSheetScrollView
+      style={[styles.root, style]}
+      contentContainerStyle={{ padding: unit * 5 }}
+    >
       <BottomSheetHeader title={headerTitle} />
       <View style={contentContainerStyle}>{children}</View>
-    </View>
+    </BottomSheetScrollView>
   );
 };
 
@@ -29,12 +36,12 @@ export default BottomSheetContent;
 
 const styles = StyleSheet.create({
   root: {
-    padding: unit * 5,
     backgroundColor: colors.white,
   },
 });
 
 interface Props {
+  style?: ViewStyle;
   headerTitle: string;
   children: ReactNode;
   contentContainerStyle?: ViewStyle;

@@ -174,7 +174,7 @@ const NewPurchase = () => {
         disabled={
           !(prods.length && prods.every((prod) => prod?.debtors?.length))
         }
-        label="Salva"
+        label="Salva acquisto"
         onPress={openRecap}
         style={{ marginVertical: unit * 2 }}
       />

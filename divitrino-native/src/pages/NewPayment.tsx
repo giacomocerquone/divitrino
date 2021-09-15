@@ -94,7 +94,7 @@ const NewPayment = () => {
 
       <Button
         disabled={submitting || !payerId || !payeeId || !amount}
-        label="Salva"
+        label="Salva pagamento"
         onPress={onSubmit}
         style={{ marginVertical: unit * 2 }}
       />

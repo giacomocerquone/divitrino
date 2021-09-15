@@ -18,7 +18,7 @@ import DatePicker from "../DatePicker";
 import PeopleSelector from "../PeopleSelector";
 
 const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
-  const snapPoints = useMemo(() => ["50%"], []);
+  const snapPoints = useMemo(() => ["60%"], []);
   const { onPersonPress, selectedPeople } = usePeopleSelection(false);
   const { prods } = useSelector(getPurchaseState);
   const [date, setDate] = useState(new Date());

@@ -14,17 +14,16 @@ import BottomSheetContent from "../../../templates/BottomSheetContent";
 import { formatMoney } from "../../../utils";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
+import BottomSheetHeader from "../BottomSheetHeader";
 
 const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
   const { dismissAll } = useBottomSheetModal();
 
-  const amount = useMemo(() => {
+  const paymentAmount = useMemo(() => {
     if (movement?.amount) {
       const dAmount = dinero({ amount: movement.amount, currency: EUR });
       return formatMoney(dAmount);
     }
-
-    return "0";
   }, [movement?.amount]);
 
   const onPressDelete = () => {
@@ -69,23 +68,20 @@ const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
   }
 
   return (
-    <BottomSheetContent
-      contentContainerStyle={styles.root}
-      headerTitle={
-        movement.payee
-          ? `${movement.payer.name} ha pagato ${movement.payee.name}`
-          : movement.description
-      }
-    >
+    <View style={styles.root}>
+      <BottomSheetHeader
+        title={
+          movement.payee
+            ? `${movement.payer.name} ha pagato ${movement.payee.name}`
+            : movement.description
+        }
+      />
+
       <Button
         label="Elimina"
         onPress={onPressDelete}
         style={styles.deleteButton}
       />
-      <Text size="s" style={styles.paragraph}>
-        <Text text="Totale " />
-        <Text text={amount} weight="bold" />
-      </Text>
       <Text size="s" style={styles.paragraph}>
         <Text text="Data " />
         <Text
@@ -103,14 +99,20 @@ const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
           <Text text={movement.payer.name} weight="bold" />
         </Text>
       )}
-    </BottomSheetContent>
+      {!!paymentAmount && (
+        <Text size="s" style={styles.paragraph}>
+          <Text text="Totale " />
+          <Text text={paymentAmount} weight="bold" />
+        </Text>
+      )}
+    </View>
   );
 };
 
 export default MovementDetail;
 
 const styles = StyleSheet.create({
-  root: { alignItems: "flex-start" },
+  root: { alignItems: "flex-start", padding: unit * 5, paddingBottom: 0 },
   paragraph: {
     marginVertical: unit,
   },

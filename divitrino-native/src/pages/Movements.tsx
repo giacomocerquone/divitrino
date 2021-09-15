@@ -1,7 +1,7 @@
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { StyleSheet, SectionList, View, ActivityIndicator } from "react-native";
-import { SceneMap } from "react-native-tab-view";
+import { StyleSheet, SectionList, ActivityIndicator } from "react-native";
+// import { SceneMap } from "react-native-tab-view";
 import { useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
@@ -31,18 +31,18 @@ const Movements = () => {
     setActiveMov(movement);
   }, []);
 
-  const FirstRoute = () => (
-    <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
-  );
+  // const FirstRoute = () => (
+  //   <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
+  // );
 
-  const SecondRoute = () => (
-    <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-  );
+  // const SecondRoute = () => (
+  //   <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
+  // );
 
-  const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-  });
+  // const renderScene = SceneMap({
+  //   first: FirstRoute,
+  //   second: SecondRoute,
+  // });
 
   return (
     <>
