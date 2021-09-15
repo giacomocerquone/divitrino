@@ -5,7 +5,7 @@ import React, { FunctionComponent, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { unit } from "../../../constants/ui";
+import { colors, unit } from "../../../constants/ui";
 import useFetchPurchase from "../../../hooks/useFetchPurchase";
 import { IUser, TMovement } from "../../../interfaces";
 import { formatMoney } from "../../../utils";
@@ -76,7 +76,7 @@ const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
         { paddingBottom: insets.bottom * 10 }, // TODO maybe useless
       ]}
       ListHeaderComponent={
-        <>
+        <View style={{ backgroundColor: colors.white }}>
           {!!purchaseAmount && (
             <Text size="s" style={styles.paragraph}>
               <Text text="Totale " />
@@ -89,7 +89,7 @@ const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
             weight="normal"
             style={{ marginBottom: unit * 2, marginTop: unit * 5 }}
           />
-        </>
+        </View>
       }
       stickyHeaderIndices={[0]}
       keyExtractor={(_, index) => index.toString()}
