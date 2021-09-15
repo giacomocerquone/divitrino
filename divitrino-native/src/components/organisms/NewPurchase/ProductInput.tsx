@@ -45,6 +45,7 @@ const ProductInput: FunctionComponent<Props> = () => {
         autoCapitalize="sentences"
         style={styles.nameInput}
         placeholder="Nome"
+        returnKeyType="next"
         onSubmitEditing={onEnter}
         onFocus={() => setFocusedInputIdx(0)}
         focused={focusedInputIdx === 0}
@@ -53,6 +54,7 @@ const ProductInput: FunctionComponent<Props> = () => {
       />
       <VerticalLine />
       <Input
+        returnKeyType="done"
         style={styles.priceInput}
         placeholder="Prezzo"
         onSubmitEditing={onEnter}

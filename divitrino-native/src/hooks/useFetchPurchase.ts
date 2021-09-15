@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 
 import * as endpoints from "../constants/endpoints";
-import { IPurchase } from "../interfaces";
+import { IAPIProduct } from "../interfaces";
 import client from "../services/client";
 
 const useFetchPurchase = (purchaseId?: string | false) => {
-  const [purchase, setPurchase] = useState<IPurchase>();
+  const [purchase, setPurchase] = useState<{
+    description: string;
+    products: IAPIProduct[];
+  }>();
 
   useEffect(() => {
     const fetchPurchase = async () => {

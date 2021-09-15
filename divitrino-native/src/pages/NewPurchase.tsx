@@ -78,17 +78,17 @@ const NewPurchase = () => {
   };
 
   const onAssignDone = (selectedPeople: IUser["id"][]) => {
-    const editedProds = Object.keys(selectedProdsIndexes).reduce<
-      Record<string, IProduct>
-    >((acc, idxString) => {
-      const idx = parseInt(idxString, 10);
-      acc[idx] = {
-        ...prods[idx],
-        debtors: selectedPeople,
-      };
+    const editedProds = Object.keys(selectedProdsIndexes)
+      .filter((index) => selectedProdsIndexes[index])
+      .reduce<Record<string, IProduct>>((acc, idxString) => {
+        const idx = parseInt(idxString, 10);
+        acc[idx] = {
+          ...prods[idx],
+          debtors: selectedPeople,
+        };
 
-      return acc;
-    }, {});
+        return acc;
+      }, {});
     dispatch(purchaseActions.editProds(editedProds));
     assignSheet.current?.dismiss();
     setSelectedProdsIndexes({});
