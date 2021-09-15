@@ -1,7 +1,7 @@
 import { EUR } from "@dinero.js/currencies";
 import { dinero } from "dinero.js";
 import React, { FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
 
 import { IUser, TBalance } from "../../../interfaces";
@@ -47,31 +47,32 @@ const UserBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
         </Row>
       ))}
 
-      {currentUserDebts.map((creditorId) => (
-        <Row key={creditorId}>
-          <Text text="Devi" weight="bold" size="s" style={{ flex: 1 }} />
-          <Text
-            text={peopleMap[creditorId].name}
-            style={{ flex: 1 }}
-            align="center"
-          />
-          {user.id && (
-            <Text
-              align="right"
-              text={generateDineroObject(balance[creditorId][user.id])}
-              size="s"
-              style={{ flex: 1 }}
-            />
-          )}
-        </Row>
-      ))}
+      {currentUserDebts.map(
+        (creditorId) =>
+          user.id &&
+          balance[creditorId][user.id] > 0 && (
+            <Row key={creditorId}>
+              <Text text="Devi" weight="bold" size="s" style={{ flex: 1 }} />
+              <Text
+                text={peopleMap[creditorId].name}
+                style={{ flex: 1 }}
+                align="center"
+              />
+
+              <Text
+                align="right"
+                text={generateDineroObject(balance[creditorId][user.id])}
+                size="s"
+                style={{ flex: 1 }}
+              />
+            </Row>
+          )
+      )}
     </View>
   );
 };
 
 export default UserBalance;
-
-const styles = StyleSheet.create({});
 
 interface Props {
   balance: TBalance;

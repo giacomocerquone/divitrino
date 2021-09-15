@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
 
 import { IUser, TBalance } from "../../../interfaces";
@@ -21,17 +21,22 @@ const OthersBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
         <>
           {Object.keys(balance[creditor.id])
             .filter((debtorId) => debtorId !== user.id)
-            .map((debtorId) => (
-              <Row key={creditor.id + debtorId}>
-                <Text text={peopleMap[debtorId].name} />
-                <Text text="Deve" weight="bold" size="s" />
-                <Text text={creditor.name} size="s" />
-                <Text
-                  text={generateDineroObject(balance[creditor.id][debtorId])}
-                  size="s"
-                />
-              </Row>
-            ))}
+            .map(
+              (debtorId) =>
+                balance[creditor.id][debtorId] > 0 && (
+                  <Row key={creditor.id + debtorId}>
+                    <Text text={peopleMap[debtorId].name} />
+                    <Text text="Deve" weight="bold" size="s" />
+                    <Text text={creditor.name} size="s" />
+                    <Text
+                      text={generateDineroObject(
+                        balance[creditor.id][debtorId]
+                      )}
+                      size="s"
+                    />
+                  </Row>
+                )
+            )}
         </>
       ))}
     </View>
@@ -39,8 +44,6 @@ const OthersBalance: FunctionComponent<Props> = ({ balance, peopleMap }) => {
 };
 
 export default OthersBalance;
-
-const styles = StyleSheet.create({});
 
 interface Props {
   balance: TBalance;
