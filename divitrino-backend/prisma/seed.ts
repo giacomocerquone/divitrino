@@ -57,7 +57,6 @@ async function main() {
     const purchases = [
       {
         payerId: createdUsers?.[0]?.id,
-        amount: 300,
         groupId: group.id,
         description: "Spesa conad pagata da Giacomo",
         createdAt: new Date(),
@@ -106,7 +105,6 @@ async function main() {
       },
       {
         payerId: createdUsers?.[1]?.id,
-        amount: 6500,
         groupId: group.id,
         description: "Spesa conad pagata da Giovanni",
         createdAt: new Date(),
@@ -144,7 +142,6 @@ async function main() {
       },
       {
         payerId: createdUsers?.[3]?.id,
-        amount: 3000,
         groupId: group.id,
         description: "Spesa conad pagata da lelemanni",
         createdAt: new Date(),

@@ -231,10 +231,6 @@ export default async function (app: FastifyInstance) {
       );
     }
 
-    const amount = products.reduce((tot, prod) => {
-      return tot + prod.pricePerDebtor;
-    }, 0);
-
     const prodsToCreate = products.reduce<
       {
         name: string;
@@ -259,7 +255,6 @@ export default async function (app: FastifyInstance) {
         addedByUserId: req.user.id,
         groupId,
         payerId,
-        amount,
         description,
         date,
         products: {
