@@ -14,13 +14,11 @@ model User {
   password String
   groups   Group[]
 
-  paymentsAsPayer Payment[]  @relation("payer")
-  paymentsAsPayee Payment[]  @relation("payee")
-  purchaseAsPayer Purchase[]
-  products        Product[]
-  invites         Invite[]
-  addedPurchases  Purchase[] @relation("purchaseAddedBy")
-  addedPayments   Payment[]  @relation("paymentAddedBy")
+  movementsAsPayer Movement[] @relation("payer")
+  movementsAsPayee Movement[] @relation("payee")
+  products         Product[]
+  invites          Invite[]
+  addedMovements   Movement[] @relation("movementAddedBy")
 }
 
 model Group {
@@ -29,24 +27,32 @@ model Group {
   id        String     @id @default(uuid())
   name      String
   users     User[]
-  purchases Purchase[]
-  payments  Payment[]
-  invites   Invite[]
+  movements Movement[]
+
+  invites Invite[]
 }
 
-model Purchase {
-  id            String    @id @default(uuid())
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  description   String
-  products      Product[]
-  group         Group     @relation(fields: [groupId], references: [id])
-  groupId       String
-  payer         User      @relation(fields: [payerId], references: [id])
-  payerId       String
-  date          DateTime
-  addedBy       User?     @relation("purchaseAddedBy", fields: [addedByUserId], references: [id])
+model Movement {
+  // COMMON
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  addedBy       User?    @relation("movementAddedBy", fields: [addedByUserId], references: [id])
   addedByUserId String?
+  description   String
+  group         Group    @relation(fields: [groupId], references: [id])
+  groupId       String
+  date          DateTime
+  payer         User     @relation("payer", fields: [payerId], references: [id])
+  payerId       String
+
+  // Purchases fields
+  products Product[]
+
+  // Payments fields
+  payee   User?   @relation("payee", fields: [payeeId], references: [id])
+  payeeId String?
+  amount  Int?
 }
 
 model Product {
@@ -56,24 +62,8 @@ model Product {
   name           String
   pricePerDebtor Int
   debtors        User[]
-  purchase       Purchase @relation(fields: [purchaseId], references: [id])
-  purchaseId     String
-}
-
-model Payment {
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  id            String   @id @default(uuid())
-  group         Group    @relation(fields: [groupId], references: [id])
-  groupId       String
-  amount        Int
-  payerId       String
-  payeeId       String
-  payer         User     @relation("payer", fields: [payerId], references: [id])
-  payee         User     @relation("payee", fields: [payeeId], references: [id])
-  date          DateTime
-  addedBy       User?    @relation("paymentAddedBy", fields: [addedByUserId], references: [id])
-  addedByUserId String?
+  purchase       Movement @relation(fields: [movementId], references: [id])
+  movementId     String
 }
 
 model Invite {
