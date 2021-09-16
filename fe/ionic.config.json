@@ -1,7 +1,0 @@
-{
-  "name": "divitrino",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}
