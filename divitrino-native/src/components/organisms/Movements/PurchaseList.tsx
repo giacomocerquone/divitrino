@@ -71,10 +71,7 @@ const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
   return (
     <BottomSheetFlatList
       data={products as unknown as TProduct[]}
-      contentContainerStyle={[
-        styles.root,
-        { paddingBottom: insets.bottom }, // TODO maybe useless
-      ]}
+      contentContainerStyle={[styles.root, { paddingBottom: insets.bottom }]}
       ListHeaderComponent={
         <View style={{ backgroundColor: colors.white }}>
           {!!purchaseAmount && (

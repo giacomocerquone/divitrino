@@ -54,6 +54,7 @@ const NewPayment = () => {
       });
 
       goBack();
+      setSubmitting(false);
     } catch (e) {
       console.log("error adding payment", e?.response?.data);
       showMessage({
@@ -61,7 +62,6 @@ const NewPayment = () => {
         message: "Errore",
         description: "Errore aggiunta pagamento",
       });
-    } finally {
       setSubmitting(false);
     }
   };
