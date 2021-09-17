@@ -166,7 +166,7 @@ async function main() {
     ];
 
     for (const purchase of purchases) {
-      await prisma.purchase.create({
+      await prisma.movement.create({
         data: purchase,
       });
     }
