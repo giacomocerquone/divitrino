@@ -4,28 +4,28 @@ import * as endpoints from "../constants/endpoints";
 import { IAPIProduct } from "../interfaces";
 import client from "../services/client";
 
-const useFetchPurchaseProducts = (purchaseId?: string | false) => {
-  const [purchase, setPurchase] = useState<IAPIProduct[]>([]);
+const useFetchProducts = (movementId?: string | false) => {
+  const [products, setProducts] = useState<IAPIProduct[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const { data } = await client.get(endpoints.products, {
-          params: { purchaseId },
+          params: { movementId },
         });
 
-        setPurchase(data);
+        setProducts(data);
       } catch (e) {
-        console.log("error fetching purchase", e);
+        console.log("error fetching products", e);
       }
     };
 
-    if (purchaseId) {
+    if (movementId) {
       fetchProducts();
     }
-  }, [purchaseId]);
+  }, [movementId]);
 
-  return purchase;
+  return products;
 };
 
-export default useFetchPurchaseProducts;
+export default useFetchProducts;

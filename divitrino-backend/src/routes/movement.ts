@@ -106,9 +106,12 @@ export default async function (app: FastifyInstance) {
         return res.send(new httpErrors.BadRequest("A movementId is needed"));
       }
 
-      const products = prisma.product.findMany({
+      const products = await prisma.product.findMany({
         where: {
           movementId,
+        },
+        include: {
+          debtors: true,
         },
       });
 

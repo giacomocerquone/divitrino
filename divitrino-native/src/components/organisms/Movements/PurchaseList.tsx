@@ -6,7 +6,7 @@ import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors, unit } from "../../../constants/ui";
-import useFetchPurchaseProducts from "../../../hooks/useFetchPurchaseProducts";
+import useFetchProducts from "../../../hooks/useFetchProducts";
 import { IUser, TMovement } from "../../../interfaces";
 import { formatMoney } from "../../../utils";
 import Text from "../../atoms/Text";
@@ -50,9 +50,7 @@ const Product: FunctionComponent<{
 };
 
 const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
-  const products = useFetchPurchaseProducts(
-    movement && !movement.payee && movement.id
-  );
+  const products = useFetchProducts(movement && !movement.payee && movement.id);
   const insets = useSafeAreaInsets();
 
   const purchaseAmount = useMemo(() => {
@@ -75,7 +73,7 @@ const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
       data={products as unknown as TProduct[]}
       contentContainerStyle={[
         styles.root,
-        { paddingBottom: insets.bottom * 10 }, // TODO maybe useless
+        { paddingBottom: insets.bottom }, // TODO maybe useless
       ]}
       ListHeaderComponent={
         <View style={{ backgroundColor: colors.white }}>
