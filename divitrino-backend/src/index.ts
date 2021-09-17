@@ -11,6 +11,7 @@ import path from "path";
 import * as jwt from "./jwt";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
+import movementRouter from "./routes/movement";
 
 dotenv.config();
 export const prisma = new PrismaClient();
@@ -34,7 +35,7 @@ app
         throw new Error();
       }
     } catch (e) {
-      throw new httpErrors.Unauthorized(e.message);
+      throw new httpErrors.Unauthorized((e as Error).message);
     }
   })
   .register(fastifyAuth)
@@ -48,7 +49,8 @@ app
     },
   })
   .register(authRouter)
-  .register(userRouter);
+  .register(userRouter)
+  .register(movementRouter);
 
 app.after(() => {
   app.get<{ Querystring: { code: string; inviteId: string } }>(

@@ -39,7 +39,6 @@ model Movement {
   updatedAt     DateTime @updatedAt
   addedBy       User?    @relation("movementAddedBy", fields: [addedByUserId], references: [id])
   addedByUserId String?
-  description   String
   group         Group    @relation(fields: [groupId], references: [id])
   groupId       String
   date          DateTime
@@ -47,7 +46,8 @@ model Movement {
   payerId       String
 
   // Purchases fields
-  products Product[]
+  products    Product[]
+  description String?
 
   // Payments fields
   payee   User?   @relation("payee", fields: [payeeId], references: [id])
@@ -62,7 +62,7 @@ model Product {
   name           String
   pricePerDebtor Int
   debtors        User[]
-  purchase       Movement @relation(fields: [movementId], references: [id])
+  movement       Movement @relation(fields: [movementId], references: [id])
   movementId     String
 }
 

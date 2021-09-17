@@ -2,16 +2,9 @@ import { FastifyInstance } from "fastify";
 import httpErrors from "http-errors";
 
 import { prisma } from "../";
-import {
-  IBalanceQueryString,
-  IMovementsQueryString,
-  IPaymentBody,
-  IProductsPurchaseQueryString,
-  IPurchaseBody,
-  TBalance,
-} from "../interfaces";
+import { IBalanceQueryString, TBalance } from "../interfaces";
 
-function generateInviteCode(strLength: number = 6) {
+const generateInviteCode = (strLength: number = 6) => {
   const result = [];
   const charSet =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -21,7 +14,7 @@ function generateInviteCode(strLength: number = 6) {
   }
 
   return result.join("");
-}
+};
 
 const checkIfUserBelongsToGroup = async (userId: string, groupId: string) => {
   const userGroup = await prisma.user.findFirst({
@@ -41,70 +34,6 @@ const checkIfUserBelongsToGroup = async (userId: string, groupId: string) => {
 export default async function (app: FastifyInstance) {
   // @ts-ignore
   app.addHook("preHandler", app.auth([app.checkAuth]));
-
-  app.get<{ Querystring: IMovementsQueryString }>(
-    "/movements",
-    async (req, res) => {
-      if (!req.query.groupId) {
-        return res.send(new httpErrors.BadRequest("A group id is needed"));
-      }
-
-      const purchases = await prisma.purchase.findMany({
-        where: {
-          group: {
-            id: req.query.groupId,
-            users: {
-              some: {
-                //@ts-ignore
-                id: req.user.id,
-              },
-            },
-          },
-        },
-        skip: req.query.page ? +req.query.page * (req.query.size || 10) : 0,
-        take: req.query.size ? +req.query.size : 10,
-        orderBy: {
-          date: "desc",
-        },
-        include: {
-          payer: true,
-          addedBy: true,
-        },
-      });
-
-      const payments = await prisma.payment.findMany({
-        where: {
-          group: {
-            id: req.query.groupId,
-            users: {
-              some: {
-                //@ts-ignore
-                id: req.user.id,
-              },
-            },
-          },
-        },
-        skip: req.query.page ? +req.query.page * (req.query.size || 10) : 0,
-        take: req.query.size ? +req.query.size : 10,
-        orderBy: {
-          date: "desc",
-        },
-        include: {
-          payer: true,
-          payee: true,
-          addedBy: true,
-        },
-      });
-
-      const movements: any[] = [...purchases, ...payments];
-
-      movements.sort((a, b) => {
-        return +new Date(b.date) - +new Date(a.date);
-      });
-
-      res.send(movements);
-    }
-  );
 
   app.get("/groups", async (req, res) => {
     return res.send(
@@ -211,174 +140,6 @@ export default async function (app: FastifyInstance) {
     });
 
     return res.send(invite);
-  });
-
-  app.post<{
-    Body: IPurchaseBody;
-  }>(`/purchase`, async (req, res) => {
-    const { description, payerId, products, groupId, date } = req.body;
-
-    if (!date || !payerId || !description || !products?.length || !groupId) {
-      return res.send(new httpErrors.BadRequest("Stuff is needed bro"));
-    }
-
-    //@ts-ignore
-    const userGroup = await checkIfUserBelongsToGroup(req.user.id, groupId);
-
-    if (!userGroup) {
-      return res.send(
-        new httpErrors.BadRequest("This is not a group of yours")
-      );
-    }
-
-    const prodsToCreate = products.reduce<
-      {
-        name: string;
-        pricePerDebtor: number;
-        debtors: { connect: { id: string }[] };
-      }[]
-    >((acc, prod) => {
-      acc.push({
-        name: prod.name,
-        pricePerDebtor: prod.pricePerDebtor,
-        debtors: {
-          connect: prod.debtors.map((debtor) => ({ id: debtor })),
-        },
-      });
-
-      return acc;
-    }, []);
-
-    const result = await prisma.purchase.create({
-      data: {
-        // @ts-ignore
-        addedByUserId: req.user.id,
-        groupId,
-        payerId,
-        description,
-        date,
-        products: {
-          create: prodsToCreate,
-        },
-      },
-    });
-
-    return res.send(result);
-  });
-
-  app.delete<{ Querystring: { purchaseId: string } }>(
-    "/purchase",
-    async (req, res) => {
-      if (!req.query.purchaseId) {
-        return res.send(new httpErrors.BadRequest("A purchaseId is needed"));
-      }
-
-      const prodsDeletion = await prisma.product.deleteMany({
-        where: {
-          purchaseId: req.query.purchaseId,
-          purchase: {
-            group: {
-              users: {
-                some: {
-                  //@ts-ignore
-                  id: req.user.id,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      const purchaseDeletion = await prisma.purchase.delete({
-        where: {
-          id: req.query.purchaseId,
-        },
-      });
-
-      return res.send({ prodsDeletion, purchaseDeletion });
-    }
-  );
-
-  app.get<{ Querystring: IProductsPurchaseQueryString }>(
-    "/purchase",
-    async (req, res) => {
-      const purchase = await prisma.purchase.findFirst({
-        where: {
-          id: req.query.purchaseId,
-          group: {
-            users: {
-              some: {
-                //@ts-ignore
-                id: req.user.id,
-              },
-            },
-          },
-        },
-        include: {
-          products: {
-            include: {
-              debtors: true,
-            },
-          },
-        },
-      });
-
-      res.send(purchase);
-    }
-  );
-
-  app.delete<{ Querystring: { paymentId: string } }>(
-    "/payment",
-    async (req, res) => {
-      if (!req.query.paymentId) {
-        return res.send(new httpErrors.BadRequest("A paymentId is needed"));
-      }
-
-      const deletion = await prisma.payment.delete({
-        where: {
-          id: req.query.paymentId,
-        },
-      });
-
-      return res.send(deletion);
-    }
-  );
-
-  app.post<{
-    Body: IPaymentBody;
-  }>(`/payment`, async (req, res) => {
-    const { amount, payerId, payeeId, groupId, date } = req.body;
-
-    if (!payerId || !payeeId || !amount || !date || !groupId) {
-      return res.send(
-        new httpErrors.BadRequest(
-          "amount, payerId, payeeId and date are needed"
-        )
-      );
-    }
-
-    //@ts-ignore
-    const userGroup = await checkIfUserBelongsToGroup(req.user.id, groupId);
-
-    if (!userGroup) {
-      return res.send(
-        new httpErrors.BadRequest("This is not a group of yours")
-      );
-    }
-
-    const result = await prisma.payment.create({
-      data: {
-        // @ts-ignore
-        addedByUserId: req.user.id,
-        amount,
-        payerId,
-        payeeId,
-        groupId,
-        date,
-      },
-    });
-
-    return res.send(result);
   });
 
   app.get<{ Querystring: IBalanceQueryString }>(

@@ -7,21 +7,13 @@ export type TProduct = {
   debtors: string[];
 };
 
-export interface IPaymentBody {
-  amount: number;
-  payerId: string;
-  payeeId: string;
-  groupId: string;
-  date: string;
-}
-
-export interface IPurchaseBody {
-  description: string;
-  payerId: string;
-  products: TProduct[];
-  groupId: string;
-  date: string;
-}
+export type TProductPrisma = {
+  name: string;
+  pricePerDebtor: number;
+  debtors: {
+    connect: { id: string }[];
+  };
+};
 
 export interface IBalanceQueryString {
   groupId: string;
@@ -33,6 +25,29 @@ export interface IMovementsQueryString {
   page?: number;
 }
 
-export interface IProductsPurchaseQueryString {
-  purchaseId: string;
+export interface IProductsQueryString {
+  movementId: string;
+}
+
+export interface IMovement {
+  groupId: string;
+  date: string;
+  payerId: string;
+}
+
+export interface IPurchase extends IMovement {
+  products: TProduct[];
+  description: string;
+}
+
+export interface IPurchasePrisma extends IMovement {
+  products: {
+    create: TProductPrisma[];
+  };
+  description: string;
+}
+
+export interface IPayment extends IMovement {
+  payeeId: string;
+  amount: number;
 }
