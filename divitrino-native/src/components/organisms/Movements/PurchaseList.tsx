@@ -6,7 +6,7 @@ import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors, unit } from "../../../constants/ui";
-import useFetchPurchase from "../../../hooks/useFetchPurchase";
+import useFetchPurchaseProducts from "../../../hooks/useFetchPurchaseProducts";
 import { IUser, TMovement } from "../../../interfaces";
 import { formatMoney } from "../../../utils";
 import Text from "../../atoms/Text";
@@ -50,12 +50,14 @@ const Product: FunctionComponent<{
 };
 
 const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
-  const purchase = useFetchPurchase(movement && !movement.payee && movement.id);
+  const products = useFetchPurchaseProducts(
+    movement && !movement.payee && movement.id
+  );
   const insets = useSafeAreaInsets();
 
   const purchaseAmount = useMemo(() => {
-    if (purchase?.products) {
-      const dAmount = purchase.products.reduce((tot, prod) => {
+    if (products) {
+      const dAmount = products.reduce((tot, prod) => {
         const totalProductCost = dinero({
           amount: Math.round(prod.pricePerDebtor * prod.debtors.length),
           currency: EUR,
@@ -66,11 +68,11 @@ const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
 
       return formatMoney(dAmount);
     }
-  }, [purchase?.products]);
+  }, [products]);
 
   return (
     <BottomSheetFlatList
-      data={purchase?.products as unknown as TProduct[]}
+      data={products as unknown as TProduct[]}
       contentContainerStyle={[
         styles.root,
         { paddingBottom: insets.bottom * 10 }, // TODO maybe useless

@@ -10,7 +10,6 @@ import * as endpoints from "../../../constants/endpoints";
 import { colors, unit } from "../../../constants/ui";
 import { TMovement } from "../../../interfaces";
 import client from "../../../services/client";
-import BottomSheetContent from "../../../templates/BottomSheetContent";
 import { formatMoney } from "../../../utils";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
@@ -40,18 +39,12 @@ const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
 
   const onDelete = async () => {
     try {
-      if (movement?.payee) {
-        // it's a payment
-        await client.delete(endpoints.payment, {
-          params: { paymentId: movement.id },
-        });
-        dismissAll();
-      } else if (movement) {
-        // it's a purchase
-        await client.delete(endpoints.purchase, {
-          params: { purchaseId: movement.id },
+      if (movement?.id) {
+        await client.delete(endpoints.movement, {
+          params: { movementId: movement.id },
         });
       }
+
       await refetch();
       dismissAll();
     } catch (e) {

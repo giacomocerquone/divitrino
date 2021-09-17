@@ -112,7 +112,7 @@ const NewPurchase = () => {
     }));
 
     try {
-      await client.post(endpoints.purchase, {
+      await client.post(endpoints.movement, {
         description,
         payerId: selectedPeople[0],
         products: transformedProds,

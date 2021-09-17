@@ -45,7 +45,7 @@ const NewPayment = () => {
         });
       }
 
-      await client.post(endpoints.payment, {
+      await client.post(endpoints.movement, {
         amount: convertToCents(amount),
         payerId,
         payeeId,

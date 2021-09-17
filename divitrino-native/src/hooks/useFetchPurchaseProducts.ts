@@ -4,16 +4,13 @@ import * as endpoints from "../constants/endpoints";
 import { IAPIProduct } from "../interfaces";
 import client from "../services/client";
 
-const useFetchPurchase = (purchaseId?: string | false) => {
-  const [purchase, setPurchase] = useState<{
-    description: string;
-    products: IAPIProduct[];
-  }>();
+const useFetchPurchaseProducts = (purchaseId?: string | false) => {
+  const [purchase, setPurchase] = useState<IAPIProduct[]>([]);
 
   useEffect(() => {
-    const fetchPurchase = async () => {
+    const fetchProducts = async () => {
       try {
-        const { data } = await client.get(endpoints.purchase, {
+        const { data } = await client.get(endpoints.products, {
           params: { purchaseId },
         });
 
@@ -24,11 +21,11 @@ const useFetchPurchase = (purchaseId?: string | false) => {
     };
 
     if (purchaseId) {
-      fetchPurchase();
+      fetchProducts();
     }
   }, [purchaseId]);
 
   return purchase;
 };
 
-export default useFetchPurchase;
+export default useFetchPurchaseProducts;
