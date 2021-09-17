@@ -16,21 +16,6 @@ const generateInviteCode = (strLength: number = 6) => {
   return result.join("");
 };
 
-const checkIfUserBelongsToGroup = async (userId: string, groupId: string) => {
-  const userGroup = await prisma.user.findFirst({
-    where: {
-      id: userId,
-      groups: {
-        some: {
-          id: groupId,
-        },
-      },
-    },
-  });
-
-  return userGroup;
-};
-
 export default async function (app: FastifyInstance) {
   // @ts-ignore
   app.addHook("preHandler", app.auth([app.checkAuth]));
@@ -171,12 +156,13 @@ export default async function (app: FastifyInstance) {
 
         for (const debtor of usersGroup?.users || []) {
           if (creditor.id === debtor.id) continue;
+
           const aggregatePurchases = await prisma.product.aggregate({
             _sum: {
               pricePerDebtor: true,
             },
             where: {
-              purchase: {
+              movement: {
                 groupId: req.query.groupId,
                 payerId: creditor.id,
               },
@@ -187,7 +173,8 @@ export default async function (app: FastifyInstance) {
               },
             },
           });
-          const aggregatePayments = await prisma.payment.aggregate({
+
+          const aggregatePayments = await prisma.movement.aggregate({
             _sum: {
               amount: true,
             },
