@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AxiosError } from "axios";
 import * as Linking from "expo-linking";
 import React, { useEffect, useState } from "react";
 import FlashMessage, { showMessage } from "react-native-flash-message";
@@ -69,7 +70,8 @@ const RootNav = () => {
           message: "Grandioso!",
         });
         // navigate to groups
-      } catch (e) {
+      } catch (error: unknown) {
+        const e = error as Error & AxiosError;
         setDeepLink(undefined); // are we sure?
         showMessage({
           type: "danger",
