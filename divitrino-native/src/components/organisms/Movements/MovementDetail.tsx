@@ -8,6 +8,7 @@ import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 
 import * as endpoints from "../../../constants/endpoints";
 import { colors, unit } from "../../../constants/ui";
+import { useBackHandler } from "../../../hooks/useBackHandler";
 import { TMovement } from "../../../interfaces";
 import client from "../../../services/client";
 import { formatMoney } from "../../../utils";
@@ -17,6 +18,11 @@ import BottomSheetHeader from "../BottomSheetHeader";
 
 const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
   const { dismissAll } = useBottomSheetModal();
+
+  useBackHandler(() => {
+    dismissAll();
+    return true;
+  });
 
   const paymentAmount = useMemo(() => {
     if (movement?.amount) {

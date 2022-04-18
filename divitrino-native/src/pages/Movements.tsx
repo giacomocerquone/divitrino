@@ -1,7 +1,11 @@
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { StyleSheet, SectionList, ActivityIndicator } from "react-native";
-// import { SceneMap } from "react-native-tab-view";
+import {
+  StyleSheet,
+  SectionList,
+  ActivityIndicator,
+  ToastAndroid,
+} from "react-native";
 import { useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
@@ -11,6 +15,7 @@ import Movement from "../components/organisms/Movements/Movement";
 import MovementDetail from "../components/organisms/Movements/MovementDetail";
 import PurchaseList from "../components/organisms/Movements/PurchaseList";
 import { colors, unit } from "../constants/ui";
+import { useBackHandler } from "../hooks/useBackHandler";
 import useFetchMovements from "../hooks/useFetchMovements";
 import { TMovement } from "../interfaces";
 import { getActiveGroupId } from "../store";
@@ -20,8 +25,17 @@ const Movements = () => {
   const { movs, refetch, loading, error } = useFetchMovements(groupId);
   const [activeMov, setActiveMov] = useState<TMovement>();
   const [pulledToRefresh, setPulledToRefresh] = useState(false);
+  const [backCounter, setBackCounter] = useState(0);
 
-  console.log(pulledToRefresh);
+  useBackHandler(() => {
+    if (backCounter === 0) {
+      setBackCounter((c) => c + 1);
+      ToastAndroid.show("Premi di nuovo per chiudere uscire", 5000);
+      return true;
+    }
+
+    return false;
+  });
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["80%"], []);
@@ -30,19 +44,6 @@ const Movements = () => {
     bottomSheetModalRef.current?.present();
     setActiveMov(movement);
   }, []);
-
-  // const FirstRoute = () => (
-  //   <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
-  // );
-
-  // const SecondRoute = () => (
-  //   <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-  // );
-
-  // const renderScene = SceneMap({
-  //   first: FirstRoute,
-  //   second: SecondRoute,
-  // });
 
   return (
     <>
