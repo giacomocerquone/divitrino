@@ -8,11 +8,11 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
+  id       String          @id @default(uuid())
+  email    String          @unique
   name     String
   password String
-  groups   Group[]
+  groups   UsersOnGroups[]
 
   movementsAsPayer Movement[] @relation("payer")
   movementsAsPayee Movement[] @relation("payee")
@@ -21,12 +21,25 @@ model User {
   addedMovements   Movement[] @relation("movementAddedBy")
 }
 
+model UsersOnGroups {
+  user    User?   @relation(fields: [userId], references: [id])
+  userId  String?
+  group   Group   @relation(fields: [groupId], references: [id])
+  groupId String
+  name    String
+
+  // Extra relation fields
+  admin Boolean
+
+  @@id([name, groupId])
+}
+
 model Group {
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  id        String     @id @default(uuid())
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  id        String          @id @default(uuid())
   name      String
-  users     User[]
+  users     UsersOnGroups[]
   movements Movement[]
 
   invites Invite[]
