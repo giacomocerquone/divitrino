@@ -1,5 +1,5 @@
 const devVars = {
-  baseApi: "http://192.168.1.73:3000",
+  baseApi: "http://0.0.0.0:3000",
 };
 
 const prodVars = {

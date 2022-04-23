@@ -1,5 +1,4 @@
 import { EUR } from "@dinero.js/currencies";
-import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { dinero } from "dinero.js";
@@ -16,11 +15,13 @@ import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
 import BottomSheetHeader from "../BottomSheetHeader";
 
-const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
-  const { dismissAll } = useBottomSheetModal();
-
+const MovementDetail: FunctionComponent<Props> = ({
+  movement,
+  refetch,
+  closeModal,
+}) => {
   useBackHandler(() => {
-    dismissAll();
+    closeModal();
     return true;
   });
 
@@ -52,7 +53,7 @@ const MovementDetail: FunctionComponent<Props> = ({ movement, refetch }) => {
       }
 
       await refetch();
-      dismissAll();
+      closeModal();
     } catch (e) {
       console.log("error deleting movement", e);
     }
@@ -127,4 +128,5 @@ const styles = StyleSheet.create({
 interface Props {
   movement?: TMovement;
   refetch: () => Promise<void>;
+  closeModal: () => void;
 }

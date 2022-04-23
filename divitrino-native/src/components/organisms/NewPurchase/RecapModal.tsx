@@ -1,5 +1,9 @@
 import { EUR } from "@dinero.js/currencies";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
 import { add, dinero } from "dinero.js";
 import React, { FunctionComponent, Ref, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -56,6 +60,7 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
     >
       <BottomSheetContent headerTitle="Salva acquisto">
         <Input
+          as={BottomSheetTextInput}
           style={styles.paragraph}
           autoCapitalize="sentences"
           placeholder="Descrizione"

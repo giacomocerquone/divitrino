@@ -1,14 +1,17 @@
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useIsFocused } from "@react-navigation/native";
+import React, { useCallback, useRef, useState } from "react";
 import {
   StyleSheet,
   SectionList,
   ActivityIndicator,
   ToastAndroid,
+  View,
 } from "react-native";
 import { useSelector } from "react-redux";
 
 import Text from "../components/atoms/Text";
+import BottomSheet from "../components/organisms/BottomSheet";
 import EmptyList from "../components/organisms/EmptyList";
 import Header from "../components/organisms/Movements/Header";
 import Movement from "../components/organisms/Movements/Movement";
@@ -26,9 +29,12 @@ const Movements = () => {
   const [activeMov, setActiveMov] = useState<TMovement>();
   const [pulledToRefresh, setPulledToRefresh] = useState(false);
   const [backCounter, setBackCounter] = useState(0);
+  const isFocused = useIsFocused();
+
+  const closeModal = () => setActiveMov(undefined);
 
   useBackHandler(() => {
-    if (backCounter === 0) {
+    if (isFocused && backCounter === 0) {
       setBackCounter((c) => c + 1);
       ToastAndroid.show("Premi di nuovo per chiudere uscire", 5000);
       return true;
@@ -38,7 +44,6 @@ const Movements = () => {
   });
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["80%"], []);
 
   const onMovPress = useCallback((movement) => {
     bottomSheetModalRef.current?.present();
@@ -47,55 +52,52 @@ const Movements = () => {
 
   return (
     <>
-      <SectionList
-        refreshing={loading && pulledToRefresh}
-        onRefresh={async () => {
-          setPulledToRefresh(true);
-          await refetch();
-          setPulledToRefresh(false);
-        }}
-        sections={movs}
-        contentContainerStyle={styles.root}
-        renderItem={({ item }) => <Movement item={item} onPress={onMovPress} />}
-        ListHeaderComponent={<Header />}
-        ListEmptyComponent={
-          loading ? (
-            <ActivityIndicator size="large" color={colors.purple} />
-          ) : !error ? (
-            <EmptyList resourceName="movimento" />
-          ) : null
-        }
-        renderSectionHeader={({ section: { dateFmt } }) => (
-          <Text
-            size="xs"
-            transform="uppercase"
-            weight="bold"
-            color={colors.purple}
-            style={{ marginBottom: unit * 3 }}
-          >
-            {dateFmt}
-          </Text>
-        )}
-        keyExtractor={(item) => item.id}
-      />
-      <BottomSheetModal
-        backdropComponent={(props) => (
-          <BottomSheetBackdrop
-            disappearsOnIndex={-1}
-            appearsOnIndex={0}
-            {...props}
+      <View style={{ flex: 1 }}>
+        <SectionList
+          refreshing={loading && pulledToRefresh}
+          onRefresh={async () => {
+            setPulledToRefresh(true);
+            await refetch();
+            setPulledToRefresh(false);
+          }}
+          sections={movs}
+          contentContainerStyle={styles.root}
+          renderItem={({ item }) => (
+            <Movement item={item} onPress={onMovPress} />
+          )}
+          ListHeaderComponent={<Header />}
+          ListEmptyComponent={
+            loading ? (
+              <ActivityIndicator size="large" color={colors.purple} />
+            ) : !error ? (
+              <EmptyList resourceName="movimento" />
+            ) : null
+          }
+          renderSectionHeader={({ section: { dateFmt } }) => (
+            <Text
+              size="xs"
+              transform="uppercase"
+              weight="bold"
+              color={colors.purple}
+              style={{ marginBottom: unit * 3 }}
+            >
+              {dateFmt}
+            </Text>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+        <BottomSheet onDismiss={closeModal} open={!!activeMov}>
+          <MovementDetail
+            closeModal={closeModal}
+            movement={activeMov}
+            refetch={refetch}
           />
-        )}
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={snapPoints}
-      >
-        <MovementDetail movement={activeMov} refetch={refetch} />
 
-        {activeMov && !activeMov?.payee && (
-          <PurchaseList movement={activeMov} />
-        )}
-      </BottomSheetModal>
+          {activeMov && !activeMov?.payee && (
+            <PurchaseList movement={activeMov} />
+          )}
+        </BottomSheet>
+      </View>
     </>
   );
 };
