@@ -67,6 +67,19 @@ const BottomSheet = ({ open, onDismiss, children }: Props) => {
           useNativeDriver: true,
         }),
       ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(backdropOpacity, {
+          toValue: 0,
+          duration: 400,
+          useNativeDriver: true,
+        }),
+        Animated.timing(y, {
+          toValue: Dimensions.get("screen").height,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
     }
   }, [backdropOpacity, open, y]);
 

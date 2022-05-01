@@ -1,11 +1,6 @@
 import { EUR } from "@dinero.js/currencies";
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetTextInput,
-} from "@gorhom/bottom-sheet";
 import { add, dinero } from "dinero.js";
-import React, { FunctionComponent, Ref, useMemo, useState } from "react";
+import React, { FunctionComponent, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -18,11 +13,11 @@ import { convertToCents, formatMoney } from "../../../utils";
 import Button from "../../atoms/Button";
 import Input from "../../atoms/Input";
 import Text from "../../atoms/Text";
+import BottomSheet from "../BottomSheet";
 import DatePicker from "../DatePicker";
 import PeopleSelector from "../PeopleSelector";
 
-const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
-  const snapPoints = useMemo(() => ["60%"], []);
+const RecapModal: FunctionComponent<Props> = ({ open, onDismiss, onDone }) => {
   const { onPersonPress, selectedPeople } = usePeopleSelection(false);
   const { prods } = useSelector(getPurchaseState);
   const [date, setDate] = useState(new Date());
@@ -46,53 +41,43 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
   }, [prods]);
 
   return (
-    <BottomSheetModal
-      backdropComponent={(props) => (
-        <BottomSheetBackdrop
-          disappearsOnIndex={-1}
-          appearsOnIndex={0}
-          {...props}
-        />
-      )}
-      ref={sheetRef}
-      index={0}
-      snapPoints={snapPoints}
-    >
-      <BottomSheetContent headerTitle="Salva acquisto">
-        <Input
-          as={BottomSheetTextInput}
-          style={styles.paragraph}
-          autoCapitalize="sentences"
-          placeholder="Descrizione"
-          value={description}
-          onChangeText={setDescription}
-        />
-
-        <Text size="s" style={styles.paragraph}>
-          <Text text="Totale " />
-          <Text text={total} weight="bold" />
-        </Text>
-
-        <View style={styles.paragraph}>
-          <Text size="s" text="Pagato da" />
-          <PeopleSelector
-            onPersonPress={onPersonPress}
-            selectedPeople={selectedPeople}
+    <BottomSheet open={open} onDismiss={onDismiss}>
+      <BottomSheetContent headerTitle="Salva acquisto" onDismiss={onDismiss}>
+        <>
+          <Input
+            style={styles.paragraph}
+            autoCapitalize="sentences"
+            placeholder="Descrizione"
+            value={description}
+            onChangeText={setDescription}
           />
-        </View>
 
-        <DatePicker onConfirm={handleConfirm} date={date} />
+          <Text size="s" style={styles.paragraph}>
+            <Text text="Totale " />
+            <Text text={total} weight="bold" />
+          </Text>
 
-        {/* TODO aggiungere in quale gruppo si sta aggiungendo l'acquisto */}
+          <View style={styles.paragraph}>
+            <Text size="s" text="Pagato da" />
+            <PeopleSelector
+              onPersonPress={onPersonPress}
+              selectedPeople={selectedPeople}
+            />
+          </View>
 
-        <Button
-          label="Finito"
-          disabled={!selectedPeople[0]}
-          onPress={() => onDone(selectedPeople, date, description)}
-          style={styles.button}
-        />
+          <DatePicker onConfirm={handleConfirm} date={date} />
+
+          {/* TODO aggiungere in quale gruppo si sta aggiungendo l'acquisto */}
+
+          <Button
+            label="Finito"
+            disabled={!selectedPeople[0]}
+            onPress={() => onDone(selectedPeople, date, description)}
+            style={styles.button}
+          />
+        </>
       </BottomSheetContent>
-    </BottomSheetModal>
+    </BottomSheet>
   );
 };
 
@@ -106,7 +91,8 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  sheetRef: Ref<BottomSheetModal>;
+  open: boolean;
+  onDismiss: () => void;
   onDone: (
     selectedPeople: IUser["id"][],
     date: Date,

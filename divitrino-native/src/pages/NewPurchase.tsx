@@ -33,8 +33,8 @@ const NewPurchase = () => {
   const groupId = useSelector(getActiveGroupId);
   const [selectedProdsIndexes, setSelectedProdsIndexes] =
     useState<TSelectedProds>({});
-  const assignSheet = useRef<BottomSheetModal>(null);
-  const recapSheet = useRef<BottomSheetModal>(null);
+  const [assignSheetOpen, setAssignSheetOpen] = useState(false);
+  const [recapSheetOpen, setRecapSheetOpen] = useState(false);
   const someIsSelected = Object.values(selectedProdsIndexes).some(
     (selected) => selected
   );
@@ -73,7 +73,7 @@ const NewPurchase = () => {
 
   const onAssign = () => {
     if (someIsSelected) {
-      assignSheet.current?.present();
+      setAssignSheetOpen(true);
     }
   };
 
@@ -90,12 +90,12 @@ const NewPurchase = () => {
         return acc;
       }, {});
     dispatch(purchaseActions.editProds(editedProds));
-    assignSheet.current?.dismiss();
+    setAssignSheetOpen(false);
     setSelectedProdsIndexes({});
   };
 
   const openRecap = async () => {
-    recapSheet.current?.present();
+    setRecapSheetOpen(true);
   };
 
   const onSubmit = async (
@@ -178,8 +178,20 @@ const NewPurchase = () => {
         onPress={openRecap}
         style={{ marginVertical: unit * 2 }}
       />
-      <AssignModal sheetRef={assignSheet} onDone={onAssignDone} />
-      <RecapModal sheetRef={recapSheet} onDone={onSubmit} />
+      <AssignModal
+        open={assignSheetOpen}
+        onDismiss={() => {
+          setAssignSheetOpen(false);
+        }}
+        onDone={onAssignDone}
+      />
+      <RecapModal
+        open={recapSheetOpen}
+        onDismiss={() => {
+          setAssignSheetOpen(false);
+        }}
+        onDone={onSubmit}
+      />
     </>
   );
 };

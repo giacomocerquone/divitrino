@@ -1,50 +1,46 @@
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { FunctionComponent, Ref, useMemo } from "react";
+import React, { FunctionComponent } from "react";
 
 import { unit } from "../../../constants/ui";
 import usePeopleSelection from "../../../hooks/usePeopleSelection";
 import { IUser } from "../../../interfaces";
 import BottomSheetContent from "../../../templates/BottomSheetContent";
 import Button from "../../atoms/Button";
+import BottomSheet from "../BottomSheet";
 import PeopleSelector from "../PeopleSelector";
 
-const AssignModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
-  const snapPoints = useMemo(() => ["30%"], []);
+const AssignModal: FunctionComponent<Props> = ({ open, onDone, onDismiss }) => {
   const { onPersonPress, selectedPeople, reset } = usePeopleSelection(true);
 
   return (
-    <BottomSheetModal
-      onChange={(index) => index === 0 && reset()}
-      backdropComponent={(props) => (
-        <BottomSheetBackdrop
-          disappearsOnIndex={-1}
-          appearsOnIndex={0}
-          {...props}
-        />
-      )}
-      ref={sheetRef}
-      index={0}
-      snapPoints={snapPoints}
+    <BottomSheet
+      open={open}
+      onDismiss={() => {
+        reset();
+        onDismiss();
+      }}
     >
-      <BottomSheetContent headerTitle="Seleziona">
-        <PeopleSelector
-          onPersonPress={onPersonPress}
-          selectedPeople={selectedPeople}
-        />
+      <BottomSheetContent headerTitle="Seleziona" onDismiss={onDismiss}>
+        <>
+          <PeopleSelector
+            onPersonPress={onPersonPress}
+            selectedPeople={selectedPeople}
+          />
 
-        <Button
-          label="fatto"
-          onPress={() => onDone(selectedPeople)}
-          style={{ marginTop: unit * 5 }}
-        />
+          <Button
+            label="fatto"
+            onPress={() => onDone(selectedPeople)}
+            style={{ marginTop: unit * 5 }}
+          />
+        </>
       </BottomSheetContent>
-    </BottomSheetModal>
+    </BottomSheet>
   );
 };
 
 export default AssignModal;
 
 interface Props {
-  sheetRef: Ref<BottomSheetModal>;
+  open: boolean;
   onDone: (selectedPeople: IUser["id"][]) => void;
+  onDismiss: () => void;
 }
