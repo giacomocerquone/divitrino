@@ -1,5 +1,6 @@
 import React, { FunctionComponent, ReactElement } from "react";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import BottomSheetHeader from "../components/organisms/BottomSheetHeader";
 import { colors, unit } from "../constants/ui";
@@ -18,13 +19,13 @@ const BottomSheetContent: FunctionComponent<Props> = ({
   });
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
       style={[styles.root, style]}
       contentContainerStyle={{ padding: unit * 5 }}
     >
       <BottomSheetHeader title={headerTitle} />
       <View style={contentContainerStyle}>{children}</View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 

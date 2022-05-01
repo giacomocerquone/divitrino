@@ -6,6 +6,7 @@ import {
   Dimensions,
   View,
   PanResponder,
+  Keyboard,
 } from "react-native";
 
 const PULL_DOWN_OFFSET = 80;
@@ -28,6 +29,7 @@ const BottomSheet = ({ open, onDismiss, children }: Props) => {
       }),
     ]).start();
 
+    Keyboard.dismiss();
     onDismiss();
   };
 
@@ -131,8 +133,12 @@ const BottomSheet = ({ open, onDismiss, children }: Props) => {
               }}
             />
           </View>
-
-          {children}
+          <View
+            behavior="padding"
+            contentContainerStyle={{ borderWidth: 1, borderColor: "#000" }}
+          >
+            {children}
+          </View>
         </>
       </Animated.View>
     </Portal>
