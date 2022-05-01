@@ -3,7 +3,6 @@ import {
   Poppins_400Regular,
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import React from "react";
@@ -30,11 +29,9 @@ export default function App() {
     <SafeAreaProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <BottomSheetModalProvider>
-            <NavigationContainer>
-              <RootNav />
-            </NavigationContainer>
-          </BottomSheetModalProvider>
+          <NavigationContainer>
+            <RootNav />
+          </NavigationContainer>
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

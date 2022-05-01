@@ -1,6 +1,5 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  ReactChildren,
-  ReactElement,
-  ReactNode,
-} from "react";
+import React, { FunctionComponent, ReactElement } from "react";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import BottomSheetHeader from "../components/organisms/BottomSheetHeader";

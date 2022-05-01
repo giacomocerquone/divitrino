@@ -1,6 +1,5 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useIsFocused } from "@react-navigation/native";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
   SectionList,
@@ -43,10 +42,7 @@ const Movements = () => {
     return false;
   });
 
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
   const onMovPress = useCallback((movement) => {
-    bottomSheetModalRef.current?.present();
     setActiveMov(movement);
   }, []);
 
