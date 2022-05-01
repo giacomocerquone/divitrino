@@ -3,6 +3,7 @@ import {
   Poppins_400Regular,
   Poppins_600SemiBold,
 } from "@expo-google-fonts/poppins";
+import { PortalProvider } from "@gorhom/portal";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import React from "react";
@@ -30,7 +31,9 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
-            <RootNav />
+            <PortalProvider>
+              <RootNav />
+            </PortalProvider>
           </NavigationContainer>
         </PersistGate>
       </Provider>

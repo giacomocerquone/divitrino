@@ -1,3 +1,4 @@
+import { Portal } from "@gorhom/portal";
 import React, { ReactNode, useEffect, useRef } from "react";
 import {
   StyleSheet,
@@ -37,15 +38,23 @@ const BottomSheet = ({ open, onDismiss, children }: Props) => {
       onPanResponderMove: (_, gesture) => {
         if (gesture.dy > 0) {
           y.setValue(gesture.dy);
+          backdropOpacity.setValue(0.6 - gesture.dy / 1000);
         }
       },
       onPanResponderRelease: (_, gesture) => {
         if (gesture.dy <= PULL_DOWN_OFFSET) {
-          Animated.timing(y, {
-            toValue: 0,
-            duration: 100,
-            useNativeDriver: true,
-          }).start();
+          Animated.parallel([
+            Animated.timing(backdropOpacity, {
+              toValue: 0.6,
+              duration: 200,
+              useNativeDriver: true,
+            }),
+            Animated.timing(y, {
+              toValue: 0,
+              duration: 100,
+              useNativeDriver: true,
+            }),
+          ]).start();
         } else if (gesture.dy > PULL_DOWN_OFFSET) {
           onInnerDismiss();
         }
@@ -84,7 +93,7 @@ const BottomSheet = ({ open, onDismiss, children }: Props) => {
   }, [backdropOpacity, open, y]);
 
   return (
-    <>
+    <Portal>
       <Animated.View
         pointerEvents={!open ? "none" : "auto"}
         onTouchStart={onInnerDismiss}
@@ -126,7 +135,7 @@ const BottomSheet = ({ open, onDismiss, children }: Props) => {
           {children}
         </>
       </Animated.View>
-    </>
+    </Portal>
   );
 };
 

@@ -187,7 +187,7 @@ const NewPurchase = () => {
       <RecapModal
         open={recapSheetOpen}
         onDismiss={() => {
-          setAssignSheetOpen(false);
+          setRecapSheetOpen(false);
         }}
         onDone={onSubmit}
       />
