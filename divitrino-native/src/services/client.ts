@@ -7,8 +7,6 @@ const client = axios.create({
   baseURL: env.baseApi,
 });
 
-console.warn(env.baseApi);
-
 const apiReqInterceptor = (config: AxiosRequestConfig) => {
   console.log("Api request sent:", config.baseURL, config.url, config.method);
 
