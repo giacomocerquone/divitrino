@@ -1,10 +1,12 @@
 import axios, { AxiosRequestConfig } from "axios";
+import Constants from "expo-constants";
 
-import env from "../../env";
 import { store, getToken } from "../store";
 
+export const baseURL = Constants.manifest?.extra?.baseApi;
+
 const client = axios.create({
-  baseURL: env.baseApi,
+  baseURL,
 });
 
 const apiReqInterceptor = (config: AxiosRequestConfig) => {
