@@ -36,11 +36,11 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal-datetime-picker": "^10.2.0",
     "react-native-pager-view": "5.4.9",
+    "react-native-reanimated": "2.2.4",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-tab-view": "^3.1.1",
     "react-redux": "^7.2.4",
-    "react-native-reanimated": "2.2.4",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
@@ -49,6 +49,7 @@
     "@types/react-native": "~0.64.12",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "eslint": "^7.32.0",
     "eslint-config-universe": "^7.0.1",
     "prettier": "2.3.2",
