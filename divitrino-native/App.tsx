@@ -9,7 +9,6 @@ import { useFonts } from "expo-font";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
-import "react-native-gesture-handler";
 import { PersistGate } from "redux-persist/integration/react";
 
 import RootNav from "./RootNav";
