@@ -1,11 +1,3 @@
-const devVars = {
-  baseApi: "http://0.0.0.0:3000",
-};
-
-const prodVars = {
-  baseApi: "http://api.giacomocerquone.com:3000",
-};
-
 export default {
   name: "Divitrino",
   slug: "divitrino",
@@ -17,9 +9,6 @@ export default {
     image: "./assets/splash.png",
     resizeMode: "contain",
     backgroundColor: "#F9F9F9",
-  },
-  updates: {
-    fallbackToCacheTimeout: 15000,
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -41,6 +30,12 @@ export default {
   web: {
     favicon: "./assets/favicon.png",
   },
-  extra: process.env.APP_ENV === "prod" ? prodVars : devVars,
   userInterfaceStyle: "automatic",
+  runtimeVersion: {
+    policy: "sdkVersion",
+  },
+  updates: {
+    fallbackToCacheTimeout: 15000,
+    url: "https://u.expo.dev/5ef97f1b-8cc5-47fd-b478-b7945f628722",
+  },
 };

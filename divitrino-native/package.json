@@ -6,8 +6,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "build:prod": "APP_ENV=prod expo build:android --release-channel prod",
-    "publish:prod": "APP_ENV=prod expo publish --release-channel prod"
+    "build:prod": "eas build --platform android --profile production --no-wait",
+    "publish:prod": "eas update --branch prod"
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.2",
