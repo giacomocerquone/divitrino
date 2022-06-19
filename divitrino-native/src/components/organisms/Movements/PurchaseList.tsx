@@ -1,7 +1,8 @@
 import { EUR } from "@dinero.js/currencies";
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { add, dinero } from "dinero.js";
 import React, { FunctionComponent, useMemo } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors, unit } from "../../../constants/ui";
@@ -68,7 +69,7 @@ const PurchaseList: FunctionComponent<Props> = ({ movement }) => {
   }, [products]);
 
   return (
-    <FlatList
+    <BottomSheetFlatList
       data={products as unknown as TProduct[]}
       contentContainerStyle={[styles.root, { paddingBottom: insets.bottom }]}
       ListHeaderComponent={

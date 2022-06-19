@@ -5,8 +5,6 @@ import { store, getToken } from "../store";
 
 const { baseURL } = env;
 
-console.log(baseURL);
-
 const client = axios.create({
   baseURL,
 });

@@ -1,5 +1,6 @@
 import React, { FunctionComponent, ReactNode, useState } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Text from "../components/atoms/Text";

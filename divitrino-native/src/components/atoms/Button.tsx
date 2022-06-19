@@ -1,9 +1,6 @@
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import React, { ComponentProps, FunctionComponent } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  TouchableOpacityProps,
-} from "react-native";
+import { StyleSheet, TouchableOpacityProps } from "react-native";
 
 import { colors, unit } from "../../constants/ui";
 import Text from "./Text";

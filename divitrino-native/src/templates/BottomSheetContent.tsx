@@ -1,5 +1,6 @@
-import React, { FunctionComponent, ReactElement } from "react";
-import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { useBottomSheetModal } from "@gorhom/bottom-sheet";
+import React, { FunctionComponent } from "react";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import BottomSheetHeader from "../components/organisms/BottomSheetHeader";
@@ -11,10 +12,11 @@ const BottomSheetContent: FunctionComponent<Props> = ({
   children,
   contentContainerStyle,
   style,
-  onDismiss,
 }) => {
+  const { dismissAll } = useBottomSheetModal();
+
   useBackHandler(() => {
-    onDismiss();
+    dismissAll();
     return true;
   });
 
@@ -40,7 +42,5 @@ const styles = StyleSheet.create({
 interface Props {
   style?: ViewStyle;
   headerTitle: string;
-  children: ReactElement;
   contentContainerStyle?: ViewStyle;
-  onDismiss: () => void;
 }

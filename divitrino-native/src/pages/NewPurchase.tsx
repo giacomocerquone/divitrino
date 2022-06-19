@@ -1,5 +1,6 @@
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { FlatList, Keyboard, Platform, StyleSheet, View } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,8 +33,8 @@ const NewPurchase = () => {
   const groupId = useSelector(getActiveGroupId);
   const [selectedProdsIndexes, setSelectedProdsIndexes] =
     useState<TSelectedProds>({});
-  const [assignSheetOpen, setAssignSheetOpen] = useState(false);
-  const [recapSheetOpen, setRecapSheetOpen] = useState(false);
+  const assignSheet = useRef<BottomSheetModal>(null);
+  const recapSheet = useRef<BottomSheetModal>(null);
   const someIsSelected = Object.values(selectedProdsIndexes).some(
     (selected) => selected
   );
@@ -72,7 +73,7 @@ const NewPurchase = () => {
 
   const onAssign = () => {
     if (someIsSelected) {
-      setAssignSheetOpen(true);
+      assignSheet.current?.present();
     }
   };
 
@@ -89,12 +90,12 @@ const NewPurchase = () => {
         return acc;
       }, {});
     dispatch(purchaseActions.editProds(editedProds));
-    setAssignSheetOpen(false);
+    assignSheet.current?.dismiss();
     setSelectedProdsIndexes({});
   };
 
   const openRecap = async () => {
-    setRecapSheetOpen(true);
+    recapSheet.current?.present();
   };
 
   const onSubmit = async (
@@ -177,20 +178,8 @@ const NewPurchase = () => {
         onPress={openRecap}
         style={{ marginVertical: unit * 2 }}
       />
-      <AssignModal
-        open={assignSheetOpen}
-        onDismiss={() => {
-          setAssignSheetOpen(false);
-        }}
-        onDone={onAssignDone}
-      />
-      <RecapModal
-        open={recapSheetOpen}
-        onDismiss={() => {
-          setRecapSheetOpen(false);
-        }}
-        onDone={onSubmit}
-      />
+      <AssignModal sheetRef={assignSheet} onDone={onAssignDone} />
+      <RecapModal sheetRef={recapSheet} onDone={onSubmit} />
     </>
   );
 };

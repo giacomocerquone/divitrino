@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { FunctionComponent, ComponentProps } from "react";
-import { StyleSheet, ViewStyle, TouchableOpacity } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { colors, unit } from "../../constants/ui";
 
