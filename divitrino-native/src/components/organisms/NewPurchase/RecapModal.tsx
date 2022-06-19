@@ -17,12 +17,13 @@ import Text from "../../atoms/Text";
 import DatePicker from "../DatePicker";
 import PeopleSelector from "../PeopleSelector";
 
-const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
-  const snapPoints = useMemo(() => ["60%"], []);
+const Content: FunctionComponent<{
+  onDone: Props["onDone"];
+}> = ({ onDone }) => {
+  const [description, setDescription] = useState("");
   const { onPersonPress, selectedPeople } = usePeopleSelection(false);
   const { prods } = useSelector(getPurchaseState);
   const [date, setDate] = useState(new Date());
-  const [description, setDescription] = useState("");
 
   const handleConfirm = (date: Date) => {
     setDate(date);
@@ -42,6 +43,45 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
   }, [prods]);
 
   return (
+    <>
+      <Input
+        style={styles.paragraph}
+        autoCapitalize="sentences"
+        placeholder="Descrizione"
+        value={description}
+        onChangeText={setDescription}
+      />
+      <Text size="s" style={styles.paragraph}>
+        <Text text="Totale " />
+        <Text text={total} weight="bold" />
+      </Text>
+
+      <View style={styles.paragraph}>
+        <Text size="s" text="Pagato da" />
+        <PeopleSelector
+          onPersonPress={onPersonPress}
+          selectedPeople={selectedPeople}
+        />
+      </View>
+
+      <DatePicker onConfirm={handleConfirm} date={date} />
+
+      {/* TODO aggiungere in quale gruppo si sta aggiungendo l'acquisto */}
+
+      <Button
+        label="Finito"
+        disabled={!selectedPeople[0]}
+        onPress={() => onDone(selectedPeople, date, description)}
+        style={styles.button}
+      />
+    </>
+  );
+};
+
+const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
+  const snapPoints = useMemo(() => ["60%"], []);
+
+  return (
     <BottomSheetModal
       backdropComponent={(props) => (
         <BottomSheetBackdrop
@@ -55,37 +95,7 @@ const RecapModal: FunctionComponent<Props> = ({ sheetRef, onDone }) => {
       snapPoints={snapPoints}
     >
       <BottomSheetContent headerTitle="Salva acquisto">
-        <Input
-          style={styles.paragraph}
-          autoCapitalize="sentences"
-          placeholder="Descrizione"
-          value={description}
-          onChangeText={setDescription}
-        />
-
-        <Text size="s" style={styles.paragraph}>
-          <Text text="Totale " />
-          <Text text={total} weight="bold" />
-        </Text>
-
-        <View style={styles.paragraph}>
-          <Text size="s" text="Pagato da" />
-          <PeopleSelector
-            onPersonPress={onPersonPress}
-            selectedPeople={selectedPeople}
-          />
-        </View>
-
-        <DatePicker onConfirm={handleConfirm} date={date} />
-
-        {/* TODO aggiungere in quale gruppo si sta aggiungendo l'acquisto */}
-
-        <Button
-          label="Finito"
-          disabled={!selectedPeople[0]}
-          onPress={() => onDone(selectedPeople, date, description)}
-          style={styles.button}
-        />
+        <Content onDone={onDone} />
       </BottomSheetContent>
     </BottomSheetModal>
   );
