@@ -62,5 +62,9 @@
     "rules": {
       "react-hooks/exhaustive-deps": 1
     }
+  },
+  "resolutions": {
+    "@types/react": "~17.0.21",
+    "@types/react-native": "~0.64.12"
   }
 }

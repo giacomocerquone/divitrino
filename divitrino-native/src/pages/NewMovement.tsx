@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -35,7 +35,7 @@ const Tab: FunctionComponent<{
   );
 };
 
-const TabsComponents: Record<TabsNames, ReactNode> = {
+const TabsComponents: Record<TabsNames, FunctionComponent> = {
   Payment: NewPayment,
   Purchase: NewPurchase,
 };
