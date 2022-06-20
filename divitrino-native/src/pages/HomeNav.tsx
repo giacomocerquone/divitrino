@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -10,7 +10,7 @@ import Groups from "./Groups";
 import Movements from "./Movements";
 
 export type TabsNames = "Movements" | "Balance" | "Groups";
-export type TabsMap = Record<TabsNames, ReactNode | null>;
+export type TabsMap = Record<TabsNames, FunctionComponent>;
 const Tabs: TabsMap = {
   Movements,
   Balance,
@@ -28,7 +28,6 @@ const HomeNav = () => {
   return (
     <SafeAreaView edges={["top"]} style={styles.root}>
       <View style={{ flex: 1 }}>
-        {/* TODO WTF */}
         <Scene />
       </View>
       <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />

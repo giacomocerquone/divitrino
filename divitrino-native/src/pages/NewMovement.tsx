@@ -1,8 +1,10 @@
-import React, { FunctionComponent, ReactNode, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { FunctionComponent, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import IconButton from "../components/atoms/IconButton";
 import Text from "../components/atoms/Text";
 import { colors, unit } from "../constants/ui";
 import NewPayment from "./NewPayment";
@@ -35,24 +37,29 @@ const Tab: FunctionComponent<{
   );
 };
 
-const TabsComponents: Record<TabsNames, ReactNode> = {
+const TabsComponents: Record<TabsNames, FunctionComponent> = {
   Payment: NewPayment,
   Purchase: NewPurchase,
 };
 
 const NewMovement = () => {
   const [activeTab, setActiveTab] = useState<TabsNames>("Purchase");
-  // const { goBack } = useNavigation();
+  const { goBack } = useNavigation();
 
   const Scene = TabsComponents[activeTab];
 
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: unit * 5 }}>
-      {/* <IconButton
+      <IconButton
         name="close"
-        style={{ alignSelf: "flex-end", marginTop: unit * 5 }}
+        style={{
+          alignSelf: "flex-end",
+          top: 0,
+          right: 0,
+          position: "absolute",
+        }}
         onPress={goBack}
-      /> */}
+      />
 
       <View style={styles.header}>
         <Tab
@@ -80,5 +87,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingVertical: unit * 6,
     alignItems: "center",
+    marginTop: unit * 2,
   },
 });

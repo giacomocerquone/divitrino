@@ -1,4 +1,5 @@
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useIsFocused } from "@react-navigation/native";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   StyleSheet,
@@ -26,9 +27,10 @@ const Movements = () => {
   const [activeMov, setActiveMov] = useState<TMovement>();
   const [pulledToRefresh, setPulledToRefresh] = useState(false);
   const [backCounter, setBackCounter] = useState(0);
+  const isFocused = useIsFocused();
 
   useBackHandler(() => {
-    if (backCounter === 0) {
+    if (isFocused && backCounter === 0) {
       setBackCounter((c) => c + 1);
       ToastAndroid.show("Premi di nuovo per chiudere uscire", 5000);
       return true;
